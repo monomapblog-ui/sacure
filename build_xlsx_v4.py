@@ -498,8 +498,20 @@ def sheet_route(ws, sales):
             vl.number_format=JPY; vl.font=f(bold=True,sz=11)
             vl.fill=fill("E8F5E9"); vl.alignment=a(h="right"); vl.border=b()
 
-            # 原価（黄色入力欄）空欄
-            for ci in range(5, 11):
+            # 人件費（従業員マスターから自動参照）
+            LABOR_LOC = {"612-1":"本社","612-2":"埼玉","615-1":"板橋","615-2":"新横浜"}
+            e_ = ws.cell(row=ROW, column=5)
+            if code in LABOR_LOC:
+                loc = LABOR_LOC[code]
+                e_.value = (f'=SUMPRODUCT((▼従業員マスター!$A$6:$A$300="{loc}")'
+                            f'*(▼従業員マスター!$G$6:$G$300="直接")'
+                            f'*▼従業員マスター!$F$6:$F$300)')
+                e_.number_format = JPY; e_.font = f(bold=True, sz=10)
+                e_.fill = fill("D4EDDA"); e_.alignment = a(h="right"); e_.border = b()
+            else:
+                c(ws,ROW,5,None,sz=10,bg=YEL,ha="right",fmt=JPY)
+            # 燃料費〜その他（黄色入力欄）空欄
+            for ci in range(6, 11):
                 c(ws,ROW,ci,None,sz=10,bg=YEL,ha="right",fmt=JPY)
 
             # 原価合計
