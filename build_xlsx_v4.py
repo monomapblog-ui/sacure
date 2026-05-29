@@ -397,6 +397,30 @@ def sheet_anken(ws, sales):
 # ════════════════════════════════════════════════════════════════
 #  SHEET 2: ルート別採算
 # ════════════════════════════════════════════════════════════════
+
+# 車両修理費実績（営業所別月次、843e7294-______2.xlsx より）
+REPAIR_COST = {
+    "612-1": {
+        "2025-07": 977440,  "2025-08": 738100,  "2025-09": 461270,
+        "2025-10": 1135153, "2025-11": 644910,  "2025-12": 3771558,
+        "2026-01": 419945,  "2026-02": 1354532,
+    },
+    "612-2": {
+        "2025-07": 2575300, "2025-08": 1621800, "2025-09": 1418360,
+        "2025-10": 593300,
+        "2026-01": 141370,  "2026-02": 995217,
+    },
+    "615-1": {
+        "2025-07": 245127,
+        "2025-09": 231930,  "2025-10": 960116,  "2025-11": 443847,
+        "2025-12": 1035320, "2026-02": 248105,  "2026-03": 29040,
+    },
+    "615-2": {
+        "2025-07": 420575,  "2025-08": 185340,  "2025-09": 197900,
+        "2025-10": 66750,   "2025-12": 30000,   "2026-02": 128504,
+    },
+}
+
 def sheet_route(ws, sales):
     ws.title = "ルート別採算"
     ws.sheet_view.showGridLines = False
@@ -510,8 +534,19 @@ def sheet_route(ws, sales):
                 e_.fill = fill("D4EDDA"); e_.alignment = a(h="right"); e_.border = b()
             else:
                 c(ws,ROW,5,None,sz=10,bg=YEL,ha="right",fmt=JPY)
-            # 燃料費〜その他（黄色入力欄）空欄
-            for ci in range(6, 11):
+            # 燃料費（黄色・空欄）
+            c(ws,ROW,6,None,sz=10,bg=YEL,ha="right",fmt=JPY)
+            # 車両費（修理費実績から取込）
+            repair_amt = REPAIR_COST.get(code, {}).get(ym)
+            g_ = ws.cell(row=ROW, column=7)
+            if repair_amt:
+                g_.value = repair_amt
+                g_.number_format = JPY; g_.font = f(bold=True, sz=10)
+                g_.fill = fill("D4EDDA"); g_.alignment = a(h="right"); g_.border = b()
+            else:
+                c(ws,ROW,7,None,sz=10,bg=YEL,ha="right",fmt=JPY)
+            # 処理費・運搬費・その他（黄色・空欄）
+            for ci in range(8, 11):
                 c(ws,ROW,ci,None,sz=10,bg=YEL,ha="right",fmt=JPY)
 
             # 原価合計
