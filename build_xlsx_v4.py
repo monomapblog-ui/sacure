@@ -302,14 +302,9 @@ def sheet_anken(ws, sales):
             h_.number_format=JPY; h_.font=f(bold=True,sz=12)
             h_.fill=fill("C8F7D4"); h_.alignment=a(h="right"); h_.border=b()
 
-            # 原価（黄色）
-            cost_defaults = {
-                "C001":(680000,185000,95000,620000,85000,45000,120000),
-                "C002":(430000,125000,67000,385000,43000,29000,85000),
-                "C003":(1360000,490000,220000,1180000,165000,84000,210000),
-            }
-            for ci,v in enumerate(cost_defaults[cid], 9):
-                c(ws,ROW,ci,v,sz=10,bg=YEL,ha="right",fmt=JPY)
+            # 原価（黄色）空欄
+            for ci in range(9, 16):
+                c(ws,ROW,ci,None,sz=10,bg=YEL,ha="right",fmt=JPY)
 
             # P: 原価合計
             p_ = ws.cell(row=ROW,column=16)
