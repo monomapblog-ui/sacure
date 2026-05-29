@@ -498,10 +498,9 @@ def sheet_route(ws, sales):
             vl.number_format=JPY; vl.font=f(bold=True,sz=11)
             vl.fill=fill("E8F5E9"); vl.alignment=a(h="right"); vl.border=b()
 
-            # 原価（黄色入力欄）
-            costs = cost_guide.get(code,(0,0,0,0,0,0))
-            for ci,v in enumerate(costs,5):
-                c(ws,ROW,ci,v if v>0 else None,sz=10,bg=YEL,ha="right",fmt=JPY)
+            # 原価（黄色入力欄）空欄
+            for ci in range(5, 11):
+                c(ws,ROW,ci,None,sz=10,bg=YEL,ha="right",fmt=JPY)
 
             # 原価合計
             k_=ws.cell(row=ROW,column=11)
