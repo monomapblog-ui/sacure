@@ -398,6 +398,15 @@ def sheet_anken(ws, sales):
 #  SHEET 2: ルート別採算
 # ════════════════════════════════════════════════════════════════
 
+# 燃料費実績（事業別配分済み、6d8a022a-...SCURE01.xlsx より）
+FUEL_COST = {
+    "612-1": {"2025-05": 713584,  "2025-06": 779796,  "2025-07": 990322},
+    "612-2": {"2025-05": 1236618, "2025-06": 1284802, "2025-07": 1639924},
+    "613-2": {"2025-05": 63684,   "2025-06": 5336,    "2025-07": 11682},
+    "615-1": {"2025-05": 482319,  "2025-06": 555271,  "2025-07": 571056},
+    "615-2": {"2025-05": 102837,  "2025-06": 83756,   "2025-07": 92914},
+}
+
 # 車両修理費実績（営業所別月次、843e7294-______2.xlsx より）
 REPAIR_COST = {
     "612-1": {
@@ -534,8 +543,15 @@ def sheet_route(ws, sales):
                 e_.fill = fill("D4EDDA"); e_.alignment = a(h="right"); e_.border = b()
             else:
                 c(ws,ROW,5,None,sz=10,bg=YEL,ha="right",fmt=JPY)
-            # 燃料費（黄色・空欄）
-            c(ws,ROW,6,None,sz=10,bg=YEL,ha="right",fmt=JPY)
+            # 燃料費（実績データから取込）
+            fuel_amt = FUEL_COST.get(code, {}).get(ym)
+            f6_ = ws.cell(row=ROW, column=6)
+            if fuel_amt:
+                f6_.value = fuel_amt
+                f6_.number_format = JPY; f6_.font = f(bold=True, sz=10)
+                f6_.fill = fill("D4EDDA"); f6_.alignment = a(h="right"); f6_.border = b()
+            else:
+                c(ws,ROW,6,None,sz=10,bg=YEL,ha="right",fmt=JPY)
             # 車両費（修理費実績から取込）
             repair_amt = REPAIR_COST.get(code, {}).get(ym)
             g_ = ws.cell(row=ROW, column=7)
