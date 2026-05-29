@@ -89,7 +89,7 @@ def reiwa(s):
 def load_sales():
     sales = {}
 
-    def parse(rows, header):
+    def parse_summary(rows, header):
         for row in rows:
             if not row or not row[0] or not str(row[0]).startswith("R"): continue
             ym = reiwa(str(row[0]))
@@ -109,21 +109,91 @@ def load_sales():
             if any(v > 0 for v in d.values()):
                 sales[ym] = d
 
-    # R7.6.xls
+    def parse_month_header(header):
+        col_ym = {}
+        cur_era = None
+        for ci, h in enumerate(header):
+            if not h: continue
+            h = str(h).strip()
+            if h.startswith("R") and "." in h:
+                try:
+                    era_s, m_s = h[1:].split(".")
+                    cur_era = int(era_s)
+                    col_ym[ci] = f"{cur_era+2018}-{int(float(m_s)):02d}"
+                except: pass
+            elif cur_era is not None:
+                try:
+                    m = int(float(h))
+                    if 1 <= m <= 12:
+                        col_ym[ci] = f"{cur_era+2018}-{m:02d}"
+                except: pass
+        return col_ym
+
+    # R7.6.xls: R6.7〜R7.6
     wb = xlrd.open_workbook(SRC_R76)
     ws = wb.sheet_by_name("売上")
     hdr = [str(ws.cell_value(2, c)).strip() for c in range(ws.ncols)]
     rows = [[ws.cell_value(r, c) for c in range(ws.ncols)] for r in range(3, ws.nrows)]
-    parse(rows, hdr)
+    parse_summary(rows, hdr)
 
-    # 2026.xlsx
+    # 2026.xlsx 売上シート: R7.7, R7.8（全11ルート確定値）
     wb2 = openpyxl.load_workbook(SRC_2026, data_only=True)
     ws2 = wb2["売上"]
     hdr2 = [str(v).strip() if v else "" for v in next(ws2.iter_rows(min_row=3, max_row=3, values_only=True))]
     rows2 = [list(row) for row in ws2.iter_rows(min_row=4, values_only=True)]
-    parse(rows2, hdr2)
+    parse_summary(rows2, hdr2)
 
-    return {k: v for k, v in sorted(sales.items()) if v.get("_total", 0) > 0}
+    # 2026.xlsx 各拠点シート合計行: R7.9以降（調整ファイルから取得）
+    SHEET_CODE = {
+        "本社": "612-1", "公共": "612-2", "遠藤": "614-2",
+        "板橋": "615-1", "新横浜": "615-2", "有価物": "615-4",
+    }
+    for sheet_name, code in SHEET_CODE.items():
+        ws_i = wb2[sheet_name]
+        all_rows = list(ws_i.iter_rows(values_only=True))
+
+        # ヘッダー行を特定
+        hdr_idx = None
+        for ri, row in enumerate(all_rows):
+            if any(v and str(v).strip().startswith("R") and "." in str(v) for v in row):
+                hdr_idx = ri; break
+        if hdr_idx is None: continue
+
+        col_ym = parse_month_header(all_rows[hdr_idx])
+        r77_col = next((ci for ci, ym in col_ym.items() if ym == "2025-07"), None)
+        if r77_col is None: continue
+
+        # R7.7の既知合計値で合計行を特定（ダブルカウント回避）
+        anchor = sales.get("2025-07", {}).get(code, 0)
+        if anchor == 0: continue
+
+        total_row = None
+        for row in all_rows:
+            if r77_col < len(row) and row[r77_col]:
+                try:
+                    if abs(float(row[r77_col]) - anchor) < 10:
+                        total_row = list(row); break
+                except: pass
+        if total_row is None: continue
+
+        # R7.9以降の値を追加
+        for ci, ym in col_ym.items():
+            if ym <= "2025-08": continue  # 売上シートから取得済
+            if ci >= len(total_row) or not total_row[ci]: continue
+            try:
+                v = float(total_row[ci])
+                if v > 1000:  # ゴミ値除外
+                    if ym not in sales:
+                        sales[ym] = {}
+                    sales[ym][code] = v
+            except: pass
+
+    # _total が未計算の月は合算
+    for ym, d in sales.items():
+        if "_total" not in d:
+            d["_total"] = sum(v for k, v in d.items() if k != "_total")
+
+    return {k: v for k, v in sorted(sales.items()) if any(v > 0 for v in v.values())}
 
 # ════════════════════════════════════════════════════════════════
 #  SHEET 1: 案件別採算
