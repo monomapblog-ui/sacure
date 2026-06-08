@@ -8,9 +8,9 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --pink:    #E91E8C;
-      --pink-dk: #C2186F;
-      --pink-lt: #FDE8F4;
+      --pink:    #b51748;
+      --pink-dk: #8f1038;
+      --pink-lt: #f5d0dc;
       --navy:    #1A1A3A;
       --text:    #333333;
       --gray:    #666666;
@@ -94,10 +94,10 @@
       inset: 0;
       background: linear-gradient(
         100deg,
-        rgba(176,20,98,.92) 0%,
-        rgba(233,30,140,.80) 38%,
-        rgba(233,30,140,.45) 60%,
-        rgba(0,0,0,.15) 100%
+        rgba(181,23,72,.94) 0%,
+        rgba(181,23,72,.82) 38%,
+        rgba(181,23,72,.45) 60%,
+        rgba(0,0,0,.12) 100%
       );
       pointer-events: none;
     }
@@ -166,6 +166,21 @@
     .hero-price .label { font-size: .85rem; }
     .hero-price .amount { font-size: 2rem; font-weight: 900; line-height: 1; }
     .hero-price .suffix { font-size: .85rem; }
+
+    /* ナンバープレートぼかし */
+    .plate-blur {
+      position: absolute;
+      right: 17%;
+      bottom: 13%;
+      width: 140px;
+      height: 56px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      background: rgba(0,0,0,.08);
+      border-radius: 4px;
+      z-index: 2;
+      pointer-events: none;
+    }
 
     .hero-image-wrap {
       display: flex;
@@ -340,7 +355,7 @@
 
     /* ── CONTACT ── */
     #contact {
-      background: linear-gradient(130deg, #B01462 0%, #E91E8C 100%);
+      background: linear-gradient(130deg, #8f1038 0%, #b51748 100%);
       text-align: center;
       padding: 80px 24px;
     }
@@ -391,6 +406,7 @@
 
 <!-- HERO -->
 <section id="hero">
+  <div class="plate-blur"></div>
   <div class="hero-inner">
     <div class="hero-tag">SACURE AD TRUCK</div>
     <h1 class="hero-title">
