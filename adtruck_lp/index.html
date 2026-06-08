@@ -167,6 +167,29 @@
     .hero-price .amount { font-size: 2rem; font-weight: 900; line-height: 1; }
     .hero-price .suffix { font-size: .85rem; }
 
+    /* ナンバープレートぼかし */
+    .plate-blur {
+      position: absolute;
+      right: 1%;
+      bottom: 2%;
+      width: 10%;
+      height: 6%;
+      overflow: hidden;
+      border-radius: 4px;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .plate-blur::before {
+      content: '';
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 100vw;
+      height: 100vh;
+      background: url('./truck.png') center/cover no-repeat;
+      filter: blur(28px);
+    }
+
     .hero-image-wrap {
       display: flex;
       align-items: center;
@@ -391,7 +414,7 @@
 
 <!-- HERO -->
 <section id="hero">
-  <canvas id="plate-canvas" style="position:absolute;z-index:10;border-radius:3px;pointer-events:none;"></canvas>
+  <div class="plate-blur"></div>
   <div class="hero-inner">
     <div class="hero-tag">SACURE AD TRUCK</div>
     <h1 class="hero-title">
@@ -543,60 +566,5 @@
   <p class="footer-copy">® CIRCULER Co. Ltd. All rights reserved.</p>
 </footer>
 
-<script>
-window.addEventListener('load', function() {
-  var img = new Image();
-  img.crossOrigin = 'anonymous';
-  img.src = './truck.png';
-
-  function applyBlur() {
-    var hero   = document.getElementById('hero');
-    var canvas = document.getElementById('plate-canvas');
-    var ctx    = canvas.getContext('2d');
-
-    var heroW = hero.offsetWidth;
-    var heroH = hero.offsetHeight;
-
-    // background-size: cover の拡縮率
-    var scale = Math.max(heroW / img.width, heroH / img.height);
-    var offX  = (heroW - img.width  * scale) / 2;
-    var offY  = (heroH - img.height * scale) / 2;
-
-    // 元画像上のナンバープレート座標（余白を大きめに取る）
-    var px = 1210, py = 610, pw = 165, ph = 75;
-
-    // ヒーロー上の表示位置
-    var sx = px * scale + offX;
-    var sy = py * scale + offY;
-    var sw = pw * scale;
-    var sh = ph * scale;
-
-    // キャンバスを余白付きで描画（ぼかしが端で切れないよう）
-    var pad = 20;
-    canvas.width  = pw + pad * 2;
-    canvas.height = ph + pad * 2;
-    canvas.style.left   = (sx - pad * scale) + 'px';
-    canvas.style.top    = (sy - pad * scale) + 'px';
-    canvas.style.width  = (sw + pad * scale * 2) + 'px';
-    canvas.style.height = (sh + pad * scale * 2) + 'px';
-
-    // 自然なガウスぼかしを複数回重ねる
-    ctx.filter = 'blur(14px)';
-    for (var i = 0; i < 4; i++) {
-      ctx.drawImage(
-        img,
-        px - pad, py - pad, pw + pad * 2, ph + pad * 2,
-        0, 0, canvas.width, canvas.height
-      );
-    }
-  }
-
-  if (img.complete && img.naturalWidth) {
-    applyBlur();
-  } else {
-    img.onload = applyBlur;
-  }
-});
-</script>
 </body>
 </html>
