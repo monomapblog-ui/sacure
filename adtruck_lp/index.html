@@ -167,29 +167,6 @@
     .hero-price .amount { font-size: 2rem; font-weight: 900; line-height: 1; }
     .hero-price .suffix { font-size: .85rem; }
 
-    /* ナンバープレートぼかし */
-    .plate-blur {
-      position: absolute;
-      right: 1%;
-      bottom: 2%;
-      width: 10%;
-      height: 6%;
-      overflow: hidden;
-      border-radius: 4px;
-      z-index: 10;
-      pointer-events: none;
-    }
-    .plate-blur::before {
-      content: '';
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      width: 100vw;
-      height: 100vh;
-      background: url('./truck.png') center/cover no-repeat;
-      filter: blur(28px);
-    }
-
     .hero-image-wrap {
       display: flex;
       align-items: center;
@@ -414,7 +391,6 @@
 
 <!-- HERO -->
 <section id="hero">
-  <div class="plate-blur"></div>
   <div class="hero-inner">
     <div class="hero-tag">SACURE AD TRUCK</div>
     <h1 class="hero-title">
