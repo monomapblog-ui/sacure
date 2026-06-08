@@ -167,21 +167,6 @@
     .hero-price .amount { font-size: 2rem; font-weight: 900; line-height: 1; }
     .hero-price .suffix { font-size: .85rem; }
 
-    /* ナンバープレートぼかし */
-    .plate-blur {
-      position: absolute;
-      right: 9%;
-      bottom: 8%;
-      width: 130px;
-      height: 52px;
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      background: rgba(0,0,0,.08);
-      border-radius: 4px;
-      z-index: 2;
-      pointer-events: none;
-    }
-
     .hero-image-wrap {
       display: flex;
       align-items: center;
@@ -406,7 +391,7 @@
 
 <!-- HERO -->
 <section id="hero">
-  <div class="plate-blur"></div>
+  <canvas id="plate-canvas" style="position:absolute;z-index:10;border-radius:3px;pointer-events:none;"></canvas>
   <div class="hero-inner">
     <div class="hero-tag">SACURE AD TRUCK</div>
     <h1 class="hero-title">
@@ -558,5 +543,45 @@
   <p class="footer-copy">® CIRCULER Co. Ltd. All rights reserved.</p>
 </footer>
 
+<script>
+(function() {
+  var img = new Image();
+  img.src = './truck.png';
+  img.onload = function() {
+    var hero   = document.getElementById('hero');
+    var canvas = document.getElementById('plate-canvas');
+    var ctx    = canvas.getContext('2d');
+
+    // ナンバープレートの元画像上の座標（px）
+    var px = 1220, py = 585, pw = 175, ph = 78;
+
+    // background-size:cover で拡縮した倍率を計算
+    var heroW = hero.offsetWidth;
+    var heroH = hero.offsetHeight;
+    var scale = Math.max(heroW / img.width, heroH / img.height);
+    var offX  = (heroW - img.width  * scale) / 2;
+    var offY  = (heroH - img.height * scale) / 2;
+
+    // 画面上のプレート位置
+    var sx = px * scale + offX;
+    var sy = py * scale + offY;
+    var sw = pw * scale;
+    var sh = ph * scale;
+
+    // canvas をプレートサイズに合わせてぼかし描画
+    canvas.width  = pw;
+    canvas.height = ph;
+    canvas.style.left   = sx + 'px';
+    canvas.style.top    = sy + 'px';
+    canvas.style.width  = sw + 'px';
+    canvas.style.height = sh + 'px';
+
+    ctx.filter = 'blur(10px)';
+    for (var i = 0; i < 3; i++) {
+      ctx.drawImage(img, px, py, pw, ph, 0, 0, pw, ph);
+    }
+  };
+})();
+</script>
 </body>
 </html>
