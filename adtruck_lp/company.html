@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>運営会社について | サキュレ Ad Truck</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pink:   #b51748;
+      --pink-dk:#8f1038;
+      --navy:   #1A1A3A;
+      --text:   #333333;
+      --gray:   #666666;
+      --border: #E5E7EB;
+      --bg:     #FFFFFF;
+      --bg2:    #F5F5F5;
+    }
+
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    /* HEADER */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: #fff;
+      z-index: 100;
+      padding: 14px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    }
+    .logo { font-size: 1.1rem; font-weight: 800; color: var(--navy); text-decoration: none; }
+    .logo span { color: var(--pink); }
+    .nav-cta {
+      background: var(--pink);
+      color: #fff;
+      padding: 8px 20px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: .88rem;
+      text-decoration: none;
+    }
+
+    /* PAGE HERO */
+    .page-hero {
+      background: linear-gradient(130deg, #8f1038 0%, #b51748 100%);
+      padding: 120px 24px 60px;
+      text-align: center;
+    }
+    .page-hero h1 {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 900;
+      color: #fff;
+    }
+    .page-hero p {
+      color: rgba(255,255,255,.8);
+      margin-top: 10px;
+      font-size: .95rem;
+    }
+
+    /* CONTENT */
+    .content {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 60px 24px 80px;
+    }
+
+    /* COMPANY INFO TABLE */
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 20px;
+      padding-left: 14px;
+      border-left: 4px solid var(--pink);
+    }
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 56px;
+    }
+    .info-table tr {
+      border-bottom: 1px solid var(--border);
+    }
+    .info-table th {
+      width: 160px;
+      padding: 16px 20px;
+      text-align: left;
+      font-size: .88rem;
+      font-weight: 700;
+      color: var(--gray);
+      background: var(--bg2);
+      vertical-align: top;
+      white-space: nowrap;
+    }
+    .info-table td {
+      padding: 16px 20px;
+      font-size: .93rem;
+      color: var(--text);
+      vertical-align: top;
+    }
+
+    /* OFFICE LIST */
+    .office-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-bottom: 56px;
+    }
+    @media(max-width: 640px) {
+      .office-grid { grid-template-columns: 1fr; }
+      header { padding: 12px 16px; }
+      .info-table th { width: 110px; }
+    }
+    .office-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 22px 24px;
+    }
+    .office-card h3 {
+      font-size: .9rem;
+      font-weight: 800;
+      color: var(--pink);
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .office-card p {
+      font-size: .85rem;
+      color: var(--gray);
+      line-height: 1.9;
+    }
+    .office-card .tel {
+      margin-top: 8px;
+      font-size: .84rem;
+      color: var(--text);
+    }
+
+    /* BACK LINK */
+    .back-wrap { text-align: center; }
+    .back-link {
+      display: inline-block;
+      background: var(--pink);
+      color: #fff;
+      font-weight: 700;
+      font-size: .95rem;
+      padding: 13px 36px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background .2s;
+    }
+    .back-link:hover { background: var(--pink-dk); }
+
+    /* FOOTER */
+    footer {
+      background: var(--navy);
+      padding: 36px 40px 24px;
+      text-align: center;
+    }
+    .footer-logo { font-size: 1rem; font-weight: 800; color: #fff; margin-bottom: 14px; }
+    .footer-logo span { color: var(--pink); }
+    .footer-copy { font-size: .73rem; color: rgba(255,255,255,.28); }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="./index.html" class="logo">サキュレ <span>Ad Truck</span></a>
+  <a href="./index.html#contact" class="nav-cta">お問い合わせ</a>
+</header>
+
+<div class="page-hero">
+  <h1>運営会社について</h1>
+  <p>株式会社サキュレ　会社概要</p>
+</div>
+
+<div class="content">
+
+  <!-- 会社情報 -->
+  <h2 class="section-title">会社概要</h2>
+  <table class="info-table">
+    <tr>
+      <th>会社名</th>
+      <td>株式会社サキュレ</td>
+    </tr>
+    <tr>
+      <th>代表者</th>
+      <td>宇都宮基行</td>
+    </tr>
+    <tr>
+      <th>本社所在地</th>
+      <td>〒143-0026 東京都大田区西馬込1-2-12</td>
+    </tr>
+    <tr>
+      <th>TEL / FAX</th>
+      <td>TEL：03-3777-4122　／　FAX：03-3778-3796</td>
+    </tr>
+  </table>
+
+  <!-- 営業所一覧 -->
+  <h2 class="section-title">営業所一覧</h2>
+  <div class="office-grid">
+
+    <div class="office-card">
+      <h3>本社営業所</h3>
+      <p>〒143-0026<br>東京都大田区西馬込1-2-12</p>
+      <p class="tel">TEL：03-3777-4122<br>FAX：03-3778-3796</p>
+    </div>
+
+    <div class="office-card">
+      <h3>埼玉営業所</h3>
+      <p>〒335-0021<br>埼玉県戸田市新曽708</p>
+      <p class="tel">TEL：048-445-4122<br>FAX：048-431-5297</p>
+    </div>
+
+    <div class="office-card">
+      <h3>板橋営業所</h3>
+      <p>〒174-0042<br>東京都板橋区東坂下2-17-5</p>
+      <p class="tel">TEL：03-3558-7206<br>FAX：03-3558-6475</p>
+    </div>
+
+    <div class="office-card">
+      <h3>新横浜営業所</h3>
+      <p>〒222-0001<br>横浜市港北区樽町3-12-40</p>
+      <p class="tel">TEL：045-533-0252<br>FAX：045-533-0253</p>
+    </div>
+
+    <div class="office-card">
+      <h3>川崎事業所</h3>
+      <p>〒212-0055<br>川崎市幸区南加瀬5-13-8</p>
+      <p class="tel">TEL：044-589-4322<br>FAX：044-589-4344</p>
+    </div>
+
+    <div class="office-card">
+      <h3>与野倉庫</h3>
+      <p>〒338-0013<br>埼玉県さいたま市中央区鈴谷3-8-10</p>
+      <p class="tel">TEL：048-856-0909<br>FAX：048-856-0908</p>
+    </div>
+
+    <div class="office-card">
+      <h3>仲池上営業事務室</h3>
+      <p>〒146-0081<br>東京都大田区仲池上1-24-7</p>
+      <p class="tel">TEL：03-3755-8685<br>FAX：03-3755-1732</p>
+    </div>
+
+  </div>
+
+  <div class="back-wrap">
+    <a href="./index.html" class="back-link">← トップページに戻る</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-logo">サキュレ <span>Ad Truck</span></div>
+  <p class="footer-copy">® CIRCULER Co. Ltd. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
