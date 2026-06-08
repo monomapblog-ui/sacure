@@ -8,16 +8,15 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --pink:     #E91E8C;
-      --pink-dk:  #C2186F;
-      --pink-lt:  #FDE8F4;
-      --navy:     #1A1A3A;
-      --text:     #2D2D4E;
-      --gray:     #6B7280;
-      --border:   #E5E7EB;
-      --bg:       #FFFFFF;
-      --bg2:      #F9F9FB;
-      --bg3:      #F3F4F6;
+      --pink:    #E91E8C;
+      --pink-dk: #C2186F;
+      --pink-lt: #FDE8F4;
+      --navy:    #1A1A3A;
+      --text:    #333333;
+      --gray:    #666666;
+      --border:  #E5E7EB;
+      --bg:      #FFFFFF;
+      --bg2:     #F5F5F5;
     }
 
     body {
@@ -31,27 +30,33 @@
     header {
       position: fixed;
       top: 0; left: 0; right: 0;
-      background: rgba(255,255,255,.95);
-      backdrop-filter: blur(8px);
+      background: #fff;
       z-index: 100;
-      padding: 16px 40px;
+      padding: 14px 40px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       border-bottom: 1px solid var(--border);
-      box-shadow: 0 1px 12px rgba(0,0,0,.06);
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
     }
-    .logo { font-size: 1.1rem; font-weight: 800; letter-spacing: .05em; color: var(--navy); }
+    .logo { font-size: 1.1rem; font-weight: 800; color: var(--navy); letter-spacing: .04em; }
     .logo span { color: var(--pink); }
     header nav a {
       color: var(--text);
       text-decoration: none;
-      font-size: .9rem;
-      margin-left: 28px;
-      opacity: .8;
-      transition: opacity .2s, color .2s;
+      font-size: .88rem;
+      margin-left: 24px;
+      transition: color .2s;
     }
-    header nav a:hover { opacity: 1; color: var(--pink); }
+    header nav a:hover { color: var(--pink); }
+    .nav-cta {
+      background: var(--pink) !important;
+      color: #fff !important;
+      padding: 8px 20px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+    .nav-cta:hover { background: var(--pink-dk) !important; }
 
     /* ── BTN ── */
     .btn {
@@ -60,355 +65,309 @@
       color: #fff;
       font-weight: 700;
       font-size: 1rem;
-      padding: 14px 36px;
-      border-radius: 50px;
+      padding: 14px 40px;
+      border-radius: 4px;
       text-decoration: none;
-      letter-spacing: .06em;
-      transition: background .2s, transform .15s, box-shadow .2s;
-      border: none;
+      transition: background .2s;
       cursor: pointer;
-      box-shadow: 0 4px 20px rgba(233,30,140,.3);
     }
-    .btn:hover {
-      background: var(--pink-dk);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(233,30,140,.4);
-    }
-    .btn-lg { font-size: 1.1rem; padding: 18px 48px; }
-    .btn-outline {
-      background: transparent;
-      border: 2px solid var(--pink);
+    .btn:hover { background: var(--pink-dk); }
+    .btn-white {
+      background: #fff;
       color: var(--pink);
-      box-shadow: none;
     }
-    .btn-outline:hover { background: var(--pink); color: #fff; }
+    .btn-white:hover { background: #f0f0f0; color: var(--pink-dk); }
 
     /* ── HERO ── */
     #hero {
       min-height: 100vh;
       display: flex;
       align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 120px 24px 80px;
-      background: linear-gradient(135deg, #FFF0F8 0%, #FFFFFF 50%, #F0F4FF 100%);
+      padding-top: 64px;
+      background: linear-gradient(130deg, #B01462 0%, #E91E8C 55%, #FF5DBD 100%);
       position: relative;
       overflow: hidden;
     }
     #hero::before {
       content: '';
       position: absolute;
-      top: -100px; right: -100px;
-      width: 500px; height: 500px;
-      background: radial-gradient(circle, rgba(233,30,140,.12) 0%, transparent 70%);
+      top: -120px; right: -120px;
+      width: 480px; height: 480px;
+      background: radial-gradient(circle, rgba(255,255,255,.12) 0%, transparent 70%);
       pointer-events: none;
     }
-    #hero::after {
-      content: '';
-      position: absolute;
-      bottom: -80px; left: -80px;
-      width: 400px; height: 400px;
-      background: radial-gradient(circle, rgba(99,102,241,.1) 0%, transparent 70%);
-      pointer-events: none;
+    .hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      width: 100%;
+      position: relative;
     }
-    .hero-inner { position: relative; max-width: 860px; }
+    @media(max-width: 768px) {
+      .hero-inner { grid-template-columns: 1fr; padding: 40px 20px; }
+      .hero-image-wrap { display: none; }
+    }
     .hero-tag {
       display: inline-block;
-      background: var(--pink-lt);
-      border: 1px solid rgba(233,30,140,.3);
-      color: var(--pink);
-      font-size: .8rem;
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.45);
+      color: #fff;
+      font-size: .75rem;
       font-weight: 700;
-      letter-spacing: .15em;
-      padding: 6px 20px;
-      border-radius: 50px;
-      margin-bottom: 28px;
+      letter-spacing: .18em;
+      padding: 4px 16px;
+      border-radius: 2px;
+      margin-bottom: 22px;
     }
     .hero-title {
-      font-size: clamp(2rem, 5vw, 3.4rem);
+      font-size: clamp(1.7rem, 3.8vw, 2.6rem);
       font-weight: 900;
-      line-height: 1.25;
-      margin-bottom: 16px;
-      letter-spacing: -.01em;
-      color: var(--navy);
+      line-height: 1.3;
+      color: #fff;
+      margin-bottom: 6px;
     }
-    .hero-title em {
-      font-style: normal;
-      color: var(--pink);
+    .hero-title .big {
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      display: block;
+      margin-top: 4px;
     }
     .hero-sub {
-      font-size: clamp(1rem, 2.5vw, 1.3rem);
-      color: var(--gray);
-      margin-bottom: 8px;
+      font-size: 1.05rem;
+      color: rgba(255,255,255,.92);
       font-weight: 600;
+      margin-bottom: 4px;
     }
     .hero-catch {
-      font-size: 1rem;
-      color: var(--gray);
-      margin-bottom: 44px;
+      font-size: .92rem;
+      color: rgba(255,255,255,.78);
+      margin-bottom: 32px;
+      line-height: 1.8;
     }
     .hero-price {
       display: inline-flex;
       align-items: baseline;
       gap: 8px;
-      background: #fff;
-      border: 2px solid rgba(233,30,140,.25);
-      border-radius: 14px;
-      padding: 14px 32px;
-      margin-bottom: 40px;
-      font-size: .9rem;
-      color: var(--gray);
-      box-shadow: 0 4px 20px rgba(233,30,140,.1);
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: 4px;
+      padding: 10px 22px;
+      color: #fff;
+      margin-bottom: 28px;
     }
-    .hero-price strong {
-      font-size: 2.2rem;
-      font-weight: 900;
-      color: var(--pink);
+    .hero-price .label { font-size: .85rem; }
+    .hero-price .amount { font-size: 2rem; font-weight: 900; line-height: 1; }
+    .hero-price .suffix { font-size: .85rem; }
+
+    .hero-image-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,.1);
+      border: 2px solid rgba(255,255,255,.22);
+      border-radius: 12px;
+      aspect-ratio: 4/3;
+      font-size: 7rem;
+      color: rgba(255,255,255,.7);
     }
-    .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 
     /* ── SECTION COMMON ── */
-    section { padding: 100px 24px; }
-    .container { max-width: 1000px; margin: 0 auto; }
-    .section-label {
-      font-size: .78rem;
-      font-weight: 700;
-      letter-spacing: .2em;
-      color: var(--pink);
-      margin-bottom: 12px;
-      text-transform: uppercase;
-    }
+    .section { padding: 72px 24px; }
+    .container { max-width: 900px; margin: 0 auto; }
     .section-title {
-      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-size: clamp(1.4rem, 2.8vw, 2rem);
       font-weight: 900;
-      margin-bottom: 20px;
-      line-height: 1.3;
+      margin-bottom: 24px;
       color: var(--navy);
-    }
-    .section-desc {
-      color: var(--gray);
-      font-size: 1rem;
-      max-width: 680px;
-      line-height: 1.9;
+      line-height: 1.35;
     }
 
     /* ── WHY ── */
     #why { background: var(--bg2); }
-    .why-body {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      align-items: center;
-      margin-top: 56px;
-    }
-    @media(max-width:700px){ .why-body { grid-template-columns:1fr; gap:36px; } }
     .why-text p {
       color: var(--gray);
-      font-size: 1rem;
+      font-size: .95rem;
       line-height: 2;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
-    .why-text strong { color: var(--text); }
-    .why-visual {
+    .why-highlight {
+      margin-top: 28px;
+      padding: 20px 24px;
       background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 48px 36px;
-      text-align: center;
-      box-shadow: 0 8px 32px rgba(0,0,0,.06);
+      border-left: 4px solid var(--pink);
+      border-radius: 0 8px 8px 0;
     }
-    .why-visual .icon { font-size: 4.5rem; margin-bottom: 20px; }
-    .why-visual strong {
-      display: block;
-      font-size: 1.4rem;
-      font-weight: 900;
-      color: var(--pink);
-      margin-bottom: 10px;
+    .why-highlight p {
+      font-size: .95rem;
+      color: var(--text);
+      line-height: 2;
     }
-    .why-visual p { font-size: .9rem; color: var(--gray); }
 
     /* ── EFFECTS ── */
     #effects { background: var(--bg); }
+    .effects-sub {
+      font-size: .9rem;
+      color: var(--gray);
+      margin-bottom: 36px;
+      margin-top: -12px;
+    }
     .effects-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      margin-top: 56px;
+      gap: 18px;
     }
-    @media(max-width:700px){ .effects-grid { grid-template-columns:1fr; } }
+    @media(max-width: 680px) { .effects-grid { grid-template-columns: 1fr; } }
     .effect-card {
       background: var(--bg2);
       border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 40px 28px;
-      transition: border-color .25s, transform .2s, box-shadow .2s;
-    }
-    .effect-card:hover {
-      border-color: var(--pink);
-      transform: translateY(-4px);
-      box-shadow: 0 12px 36px rgba(233,30,140,.12);
-    }
-    .effect-icon {
-      width: 56px; height: 56px;
-      background: var(--pink-lt);
-      border-radius: 16px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.6rem;
-      margin-bottom: 20px;
+      border-radius: 8px;
+      padding: 28px 22px;
     }
     .effect-card h3 {
-      font-size: 1.1rem;
+      font-size: .98rem;
       font-weight: 800;
-      margin-bottom: 12px;
       color: var(--pink);
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #fbc8e5;
     }
     .effect-card p {
-      font-size: .9rem;
+      font-size: .87rem;
       color: var(--gray);
       line-height: 1.85;
     }
 
-    /* ── CTA MID ── */
-    #cta-mid {
-      background: linear-gradient(135deg, var(--pink) 0%, #C2186F 100%);
+    /* ── CTA BAND ── */
+    .cta-band {
+      background: var(--pink);
+      padding: 36px 24px;
       text-align: center;
-      padding: 80px 24px;
     }
-    #cta-mid .section-title { color: #fff; margin-bottom: 12px; }
-    #cta-mid p { color: rgba(255,255,255,.85); margin-bottom: 36px; font-size: 1rem; }
-    #cta-mid .btn {
-      background: #fff;
-      color: var(--pink);
-      box-shadow: 0 4px 24px rgba(0,0,0,.15);
+    .cta-band p {
+      color: rgba(255,255,255,.85);
+      margin-bottom: 20px;
+      font-size: .95rem;
     }
-    #cta-mid .btn:hover { background: #fdf0f8; }
 
     /* ── SERVICE ── */
     #service { background: var(--bg2); }
-    .service-overview {
+    .service-block {
       background: #fff;
-      border-radius: 20px;
-      padding: 36px 40px;
-      margin-top: 48px;
-      margin-bottom: 40px;
       border: 1px solid var(--border);
-      box-shadow: 0 4px 20px rgba(0,0,0,.05);
+      border-radius: 8px;
+      padding: 28px 32px;
+      margin-bottom: 20px;
     }
-    .service-overview h3 {
-      font-size: .85rem;
+    .block-label {
+      font-size: .8rem;
       font-weight: 700;
       color: var(--pink);
-      letter-spacing: .1em;
+      letter-spacing: .14em;
       margin-bottom: 10px;
-      margin-top: 20px;
       text-transform: uppercase;
     }
-    .service-overview h3:first-child { margin-top: 0; }
-    .service-overview p {
-      font-size: .95rem;
+    .service-block p {
+      font-size: .93rem;
       color: var(--gray);
       line-height: 1.9;
     }
     .ad-specs {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-top: 10px;
+      gap: 12px;
+      margin-top: 14px;
     }
-    @media(max-width:600px){ .ad-specs { grid-template-columns:1fr; } }
+    @media(max-width: 500px) { .ad-specs { grid-template-columns: 1fr; } }
     .spec-item {
-      background: var(--pink-lt);
-      border: 1px solid rgba(233,30,140,.2);
-      border-radius: 12px;
-      padding: 16px 20px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px 16px;
     }
     .spec-item dt {
       font-size: .78rem;
-      font-weight: 700;
       color: var(--pink);
-      letter-spacing: .08em;
+      font-weight: 700;
       margin-bottom: 4px;
     }
     .spec-item dd { font-size: .9rem; color: var(--text); }
 
-    /* pricing */
     .pricing-table {
       width: 100%;
       border-collapse: collapse;
-      border-radius: 20px;
+      border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 4px 24px rgba(0,0,0,.07);
+      border: 1px solid var(--border);
     }
     .pricing-table thead tr { background: var(--pink); }
     .pricing-table thead th {
-      padding: 18px 20px;
-      font-size: .9rem;
+      padding: 14px 16px;
+      font-size: .88rem;
       font-weight: 700;
-      text-align: center;
       color: #fff;
+      text-align: center;
     }
     .pricing-table tbody tr {
       background: #fff;
       border-bottom: 1px solid var(--border);
-      transition: background .15s;
     }
-    .pricing-table tbody tr:hover { background: var(--pink-lt); }
-    .pricing-table tbody tr.highlight { background: #FFF5FB; }
     .pricing-table tbody td {
-      padding: 22px 20px;
+      padding: 16px;
       text-align: center;
-      font-size: .95rem;
+      font-size: .93rem;
       color: var(--gray);
     }
     .pricing-table tbody td:first-child { font-weight: 700; color: var(--text); }
-    .pricing-table .price { font-size: 1.4rem; font-weight: 900; color: var(--navy); }
-    .pricing-table .price-day { font-size: .82rem; color: var(--gray); }
-    .pricing-note {
-      margin-top: 20px;
+    .price-amt { font-size: 1.25rem; font-weight: 900; color: var(--navy); }
+    .pricing-notes {
+      margin-top: 14px;
+      list-style: none;
       font-size: .82rem;
       color: var(--gray);
       line-height: 1.9;
-      list-style: none;
     }
-    .pricing-note li { padding-left: 1.2em; margin-bottom: 4px; }
-    .pricing-note li::before { content: '※ '; color: var(--pink); margin-left: -1.2em; }
+    .pricing-notes li::before { content: '※ '; }
+
+    .service-cta { text-align: center; margin-top: 28px; }
 
     /* ── CONTACT ── */
     #contact {
-      background: var(--bg);
+      background: linear-gradient(130deg, #B01462 0%, #E91E8C 100%);
       text-align: center;
-      padding: 100px 24px;
+      padding: 80px 24px;
     }
-    #contact .section-title { margin-bottom: 16px; }
+    #contact h2 {
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      color: #fff;
+      margin-bottom: 14px;
+      font-weight: 900;
+    }
     #contact p {
-      color: var(--gray);
-      margin: 0 auto 40px;
-      font-size: 1rem;
-      max-width: 520px;
+      color: rgba(255,255,255,.85);
+      margin-bottom: 32px;
+      font-size: .95rem;
+      line-height: 1.8;
     }
 
     /* ── FOOTER ── */
     footer {
       background: var(--navy);
-      padding: 44px 40px 28px;
+      padding: 40px 40px 28px;
       text-align: center;
     }
-    .footer-logo { font-size: 1.1rem; font-weight: 800; color: #fff; margin-bottom: 20px; }
+    .footer-logo { font-size: 1.1rem; font-weight: 800; color: #fff; margin-bottom: 16px; letter-spacing: .04em; }
     .footer-logo span { color: var(--pink); }
-    .footer-links { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px; }
-    .footer-links a {
-      color: rgba(255,255,255,.55);
-      text-decoration: none;
-      font-size: .85rem;
-      transition: color .2s;
-    }
+    .footer-links { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+    .footer-links a { color: rgba(255,255,255,.5); text-decoration: none; font-size: .83rem; }
     .footer-links a:hover { color: #fff; }
-    .footer-copy { font-size: .75rem; color: rgba(255,255,255,.3); }
+    .footer-copy { font-size: .73rem; color: rgba(255,255,255,.28); }
 
-    /* ── RESPONSIVE ── */
-    @media(max-width:600px){
-      header { padding: 14px 20px; }
-      header nav a:not(:last-child) { display: none; }
+    @media(max-width: 600px) {
+      header { padding: 12px 16px; }
+      header nav a:not(.nav-cta) { display: none; }
     }
   </style>
 </head>
@@ -421,99 +380,91 @@
     <a href="#why">アドトラックとは</a>
     <a href="#effects">効果</a>
     <a href="#service">料金</a>
-    <a href="#contact" class="btn" style="padding:10px 24px;font-size:.88rem;">お問い合わせ</a>
+    <a href="#contact" class="nav-cta">お問い合わせ</a>
   </nav>
 </header>
 
 <!-- HERO -->
 <section id="hero">
   <div class="hero-inner">
-    <div class="hero-tag">SACURE AD TRUCK</div>
-    <h1 class="hero-title">
-      オンラインの時代だからこそ<br>
-      <em>『 アドトラック 』</em>
-    </h1>
-    <p class="hero-sub">街で走る、SNSで広がる</p>
-    <p class="hero-catch">オフライン施策がオンラインで拡散する<br>全マーケターが一度は憧れる！</p>
-    <div class="hero-price">
-      <span>1週間</span>
-      <strong>100万円</strong>
-      <span>〜（税抜）</span>
+    <div class="hero-content">
+      <div class="hero-tag">SACURE AD TRUCK</div>
+      <h1 class="hero-title">
+        オンラインの時代だからこそ
+        <span class="big">『 アドトラック 』</span>
+      </h1>
+      <p class="hero-sub">街で走る、SNSで広がる</p>
+      <p class="hero-catch">オフライン施策がオンラインで拡散する<br>全マーケターが一度は憧れる！</p>
+      <div class="hero-price">
+        <span class="label">１週間</span>
+        <span class="amount">100万円</span>
+        <span class="suffix">〜（税抜）</span>
+      </div>
+      <br>
+      <a href="#contact" class="btn btn-white" style="margin-top:18px;">お問い合わせ</a>
     </div>
-    <div class="hero-btns">
-      <a href="#contact" class="btn btn-lg">お問い合わせ・資料請求</a>
-      <a href="#service" class="btn btn-outline btn-lg">料金を見る</a>
-    </div>
+    <div class="hero-image-wrap">🚛</div>
   </div>
 </section>
 
 <!-- WHY -->
-<section id="why">
+<section id="why" class="section">
   <div class="container">
-    <div class="section-label">WHY AD TRUCK</div>
-    <h2 class="section-title">なぜ、今アドトラック？</h2>
-    <div class="why-body">
-      <div class="why-text">
-        <p>現在、AIの普及により、誰もが簡単に広告を配信できる時代になりました。</p>
-        <p>その一方で、SNS広告やWeb広告は急増し、ユーザーは日々大量の情報にさらされています。</p>
-        <p>競合各社がデジタル広告へ投資を続ける今、広告費用は高騰する一方で、せっかく出した広告が埋もれてしまうことは珍しくありません。</p>
-        <p>街そのものを広告媒体に。<br><strong>音で注目を集め、視覚で記憶に残す。</strong><br>アドトラックは、オンライン広告では得られない圧倒的な存在感で、人々の足を止めます。</p>
-        <p>さらにSNS拡散によって、リアルの話題をデジタルへ。<br>AI時代だからこそ、人の記憶に残る広告を。</p>
-      </div>
-      <div class="why-visual">
-        <div class="icon">🚛</div>
-        <strong>街が広告塔になる</strong>
-        <p>オフラインとオンラインを<br>同時に攻略する唯一の手法</p>
-      </div>
+    <h2 class="section-title">なぜ、サキュレアドトラック？</h2>
+    <div class="why-text">
+      <p>現在、AIの普及により、誰もが簡単に広告を配信できる時代になりました。</p>
+      <p>その一方で、SNS広告やWeb広告は急増し、ユーザーは日々大量の情報にさらされています。</p>
+      <p>競合各社がデジタル広告へ投資を続ける今、広告費用は高騰する一方で、せっかく出した広告が埋もれてしまうことは珍しくありません。</p>
+    </div>
+    <div class="why-highlight">
+      <p>街そのものを広告媒体に。音で注目を集め、視覚で記憶に残す。<br>
+      アドトラックは、オンライン広告では得られない圧倒的な存在感で、人々の足を止めます。<br><br>
+      さらにSNS拡散によって、リアルの話題をデジタルへ。<br>
+      AI時代だからこそ、人の記憶に残る広告を。</p>
     </div>
   </div>
 </section>
 
 <!-- EFFECTS -->
-<section id="effects">
+<section id="effects" class="section">
   <div class="container">
-    <div class="section-label">EFFECTS</div>
     <h2 class="section-title">アドトラックが選ばれる理由</h2>
-    <p class="section-desc">アドトラックの効果</p>
+    <p class="effects-sub">アドトラックの効果</p>
     <div class="effects-grid">
       <div class="effect-card">
-        <div class="effect-icon">📣</div>
         <h3>認知拡大</h3>
-        <p>大音量・特大スクリーンで半強制的にインプレッションを獲得。高い視認性でブランドや商品を強く印象付けます。</p>
+        <p>大音量・特大スクリーンで半強制的にインプレッション獲得<br>高い視認性でブランドや商品を印象付ける</p>
       </div>
       <div class="effect-card">
-        <div class="effect-icon">📱</div>
         <h3>SNS拡散</h3>
-        <p>撮影→投稿→拡散により、現地にいる人以外にもリーチ可能。リアル施策をオンライン上でも増幅させます。</p>
+        <p>撮影→投稿→拡散により、現地にいる人以外にもリーチ可能<br>リアル施策をオンライン上でも増幅</p>
       </div>
       <div class="effect-card">
-        <div class="effect-icon">📈</div>
         <h3>販売・集客促進</h3>
-        <p>話題性や接触効果により、サービス・商品の購買意欲を増大。認知から購買まで一気に引き上げます。</p>
+        <p>話題性や接触効果により、サービス・商品の購買意欲を増大</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CTA MID -->
-<section id="cta-mid">
-  <div class="container">
-    <h2 class="section-title">まずはお気軽にご相談ください</h2>
-    <p>エリア・期間・予算に合わせたプランをご提案します</p>
-    <a href="#contact" class="btn btn-lg">無料相談・お問い合わせ</a>
-  </div>
-</section>
+<!-- CTA BAND -->
+<div class="cta-band">
+  <p>エリア・期間・予算に合わせたプランをご提案します</p>
+  <a href="#contact" class="btn btn-white">お問い合わせ</a>
+</div>
 
 <!-- SERVICE -->
-<section id="service">
+<section id="service" class="section">
   <div class="container">
-    <div class="section-label">SERVICE &amp; PRICE</div>
-    <h2 class="section-title">サービス内容・料金表</h2>
+    <h2 class="section-title">アドトラックサービス内容・料金表</h2>
 
-    <div class="service-overview">
-      <h3>概要</h3>
+    <div class="service-block">
+      <div class="block-label">概要</div>
       <p>車両の側面２面と背面１面に貴社サービス・商品の広告を掲載し、契約期間内、貴社指定のエリアを走行いたします。</p>
-      <h3>広告面サイズ</h3>
+    </div>
+
+    <div class="service-block">
+      <div class="block-label">広告面</div>
       <dl class="ad-specs">
         <div class="spec-item">
           <dt>側面（×2面）</dt>
@@ -526,51 +477,57 @@
       </dl>
     </div>
 
-    <table class="pricing-table">
-      <thead>
-        <tr>
-          <th>期間</th>
-          <th>料金（税抜）</th>
-          <th>日割換算</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>４週間</td>
-          <td><span class="price">300万円</span></td>
-          <td><span class="price-day">約 10.7万円 / 日</span></td>
-        </tr>
-        <tr>
-          <td>３週間</td>
-          <td><span class="price">250万円</span></td>
-          <td><span class="price-day">約 11.9万円 / 日</span></td>
-        </tr>
-        <tr>
-          <td>２週間</td>
-          <td><span class="price">180万円</span></td>
-          <td><span class="price-day">約 12.9万円 / 日</span></td>
-        </tr>
-        <tr class="highlight">
-          <td>１週間</td>
-          <td><span class="price">100万円</span></td>
-          <td><span class="price-day">約 14.3万円 / 日</span></td>
-        </tr>
-      </tbody>
-    </table>
-    <ul class="pricing-note">
-      <li>料金には、広告物の印刷・取付費用が含まれます。</li>
-      <li>デザイン費用は含まれません。貴社にてデザインしたものをデータにてご入稿ください。</li>
-    </ul>
+    <div class="service-block">
+      <div class="block-label">料金表</div>
+      <table class="pricing-table">
+        <thead>
+          <tr>
+            <th>期間</th>
+            <th>料金（税抜）</th>
+            <th>日割換算</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>４週間</td>
+            <td><span class="price-amt">300万円</span></td>
+            <td>約 10.7万円 / 日</td>
+          </tr>
+          <tr>
+            <td>３週間</td>
+            <td><span class="price-amt">250万円</span></td>
+            <td>約 11.9万円 / 日</td>
+          </tr>
+          <tr>
+            <td>２週間</td>
+            <td><span class="price-amt">180万円</span></td>
+            <td>約 12.9万円 / 日</td>
+          </tr>
+          <tr>
+            <td>１週間</td>
+            <td><span class="price-amt">100万円</span></td>
+            <td>約 14.3万円 / 日</td>
+          </tr>
+        </tbody>
+      </table>
+      <ul class="pricing-notes">
+        <li>料金には、広告物の印刷・取付費用が含まれます。</li>
+        <li>デザイン費用は含まれません。貴社にてデザインしたものをデータにてご入稿ください。</li>
+      </ul>
+    </div>
+
+    <div class="service-cta">
+      <a href="#contact" class="btn">お問い合わせ</a>
+    </div>
   </div>
 </section>
 
 <!-- CONTACT -->
 <section id="contact">
   <div class="container">
-    <div class="section-label">CONTACT</div>
-    <h2 class="section-title">お問い合わせ</h2>
+    <h2>お問い合わせ</h2>
     <p>エリア・期間・掲載内容など、まずはお気軽にご相談ください。<br>担当者より折り返しご連絡いたします。</p>
-    <a href="mailto:info@sacure.co.jp" class="btn btn-lg">お問い合わせはこちら</a>
+    <a href="mailto:info@sacure.co.jp" class="btn btn-white">お問い合わせはこちら</a>
   </div>
 </section>
 
