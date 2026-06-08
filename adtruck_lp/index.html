@@ -544,44 +544,59 @@
 </footer>
 
 <script>
-(function() {
+window.addEventListener('load', function() {
   var img = new Image();
+  img.crossOrigin = 'anonymous';
   img.src = './truck.png';
-  img.onload = function() {
+
+  function applyBlur() {
     var hero   = document.getElementById('hero');
     var canvas = document.getElementById('plate-canvas');
     var ctx    = canvas.getContext('2d');
 
-    // ナンバープレートの元画像上の座標（px）
-    var px = 1220, py = 585, pw = 175, ph = 78;
-
-    // background-size:cover で拡縮した倍率を計算
     var heroW = hero.offsetWidth;
     var heroH = hero.offsetHeight;
+
+    // background-size: cover の拡縮率
     var scale = Math.max(heroW / img.width, heroH / img.height);
     var offX  = (heroW - img.width  * scale) / 2;
     var offY  = (heroH - img.height * scale) / 2;
 
-    // 画面上のプレート位置
+    // 元画像上のナンバープレート座標（余白を大きめに取る）
+    var px = 1210, py = 610, pw = 165, ph = 75;
+
+    // ヒーロー上の表示位置
     var sx = px * scale + offX;
     var sy = py * scale + offY;
     var sw = pw * scale;
     var sh = ph * scale;
 
-    // canvas をプレートサイズに合わせてぼかし描画
-    canvas.width  = pw;
-    canvas.height = ph;
-    canvas.style.left   = sx + 'px';
-    canvas.style.top    = sy + 'px';
-    canvas.style.width  = sw + 'px';
-    canvas.style.height = sh + 'px';
+    // キャンバスを余白付きで描画（ぼかしが端で切れないよう）
+    var pad = 20;
+    canvas.width  = pw + pad * 2;
+    canvas.height = ph + pad * 2;
+    canvas.style.left   = (sx - pad * scale) + 'px';
+    canvas.style.top    = (sy - pad * scale) + 'px';
+    canvas.style.width  = (sw + pad * scale * 2) + 'px';
+    canvas.style.height = (sh + pad * scale * 2) + 'px';
 
-    ctx.filter = 'blur(10px)';
-    for (var i = 0; i < 3; i++) {
-      ctx.drawImage(img, px, py, pw, ph, 0, 0, pw, ph);
+    // 自然なガウスぼかしを複数回重ねる
+    ctx.filter = 'blur(14px)';
+    for (var i = 0; i < 4; i++) {
+      ctx.drawImage(
+        img,
+        px - pad, py - pad, pw + pad * 2, ph + pad * 2,
+        0, 0, canvas.width, canvas.height
+      );
     }
-  };
-})();
+  }
+
+  if (img.complete && img.naturalWidth) {
+    applyBlur();
+  } else {
+    img.onload = applyBlur;
+  }
+});
 </script>
 </body>
 </html>
