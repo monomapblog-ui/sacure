@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>サキュレ Ad Truck SERVICE GUIDE 2025</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic',sans-serif;background:#888;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.slide{width:297mm;height:210mm;background:#fff;margin:12px auto;position:relative;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.2);}
+@page{size:A4 landscape;margin:0;}
+@media print{body{background:#fff;}
+.slide{margin:0;box-shadow:none;page-break-after:always;page-break-inside:avoid;}}
+
+/* HEADER BAR */
+.hbar{height:11mm;background:#b51748;display:flex;align-items:center;padding:0 10mm;}
+.hbar .sec{color:rgba(255,255,255,.65);font-size:7pt;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
+.hbar .logo{margin-left:auto;color:#fff;font-size:7.5pt;font-weight:900;letter-spacing:.05em;}
+.ptitle{display:inline-block;background:#1A1A3A;color:#fff;font-size:12pt;font-weight:900;padding:2.5mm 6mm;margin:4.5mm 10mm 3mm;}
+.body{padding:0 10mm 7mm;}
+.pnum{position:absolute;bottom:3.5mm;right:8mm;font-size:6.5pt;color:rgba(0,0,0,.28);}
+
+/* ── SLIDE 1 COVER ── */
+.s-cover{display:flex;background:linear-gradient(125deg,#8f1038 0%,#b51748 60%,#c91e56 100%);}
+.cov-l{width:56%;padding:14mm 10mm 12mm 14mm;display:flex;flex-direction:column;justify-content:space-between;z-index:2;}
+.cov-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:2px;padding:1.5mm 3.5mm;width:fit-content;margin-bottom:5mm;}
+.cov-badge span{color:#fff;font-size:7.5pt;font-weight:800;letter-spacing:.12em;}
+.cov-h1{font-size:24pt;font-weight:900;color:#fff;line-height:1.15;margin-bottom:3mm;}
+.cov-sub{font-size:11pt;font-weight:700;color:rgba(255,255,255,.92);margin-bottom:3mm;}
+.cov-catch{font-size:8pt;color:rgba(255,255,255,.72);line-height:1.8;}
+.cov-company{font-size:8.5pt;color:rgba(255,255,255,.65);font-weight:600;}
+.cov-date{font-size:7.5pt;color:rgba(255,255,255,.42);margin-top:1.5mm;}
+.cov-r{width:44%;position:relative;overflow:hidden;}
+.cov-r img{position:absolute;bottom:-4mm;right:-8mm;height:88%;object-fit:contain;filter:drop-shadow(0 6px 24px rgba(0,0,0,.35)) brightness(1.05);}
+.cov-deco{position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(to right,rgba(143,16,56,.55) 0%,transparent 55%);}
+
+/* ── SLIDE 2 WHY ── */
+.why-probs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3.5mm;margin-bottom:3mm;}
+.why-prob{background:#f7f7f7;border-top:3px solid #ccc;padding:3.5mm 4mm;border-radius:2px;}
+.why-prob h4{font-size:8pt;font-weight:700;color:#555;margin-bottom:1.5mm;}
+.why-prob p{font-size:7.5pt;color:#444;line-height:1.65;}
+.why-ans{background:#b51748;border-radius:3px;padding:3.5mm 8mm;text-align:center;margin-bottom:3.5mm;}
+.why-ans .big{font-size:11pt;font-weight:900;color:#fff;margin-bottom:1mm;}
+.why-ans .small{font-size:7.5pt;color:rgba(255,255,255,.82);line-height:1.6;}
+.why-pts{display:grid;grid-template-columns:repeat(4,1fr);gap:3mm;}
+.why-pt{background:#f5f5f5;border-radius:3px;padding:3mm;text-align:center;}
+.why-pt .wt{font-size:8.5pt;font-weight:900;color:#1A1A3A;margin-bottom:1mm;}
+.why-pt .wd{font-size:6.5pt;color:#666;line-height:1.55;}
+
+/* ── SLIDE 3 STRENGTHS ── */
+.str-grid{display:grid;grid-template-columns:1fr 1fr;gap:3.5mm;margin-top:3mm;}
+.str-card{border:1.5px solid #e5e7eb;border-radius:4px;padding:4mm 5mm 4mm 6mm;position:relative;}
+.str-card::before{content:'';position:absolute;top:0;left:0;width:3.5px;height:100%;background:#b51748;border-radius:4px 0 0 4px;}
+.str-num{font-size:7pt;color:#b51748;font-weight:800;letter-spacing:.1em;margin-bottom:1.5mm;}
+.str-title{font-size:9.5pt;font-weight:900;color:#1A1A3A;margin-bottom:1.5mm;}
+.str-sub{font-size:7pt;color:#b51748;font-weight:700;margin-bottom:2mm;}
+.str-desc{font-size:7.5pt;color:#555;line-height:1.65;}
+
+/* ── SLIDE 4 FUNCTIONS ── */
+.func-list{display:flex;flex-direction:column;gap:2.5mm;margin-top:3mm;}
+.func-row{display:flex;align-items:center;gap:3.5mm;background:#fafafa;border:1px solid #ebebeb;border-radius:3px;padding:2.5mm 4mm;}
+.func-badge{background:#b51748;color:#fff;font-size:6.5pt;font-weight:800;padding:2mm 3mm;border-radius:2px;text-align:center;min-width:27mm;line-height:1.4;}
+.func-name{font-size:9pt;font-weight:900;color:#1A1A3A;min-width:26mm;}
+.func-sep{width:1px;height:10mm;background:#e5e7eb;flex-shrink:0;}
+.func-text{font-size:7.5pt;color:#555;line-height:1.6;}
+
+/* ── SLIDE 5 VEHICLE ── */
+.veh-layout{display:grid;grid-template-columns:1fr 1fr;gap:5mm;margin-top:3mm;}
+.spec-box{border:1px solid #e5e7eb;border-radius:3px;overflow:hidden;}
+.spec-box h3{background:#1A1A3A;color:#fff;font-size:8pt;font-weight:700;padding:2mm 4mm;}
+.spec-tbl{width:100%;border-collapse:collapse;font-size:7.5pt;}
+.spec-tbl tr{border-bottom:1px solid #f2f2f2;}
+.spec-tbl th{background:#f7f7f7;padding:2mm 3mm;text-align:left;font-weight:700;color:#666;width:38%;white-space:nowrap;}
+.spec-tbl td{padding:2mm 3mm;color:#333;}
+.feat-tags{display:flex;flex-wrap:wrap;gap:2mm;padding:3mm 4mm;}
+.feat-tag{background:#b51748;color:#fff;font-size:6.5pt;font-weight:700;padding:1.5mm 3mm;border-radius:99px;}
+.spec-note{background:#fff3f7;border:1px solid #f0c0d0;border-radius:3px;padding:3mm 4mm;font-size:7pt;color:#555;line-height:1.75;}
+
+/* ── SLIDE 6 PRICING ── */
+.price-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4mm;margin-top:3mm;}
+.pc{border:2px solid #e5e7eb;border-radius:5px;overflow:hidden;text-align:center;}
+.pc.feat{border-color:#b51748;}
+.pc-head{background:#1A1A3A;color:#fff;padding:3mm 4mm;}
+.pc.feat .pc-head{background:#b51748;}
+.pc-head h3{font-size:9pt;font-weight:900;}
+.pc-body{padding:5mm 4mm 4mm;}
+.pc-price{font-size:21pt;font-weight:900;color:#1A1A3A;line-height:1.1;}
+.pc-price span{font-size:9pt;font-weight:400;color:#888;}
+.pc-note{font-size:7pt;color:#888;margin-top:2mm;line-height:1.6;}
+.price-bottom{display:grid;grid-template-columns:1fr 1fr;gap:4mm;margin-top:4mm;}
+.trial-box{background:#fff3f7;border:1.5px solid #b51748;border-radius:4px;padding:3.5mm 5mm;text-align:center;}
+.trial-box .tl{font-size:7.5pt;font-weight:700;color:#b51748;margin-bottom:1.5mm;}
+.trial-box .tp{font-size:18pt;font-weight:900;color:#b51748;line-height:1.1;}
+.trial-box .tp span{font-size:8.5pt;font-weight:400;}
+.trial-box .tf{font-size:6.5pt;color:#c06080;margin-top:1.5mm;}
+.time-box{background:#f7f7f7;border-radius:4px;padding:3.5mm 5mm;font-size:7.5pt;color:#555;line-height:1.8;}
+.time-box strong{color:#1A1A3A;font-size:8pt;}
+
+/* ── SLIDE 7 FLOW ── */
+.flow-row{display:flex;align-items:flex-start;margin-top:5mm;}
+.flow-item{flex:1;text-align:center;position:relative;}
+.flow-item::after{content:'▶';position:absolute;right:-2.5mm;top:7mm;font-size:7.5pt;color:#b51748;}
+.flow-item:last-child::after{display:none;}
+.flow-circle{width:11mm;height:11mm;background:#b51748;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 2mm;color:#fff;font-size:7.5pt;font-weight:900;}
+.flow-box{background:#f5f5f5;border-radius:3px;padding:2.5mm 1.5mm;font-size:7.5pt;font-weight:700;color:#1A1A3A;margin:0 1.5mm 2mm;line-height:1.45;}
+.flow-box.last{background:#b51748;color:#fff;}
+.flow-detail{font-size:6pt;color:#777;margin:0 1mm;line-height:1.55;}
+.flow-notes{background:#f5f5f5;border-radius:4px;padding:3.5mm 5mm;margin-top:6mm;}
+.flow-notes h4{font-size:7.5pt;font-weight:700;color:#1A1A3A;margin-bottom:2mm;}
+.flow-ng{display:grid;grid-template-columns:1fr 1fr;gap:1mm 8mm;}
+.flow-ng span{font-size:6.5pt;color:#555;line-height:1.7;}
+
+/* ── SLIDE 8 USE CASES ── */
+.uc-icons{display:grid;grid-template-columns:repeat(6,1fr);gap:3mm;margin-top:3mm;margin-bottom:4mm;}
+.uc-icon-item{text-align:center;}
+.uc-icon{width:13mm;height:13mm;background:#f5f5f5;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5mm;font-size:16px;}
+.uc-lbl{font-size:6.5pt;color:#333;font-weight:600;line-height:1.3;}
+.uc-examples{display:grid;grid-template-columns:1fr 1fr;gap:3mm;}
+.uc-ex{border:1px solid #e5e7eb;border-left:3px solid #b51748;border-radius:3px;padding:3mm 4mm;}
+.uc-ex h4{font-size:8pt;font-weight:800;color:#1A1A3A;margin-bottom:1.5mm;}
+.uc-ex ul{padding-left:3mm;font-size:7pt;color:#555;line-height:1.75;}
+
+/* ── SLIDE 9 CONTACT ── */
+.s-contact{background:linear-gradient(135deg,#8f1038 0%,#b51748 100%);}
+.ct-inner{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12mm;}
+.ct-tag{font-size:10pt;color:rgba(255,255,255,.78);margin-bottom:4mm;}
+.ct-brand{font-size:28pt;font-weight:900;color:#fff;letter-spacing:.06em;margin-bottom:9mm;}
+.ct-box{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.28);border-radius:6px;padding:6mm 14mm;text-align:center;}
+.ct-tel-lbl{font-size:7pt;color:rgba(255,255,255,.55);margin-bottom:1.5mm;}
+.ct-tel{font-size:22pt;font-weight:900;color:#fff;letter-spacing:.05em;margin-bottom:3mm;}
+.ct-addr{font-size:7.5pt;color:rgba(255,255,255,.7);line-height:1.75;margin-bottom:3mm;}
+.ct-hours{font-size:7pt;color:rgba(255,255,255,.5);}
+.ct-copy{position:absolute;bottom:5mm;left:0;right:0;text-align:center;font-size:6.5pt;color:rgba(255,255,255,.3);}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════ -->
+<!-- SLIDE 1: COVER                     -->
+<!-- ═══════════════════════════════════ -->
+<div class="slide s-cover">
+  <div class="cov-l">
+    <div>
+      <div class="cov-badge"><span>SACURE AD TRUCK</span></div>
+      <div class="cov-h1">SERVICE GUIDE<br>2025</div>
+      <div class="cov-sub">走る広告で、あなたのブランドを街へ</div>
+      <div class="cov-catch">
+        オフラインの力で、デジタルでは届かない人へ。<br>
+        街を走るアドトラックが、新しい接点をつくります。
+      </div>
+    </div>
+    <div>
+      <div class="cov-company">株式会社サキュレ</div>
+      <div class="cov-date">Jun. 2025</div>
+    </div>
+  </div>
+  <div class="cov-r">
+    <div class="cov-deco"></div>
+    <img src="./truck.png" alt="Ad Truck">
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- SLIDE 2: WHY AD TRUCK              -->
+<!-- ═══════════════════════════════════ -->
+<div class="slide">
+  <div class="hbar"><span class="sec">Background</span><span class="logo">SACURE Ad Truck</span></div>
+  <div class="ptitle">なぜ今、アドトラックなのか</div>
+  <div class="body">
+    <div style="text-align:center;font-size:9pt;color:#555;margin-bottom:3.5mm;">スマホ社会の中で、<strong style="color:#b51748;">見られなくなっている屋外（OOH）広告</strong></div>
+    <div class="why-probs">
+      <div class="why-prob">
+        <h4>❶ 交通広告・屋外ビジョン</h4>
+        <p>スマホに視線を奪われ、固定の広告は素通りされやすい。場所が固定のため認知の積み上げに限界がある。</p>
+      </div>
+      <div class="why-prob">
+        <h4>❷ デジタル広告</h4>
+        <p>競合が多く埋もれやすい。クッキー規制でターゲティング精度が低下。バナー無視（バナーブラインドネス）も深刻。</p>
+      </div>
+      <div class="why-prob">
+        <h4>❸ SNS広告</h4>
+        <p>膨大な広告の中に埋もれ、CPAが上昇傾向。検索しない層・SNSを使わない層にはそもそも届かない。</p>
+      </div>
+    </div>
+    <div class="why-ans">
+      <div class="big">「走る広告」だから、目に入る。心に届く。SNSで拡散される。</div>
+      <div class="small">ターゲットがいるエリアに自ら向かい、強制的に視認させる。アドトラックは唯一の移動型OOH媒体です。</div>
+    </div>
+    <div class="why-pts">
+      <div class="why-pt">
+        <div class="wt">強制視認性</div>
+        <div class="wd">看板と違い、人が多い場所へ自ら向かう。目に入らざるを得ない。</div>
+      </div>
+      <div class="why-pt">
+        <div class="wt">エリア自由</div>
+        <div class="wd">ターゲットがいる場所・時間帯に合わせてルートを自由設計。</div>
+      </div>
+      <div class="why-pt">
+        <div class="wt">SNS拡散</div>
+        <div class="wd">インパクトあるビジュアルが自然と撮影・投稿されバズを生む。</div>
+      </div>
+      <div class="why-pt">
+        <div class="wt">経費計上OK</div>
+        <div class="wd">広告宣伝費・販促費として全額損金算入可能。</div>
+      </div>
+    </div>
+  </div>
+  <div class="pnum">SACURE Ad Truck | 01</div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- SLIDE 3: STRENGTHS                 -->
+<!-- ═══════════════════════════════════ -->
+<div class="slide">
+  <div class="hbar"><span class="sec">Our Strengths</span><span class="logo">SACURE Ad Truck</span></div>
+  <div class="ptitle">サキュレ Ad Truckが選ばれる理由</div>
+  <div class="body">
+    <div class="str-grid">
+      <div class="str-card">
+        <div class="str-num">STRENGTH 01</div>
+        <div class="str-title">古物商認可による低コスト車両調達</div>
+        <div class="str-sub">コストメリットをお客様に還元します</div>
+        <div class="str-desc">古物商許可を保有しているため、中古トラックを市場最安値水準で仕入れることができます。余計なコストを省いた分を、競合より手頃な広告料金の実現につなげています。</div>
+      </div>
+      <div class="str-card">
+        <div class="str-num">STRENGTH 02</div>
+        <div class="str-title">運送業のプロによる確かな走行</div>
+        <div class="str-sub">エリアを熟知したドライバーが担当</div>
+        <div class="str-desc">株式会社サキュレは長年の運送業実績を持ちます。道路・エリア事情を熟知したプロドライバーが、ターゲットに確実にリーチする走行ルートを安全・確実に走行します。</div>
+      </div>
+      <div class="str-card">
+        <div class="str-num">STRENGTH 03</div>
+        <div class="str-title">内照式・音響搭載による圧倒的訴求力</div>
+        <div class="str-sub">昼も夜も、視覚×聴覚でアピール</div>
+        <div class="str-desc">バックライトフィルムによる内照式広告は、夜間でも鮮明に輝きます。音響システムの搭載により、BGMやナレーションで視覚だけでなく聴覚からもブランドを印象づけます。</div>
+      </div>
+      <div class="str-card">
+        <div class="str-num">STRENGTH 04</div>
+        <div class="str-title">広告差替式で柔軟なキャンペーン対応</div>
+        <div class="str-sub">季節・時期に合わせてクリエイティブを変更</div>
+        <div class="str-desc">広告面は差替式のため、キャンペーンや季節ごとにデザインを変更できます。非走行期間は自社広告に差し替えることで、車両を広告資産として最大活用します。</div>
+      </div>
+    </div>
+  </div>
+  <div class="pnum">SACURE Ad Truck | 02</div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- SLIDE 4: 5 FUNCTIONS               -->
+<!-- ═══════════════════════════════════ -->
+<div class="slide">
+  <div class="hbar"><span class="sec">Features</span><span class="logo">SACURE Ad Truck</span></div>
+  <div class="ptitle">アドトラックだからできる5つのこと</div>
+  <div class="body">
+    <div class="func-list">
+      <div class="func-row">
+        <div class="func-badge">Function 01<br>ターゲティング</div>
+        <div class="func-name">エリア訴求</div>
+        <div class="func-sep"></div>
+        <div class="func-text">ターゲットが集まるエリア・時間帯に合わせて走行ルートを自由に設計できます。「今そこにいる人」にダイレクトにアプローチ。固定媒体では不可能な動的なターゲティングを実現します。</div>
+      </div>
+      <div class="func-row">
+        <div class="func-badge">Function 02<br>視認性</div>
+        <div class="func-name">強制視認性</div>
+        <div class="func-sep"></div>
+        <div class="func-text">大型の広告面が街を走ることで、スマホを見ていても目に入る強制視認性を実現。高さ375cm・幅800cmの巨大広告面が、人混みの中でも圧倒的な存在感を放ちます。</div>
+      </div>
+      <div class="func-row">
+        <div class="func-badge">Function 03<br>音響</div>
+        <div class="func-name">聴覚への訴求</div>
+        <div class="func-sep"></div>
+        <div class="func-text">音響システム搭載でBGMやナレーションを流しながら走行。視覚×聴覚の両面でブランドを強く印象づけます。（19:00以降は音響利用不可）</div>
+      </div>
+      <div class="func-row">
+        <div class="func-badge">Function 04<br>反復接触</div>
+        <div class="func-name">フリークエンシー設計</div>
+        <div class="func-sep"></div>
+        <div class="func-text">同じエリアを複数回周回走行することでターゲットへの反復接触を実現。認知から記憶定着・行動促進へとつなげます。1日に複数回接触できるエリア設計が可能です。</div>
+      </div>
+      <div class="func-row">
+        <div class="func-badge">Function 05<br>SNS拡散</div>
+        <div class="func-name">オフライン×オンライン</div>
+        <div class="func-sep"></div>
+        <div class="func-text">インパクトあるビジュアルが自然と撮影・SNS投稿される「バズ」を生む可能性があります。オフラインの接触がオンラインで拡散し、広告効果を乗数的に高めます。</div>
+      </div>
+    </div>
+  </div>
+  <div class="pnum">SACURE Ad Truck | 03</div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- SLIDE 5: VEHICLE SPECS             -->
+<!-- ═══════════════════════════════════ -->
+<div class="slide">
+  <div class="hbar"><span class="sec">Vehicle &amp; Specs</span><span class="logo">SACURE Ad Truck</span></div>
+  <div class="ptitle">車両・広告仕様</div>
+  <div class="body">
+    <div class="veh-layout">
+      <div style="display:flex;flex-direction:column;gap:4mm;">
+        <div class="spec-box">
+          <h3>■ 車両スペック</h3>
+          <table class="spec-tbl">
+            <tr><th>車両タイプ</th><td>4tワイド超ロング アルミバン</td></tr>
+            <tr><th>採用車種</th><td>日野レンジャー / いすゞフォワード</td></tr>
+            <tr><th>全長</th><td>1,199 cm</td></tr>
+            <tr><th>全幅</th><td>249 cm</td></tr>
+            <tr><th>全高</th><td>375 cm</td></tr>
+            <tr><th>必要免許</th><td>中型免許（8t限定可）</td></tr>
+          </table>
+        </div>
+        <div class="spec-box">
+          <h3>■ 広告面サイズ</h3>
+          <table class="spec-tbl">
+            <tr><th>側面（左右）</th><td>W 800cm × H 250cm</td></tr>
+            <tr><th>背面</th><td>W 245cm × H 250cm</td></tr>
+          </table>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:4mm;">
+        <div class="spec-box">
+          <h3>■ 広告仕様・機能</h3>
+          <div class="feat-tags">
+            <span class="feat-tag">内照式</span>
+            <span class="feat-tag">広告差替式</span>
+            <span class="feat-tag">音響搭載</span>
+            <span class="feat-tag">バックライトフィルム</span>
+            <span class="feat-tag">テンションファブリック対応</span>
+          </div>
+          <table class="spec-tbl" style="margin-top:2mm;">
+            <tr><th>照明</th><td>内照式（バックライトフィルム）</td></tr>
+            <tr><th>広告交換</th><td>差替式（期間ごとの変更可）</td></tr>
+            <tr><th>音響</th><td>BGM・ナレーション対応</td></tr>
+            <tr><th>走行時間帯</th><td>08:00 〜 23:00</td></tr>
+          </table>
+        </div>
+        <div class="spec-note">
+          <strong style="color:#b51748;">入稿について</strong><br>
+          • 広告データの入稿は走行開始 <strong>10日前まで</strong> にお願いします<br>
+          • データ形式：AI / PSD / JPG / PNG / PDF<br>
+          • 詳細な入稿仕様は別途ご案内いたします
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pnum">SACURE Ad Truck | 04</div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- SLIDE 6: PRICING                   -->
+<!-- ═══════════════════════════════════ -->
+<div class="slide">
+  <div class="hbar"><span class="sec">Pricing</span><span class="logo">SACURE Ad Truck</span></div>
+  <div class="ptitle">料金プラン</div>
+  <div class="body">
+    <div class="price-cards">
+      <div class="pc">
+        <div class="pc-head"><h3>1週間プラン</h3></div>
+        <div class="pc-body">
+          <div class="pc-price">100<span>万円</span></div>
+          <div class="pc-note">走行日数：7日間<br>1日走行時間：約8時間<br>（ドライバー休憩含む）</div>
+        </div>
+      </div>
+      <div class="pc feat">
+        <div class="pc-head"><h3>1か月プラン　★おすすめ</h3></div>
+        <div class="pc-body">
+          <div class="pc-price">375<span>万円</span></div>
+          <div class="pc-note">走行日数：約30日間<br>継続走行で認知定着効果UP<br>週プラン×4より<strong style="color:#b51748;">お得</strong></div>
+        </div>
+      </div>
+      <div class="pc">
+        <div class="pc-head"><h3>1年間プラン</h3></div>
+        <div class="pc-body">
+          <div class="pc-price">3,750<span>万円</span></div>
+          <div class="pc-note">長期ブランディング向け<br>年間通じた認知獲得<br>※別途ご相談ください</div>
+        </div>
+      </div>
+    </div>
+    <div class="price-bottom">
+      <div class="trial-box">
+        <div class="tl">🎁 新規事業立ち上げ記念　トライアル特別価格</div>
+        <div class="tp">60<span>万円 / 1週間</span></div>
+        <div class="tf">初回ご利用のお客様限定・数量限定</div>
+      </div>
+      <div class="time-box">
+        <strong>別途、時間プランもご用意しています</strong><br>
+        時間単位でのご利用が可能です。<br>
+        走行ルート・曜日・時間帯のご指定ができます。<br>
+        ※詳細はお問い合わせください。<br><br>
+        <span style="font-size:6.5pt;color:#999;">※全て消費税別。道路使用許可申請費用など別途費用が生じる場合あり。</span>
+      </div>
+    </div>
+  </div>
+  <div class="pnum">SACURE Ad Truck | 05</div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- SLIDE 7: FLOW                      -->
+<!-- ═══════════════════════════════════ -->
+<div class="slide">
+  <div class="hbar"><span class="sec">How to Use</span><span class="logo">SACURE Ad Truck</span></div>
+  <div class="ptitle">ご利用の流れ</div>
+  <div class="body">
+    <div class="flow-row">
+      <div class="flow-item">
+        <div class="flow-circle">01</div>
+        <div class="flow-box">お問い合わせ<br>打ち合わせ</div>
+        <div class="flow-detail">放映内容・期間・エリアなどをヒアリング</div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-circle">02</div>
+        <div class="flow-box">日程・ルート<br>決定</div>
+        <div class="flow-detail">空き状況をふまえ走行日・エリアを決定</div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-circle">03</div>
+        <div class="flow-box">お申込・<br>ご入金</div>
+        <div class="flow-detail">お申込後10営業日以内にご入金をお願いします</div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-circle">04</div>
+        <div class="flow-box">素材入稿<br>確認</div>
+        <div class="flow-detail">走行開始10日前までにデータをご入稿ください</div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-circle">05</div>
+        <div class="flow-box">道路使用<br>許可申請</div>
+        <div class="flow-detail">申請手続きは当社にて対応いたします</div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-circle">06</div>
+        <div class="flow-box last">走　行</div>
+        <div class="flow-detail">ご指定エリアを安全に走行します</div>
+      </div>
+    </div>
+    <div class="flow-notes">
+      <h4>■ ご注意事項</h4>
+      <div class="flow-ng">
+        <span>• 走行時間帯は 08:00〜23:00（19:00以降は音響利用不可）</span>
+        <span>• 広告主様が車両に同乗することはできません</span>
+        <span>• 走行中の撮影は広告主様ご自身でお手配ください</span>
+        <span>• 天候・交通状況により走行ルートを変更する場合があります</span>
+        <span>• 道路使用許可が必要なエリアでは申請費用が別途発生します</span>
+        <span>• 走行レポートについては別途ご相談ください</span>
+      </div>
+    </div>
+  </div>
+  <div class="pnum">SACURE Ad Truck | 06</div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- SLIDE 8: USE CASES                 -->
+<!-- ═══════════════════════════════════ -->
+<div class="slide">
+  <div class="hbar"><span class="sec">Use Cases</span><span class="logo">SACURE Ad Truck</span></div>
+  <div class="ptitle">こんな業種・ニーズに対応</div>
+  <div class="body">
+    <div class="uc-icons">
+      <div class="uc-icon-item"><div class="uc-icon">🎪</div><div class="uc-lbl">イベント<br>フェス</div></div>
+      <div class="uc-icon-item"><div class="uc-icon">🎮</div><div class="uc-lbl">ゲーム<br>エンタメ</div></div>
+      <div class="uc-icon-item"><div class="uc-icon">🎵</div><div class="uc-lbl">音楽<br>アーティスト</div></div>
+      <div class="uc-icon-item"><div class="uc-icon">🛍️</div><div class="uc-lbl">アパレル<br>ファッション</div></div>
+      <div class="uc-icon-item"><div class="uc-icon">🍽️</div><div class="uc-lbl">飲食<br>フード</div></div>
+      <div class="uc-icon-item"><div class="uc-icon">🏢</div><div class="uc-lbl">採用<br>スタートアップ</div></div>
+      <div class="uc-icon-item"><div class="uc-icon">⚽</div><div class="uc-lbl">スポーツ<br>チーム</div></div>
+      <div class="uc-icon-item"><div class="uc-icon">🎬</div><div class="uc-lbl">映画<br>ドラマ</div></div>
+      <div class="uc-icon-item"><div class="uc-icon">💊</div><div class="uc-lbl">コスメ<br>ヘルスケア</div></div>
+      <div class="uc-icon-item"><div class="uc-icon">🏪</div><div class="uc-lbl">商業施設<br>小売</div></div>
+      <div class="uc-icon-item"><div class="uc-icon">📱</div><div class="uc-lbl">アプリ<br>SaaS</div></div>
+      <div class="uc-icon-item"><div class="uc-icon">🎌</div><div class="uc-lbl">自治体<br>観光PR</div></div>
+    </div>
+    <div class="uc-examples">
+      <div class="uc-ex">
+        <h4>イベント・スポーツ・エンタメ告知</h4>
+        <ul>
+          <li>格闘技・スポーツ観戦イベントの事前周知（RIZIN等）</li>
+          <li>音楽フェス・ライブ公演・アイドル来日公演の認知獲得</li>
+          <li>アニメ・ゲーム新作リリースのプロモーション</li>
+        </ul>
+      </div>
+      <div class="uc-ex">
+        <h4>採用・新サービス・認知拡大</h4>
+        <ul>
+          <li>ターゲット大学・商業施設周辺での採用告知</li>
+          <li>スタートアップの新サービス・新店舗オープンの認知</li>
+          <li>競合エリアへのダイレクト訴求</li>
+        </ul>
+      </div>
+      <div class="uc-ex">
+        <h4>飲食・コスメ・小売</h4>
+        <ul>
+          <li>新店舗オープンの周辺エリア告知・来店促進</li>
+          <li>キャンペーン・セール情報のエリア拡散</li>
+          <li>QRコードで応募・購入・来店をその場で促進</li>
+        </ul>
+      </div>
+      <div class="uc-ex">
+        <h4>ブランディング・認知広告</h4>
+        <ul>
+          <li>長期走行による反復接触でブランド認知を定着</li>
+          <li>検索しない層・SNS非利用層への新規リーチ</li>
+          <li>デジタル広告との組み合わせで相乗効果を創出</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="pnum">SACURE Ad Truck | 07</div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- SLIDE 9: CONTACT                   -->
+<!-- ═══════════════════════════════════ -->
+<div class="slide s-contact">
+  <div class="ct-inner">
+    <div class="ct-tag">走る広告で、あなたのブランドを街へ</div>
+    <div class="ct-brand">SACURE AD TRUCK</div>
+    <div class="ct-box">
+      <div class="ct-tel-lbl">お問い合わせ TEL</div>
+      <div class="ct-tel">03-3777-4122</div>
+      <div class="ct-addr">
+        株式会社サキュレ　アドトラック事業部<br>
+        〒143-0026　東京都大田区西馬込1-2-12
+      </div>
+      <div class="ct-hours">受付時間：平日 9:00〜18:00（土日祝・年末年始を除く）</div>
+    </div>
+  </div>
+  <div class="ct-copy">® CIRCULER Co. Ltd. All rights reserved.</div>
+</div>
+
+</body>
+</html>
