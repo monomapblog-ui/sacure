@@ -119,6 +119,16 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic',sans-ser
 .uc-ex h4{font-size:8pt;font-weight:800;color:#1A1A3A;margin-bottom:1.5mm;}
 .uc-ex ul{padding-left:3mm;font-size:7pt;color:#555;line-height:1.75;}
 
+/* ── SLIDE: VISUAL IMPACT ── */
+.s-visual{position:relative;background:#000;}
+.s-visual img.vi-bg{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:.75;}
+.vi-overlay{position:relative;z-index:2;width:100%;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding:10mm 14mm;}
+.vi-label{display:inline-block;background:#b51748;color:#fff;font-size:7.5pt;font-weight:800;letter-spacing:.12em;padding:1.5mm 4mm;border-radius:2px;margin-bottom:3mm;width:fit-content;}
+.vi-title{font-size:22pt;font-weight:900;color:#fff;line-height:1.2;text-shadow:0 2px 12px rgba(0,0,0,.6);margin-bottom:2mm;}
+.vi-sub{font-size:9pt;color:rgba(255,255,255,.85);font-weight:600;text-shadow:0 1px 6px rgba(0,0,0,.5);}
+.vi-placeholder{position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#1a1a2e 0%,#2d1b3e 50%,#1a0a1a 100%);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3mm;}
+.vi-placeholder span{color:rgba(255,255,255,.3);font-size:8pt;}
+
 /* ── SLIDE: DIGITAL SYNERGY ── */
 .syn-layout{display:grid;grid-template-columns:1fr 1fr;gap:6mm;margin-top:3mm;}
 .syn-box{border:1px solid #e5e7eb;border-radius:4px;overflow:hidden;}
@@ -184,6 +194,27 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic',sans-ser
     <img src="./truck.png" alt="Ad Truck">
   </div>
 </div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- SLIDE: VISUAL IMPACT               -->
+<!-- ═══════════════════════════════════ -->
+<div class="slide s-visual">
+  <!-- adtruck-sample.jpg をアップロードすると背景画像になります -->
+  <img class="vi-bg" src="./adtruck-sample.jpg" alt="Ad Truck in the city" onerror="this.style.display='none'">
+  <div class="vi-placeholder" id="vi-ph">
+    <span style="font-size:28pt;">🚛</span>
+    <span>adtruck-sample.jpg をアップロードすると<br>この枠に写真が表示されます</span>
+  </div>
+  <div class="vi-overlay">
+    <div class="vi-label">SACURE AD TRUCK</div>
+    <div class="vi-title">街を走る、圧倒的な存在感。<br>あなたのブランドを、街へ。</div>
+    <div class="vi-sub">移動する巨大広告が、ターゲットのいる場所へ直接向かいます。</div>
+  </div>
+</div>
+<script>
+  var img = document.querySelector('.vi-bg');
+  if(img){ img.onload = function(){ document.getElementById('vi-ph').style.display='none'; }; }
+</script>
 
 <!-- ═══════════════════════════════════ -->
 <!-- SLIDE 2: WHY AD TRUCK              -->
