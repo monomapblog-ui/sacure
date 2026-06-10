@@ -20,8 +20,10 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic',sans-ser
 .pnum{position:absolute;bottom:3.5mm;right:8mm;font-size:6.5pt;color:rgba(0,0,0,.28);}
 
 /* ── SLIDE 1 COVER ── */
-.s-cover{display:flex;background:linear-gradient(125deg,#8f1038 0%,#b51748 60%,#c91e56 100%);}
-.cov-l{width:56%;padding:14mm 10mm 12mm 14mm;display:flex;flex-direction:column;justify-content:space-between;z-index:2;}
+.s-cover{position:relative;background:#000;display:flex;}
+.cov-bg{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:.52;z-index:0;}
+.cov-gradient{position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(105deg,rgba(143,16,56,.99) 0%,rgba(143,16,56,.96) 40%,rgba(143,16,56,.6) 65%,rgba(0,0,0,.1) 100%);z-index:1;}
+.cov-l{position:relative;z-index:2;width:62%;padding:14mm 10mm 12mm 14mm;display:flex;flex-direction:column;justify-content:space-between;}
 .cov-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:2px;padding:1.5mm 3.5mm;width:fit-content;margin-bottom:5mm;}
 .cov-badge span{color:#fff;font-size:7.5pt;font-weight:800;letter-spacing:.12em;}
 .cov-h1{font-size:24pt;font-weight:900;color:#fff;line-height:1.15;margin-bottom:3mm;}
@@ -29,9 +31,6 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic',sans-ser
 .cov-catch{font-size:8pt;color:rgba(255,255,255,.72);line-height:1.8;}
 .cov-company{font-size:8.5pt;color:rgba(255,255,255,.65);font-weight:600;}
 .cov-date{font-size:7.5pt;color:rgba(255,255,255,.42);margin-top:1.5mm;}
-.cov-r{width:44%;position:relative;overflow:hidden;}
-.cov-r img{position:absolute;bottom:-4mm;right:-8mm;height:88%;object-fit:contain;filter:drop-shadow(0 6px 24px rgba(0,0,0,.35)) brightness(1.05);}
-.cov-deco{position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(to right,rgba(143,16,56,.55) 0%,transparent 55%);}
 
 /* ── SLIDE 2 WHY ── */
 .why-probs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3.5mm;margin-bottom:3mm;}
@@ -156,8 +155,10 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic',sans-ser
 .jis-placeholder{display:flex;align-items:center;justify-content:center;height:100%;border:2px dashed #ddd;border-radius:4px;color:#bbb;font-size:7pt;text-align:center;padding:4mm;}
 
 /* ── SLIDE 9 CONTACT ── */
-.s-contact{background:linear-gradient(135deg,#8f1038 0%,#b51748 100%);}
-.ct-inner{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12mm;}
+.s-contact{background:#8f1038;position:relative;}
+.ct-bg{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:.22;z-index:0;}
+.ct-ovl{position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,rgba(143,16,56,.95) 0%,rgba(143,16,56,.88) 100%);z-index:1;}
+.ct-inner{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12mm;position:relative;z-index:2;}
 .ct-tag{font-size:10pt;color:rgba(255,255,255,.78);margin-bottom:4mm;}
 .ct-brand{font-size:28pt;font-weight:900;color:#fff;letter-spacing:.06em;margin-bottom:9mm;}
 .ct-box{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.28);border-radius:6px;padding:6mm 14mm;text-align:center;}
@@ -165,7 +166,12 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic',sans-ser
 .ct-tel{font-size:22pt;font-weight:900;color:#fff;letter-spacing:.05em;margin-bottom:3mm;}
 .ct-addr{font-size:7.5pt;color:rgba(255,255,255,.7);line-height:1.75;margin-bottom:3mm;}
 .ct-hours{font-size:7pt;color:rgba(255,255,255,.5);}
-.ct-copy{position:absolute;bottom:5mm;left:0;right:0;text-align:center;font-size:6.5pt;color:rgba(255,255,255,.3);}
+.ct-copy{position:absolute;bottom:5mm;left:0;right:0;text-align:center;font-size:6.5pt;color:rgba(255,255,255,.3);z-index:2;}
+/* ── STRENGTHS IMAGE LAYOUT ── */
+.str-layout{display:flex;gap:4mm;align-items:stretch;margin-top:3mm;}
+.str-img-panel{flex:0 0 30%;border-radius:4px;overflow:hidden;position:relative;}
+.str-img-panel img{width:100%;height:100%;object-fit:cover;display:block;}
+.str-img-panel::after{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(180deg,rgba(143,16,56,.25) 0%,rgba(26,26,58,.4) 100%);}
 </style>
 </head>
 <body>
@@ -174,6 +180,8 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic',sans-ser
 <!-- SLIDE 1: COVER                     -->
 <!-- ═══════════════════════════════════ -->
 <div class="slide s-cover">
+  <img class="cov-bg" src="./adtruck-sample.png" alt="">
+  <div class="cov-gradient"></div>
   <div class="cov-l">
     <div>
       <div class="cov-badge"><span>SACURE AD TRUCK</span></div>
@@ -188,10 +196,6 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic',sans-ser
       <div class="cov-company">株式会社サキュレ</div>
       <div class="cov-date">Jun. 2026</div>
     </div>
-  </div>
-  <div class="cov-r">
-    <div class="cov-deco"></div>
-    <img src="./truck.png" alt="Ad Truck">
   </div>
 </div>
 
@@ -314,7 +318,8 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic',sans-ser
   <div class="hbar"><span class="sec">Our Strengths</span><span class="logo">SACURE Ad Truck</span></div>
   <div class="ptitle">サキュレ Ad Truckが選ばれる理由</div>
   <div class="body">
-    <div class="str-grid">
+    <div class="str-layout">
+    <div class="str-grid" style="flex:1;margin-top:0;">
       <div class="str-card">
         <div class="str-num">STRENGTH 01</div>
         <div class="str-title">古物商認可による低コスト車両調達</div>
@@ -339,6 +344,10 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic',sans-ser
         <div class="str-sub">季節・時期に合わせてクリエイティブを変更</div>
         <div class="str-desc">広告面は差替式のため、キャンペーンや季節ごとにデザインを変更できます。非走行期間は自社広告に差し替えることで、車両を広告資産として最大活用します。</div>
       </div>
+    </div>
+    <div class="str-img-panel">
+      <img src="./adtruck-sample.png" alt="Ad Truck">
+    </div>
     </div>
   </div>
   <div class="pnum">SACURE Ad Truck | 03</div>
@@ -649,6 +658,8 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic',sans-ser
 <!-- SLIDE 9: CONTACT                   -->
 <!-- ═══════════════════════════════════ -->
 <div class="slide s-contact">
+  <img class="ct-bg" src="./adtruck-sample.png" alt="">
+  <div class="ct-ovl"></div>
   <div class="ct-inner" style="flex-direction:row;align-items:center;justify-content:center;gap:14mm;">
     <div style="text-align:center;">
       <div class="ct-tag">走る広告で、あなたのブランドを街へ</div>
