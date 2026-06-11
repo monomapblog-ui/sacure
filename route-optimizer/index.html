@@ -98,6 +98,10 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;backgroun
 .m-addr{font-size:.72rem;color:var(--gray);margin-top:2px;line-height:1.35;}
 .m-notes{font-size:.7rem;color:var(--amber);margin-top:2px;}
 .m-ok{font-size:.67rem;color:var(--green);margin-top:2px;}
+.m-noaddr{font-size:.67rem;color:#b45309;font-weight:700;margin-top:2px;}
+.m-noaddr-btn{padding:6px 12px;border-radius:20px;border:1.5px solid #f59e0b;background:#fffbeb;color:#b45309;font-size:.75rem;font-weight:700;cursor:pointer;font-family:inherit;transition:.15s;}
+.m-noaddr-btn.active{background:#f59e0b;color:#fff;border-color:#f59e0b;}
+.m-item.noaddr{border-left:3px solid #f59e0b;}
 .divider{height:1px;background:var(--border);margin:12px 0;}
 .badge{display:inline-block;padding:1px 7px;border-radius:99px;font-size:.68rem;font-weight:700;}
 .bdg-pink{background:#fff0f3;color:var(--pink);}
@@ -402,7 +406,8 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;backgroun
     <span class="sh-ttl">拠点マスタ <span id="m-count" class="badge bdg-navy">0件</span></span>
   </div>
   <div class="card mlist-search">
-    <input class="fi" id="m-search" type="text" placeholder="🔍 拠点名・住所で絞り込み..." oninput="renderMaster()" style="margin-bottom:0;">
+    <input class="fi" id="m-search" type="text" placeholder="🔍 拠点名・住所で絞り込み..." oninput="renderMaster()" style="margin-bottom:6px;">
+    <button class="m-noaddr-btn" id="m-noaddr-btn" onclick="toggleNoAddrFilter()">⚠️ 住所なし <span id="m-noaddr-count"></span></button>
   </div>
   <div class="card">
     <div class="card-ttl">新規登録</div>
@@ -1193,21 +1198,35 @@ function renderDriveList(){
 }
 
 // ═══════════ MASTER ═══════════
+let _mNoAddrFilter=false;
+function toggleNoAddrFilter(){
+  _mNoAddrFilter=!_mNoAddrFilter;
+  document.getElementById('m-noaddr-btn').classList.toggle('active',_mNoAddrFilter);
+  renderMaster();
+}
 function renderMaster(){
   const q=(document.getElementById('m-search')||{}).value||'';
   const el=document.getElementById('master-list');
   const count=document.getElementById('m-count');
-  const filtered=q?S.locs.filter(l=>l.name.includes(q)||l.address.includes(q)):S.locs;
+  const noAddrCount=S.locs.filter(l=>!l.address).length;
+  const noAddrEl=document.getElementById('m-noaddr-count');
+  if(noAddrEl) noAddrEl.textContent=noAddrCount?`${noAddrCount}件`:'';
+  let filtered=q?S.locs.filter(l=>l.name.includes(q)||(l.address||'').includes(q)):S.locs;
+  if(_mNoAddrFilter) filtered=filtered.filter(l=>!l.address);
   count.textContent=`${S.locs.length}件`;
-  if(!filtered.length){el.innerHTML=`<div class="empty"><div class="ico">🔍</div><p>「${esc(q)}」に一致する拠点が見つかりません</p></div>`;return;}
-  // 上限100件表示
+  if(!filtered.length){
+    el.innerHTML=_mNoAddrFilter
+      ?`<div class="empty"><div class="ico">✅</div><p>住所なしの拠点はありません</p></div>`
+      :`<div class="empty"><div class="ico">🔍</div><p>「${esc(q)}」に一致する拠点が見つかりません</p></div>`;
+    return;
+  }
   const show=filtered.slice(0,100);
-  el.innerHTML=show.map((loc,i)=>`
-    <div class="m-item">
-      <div style="width:28px;height:28px;background:var(--pink);border-radius:6px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">📍</div>
+  el.innerHTML=show.map((loc)=>`
+    <div class="m-item${!loc.address?' noaddr':''}">
+      <div style="width:28px;height:28px;background:${loc.address?'var(--pink)':'#f59e0b'};border-radius:6px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">${loc.address?'📍':'⚠️'}</div>
       <div style="flex:1;min-width:0;">
         <div class="m-name">${esc(loc.name)}</div>
-        <div class="m-addr">${esc(loc.address)}</div>
+        ${loc.address?`<div class="m-addr">${esc(loc.address)}</div>`:'<div class="m-noaddr">住所が登録されていません</div>'}
         ${loc.notes?`<div class="m-notes">${esc(loc.notes)}</div>`:''}
         ${loc.lat?'<div class="m-ok">✅ 座標確認済み</div>':''}
       </div>
