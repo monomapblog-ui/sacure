@@ -135,6 +135,12 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;backgroun
 .drv-memo-chips{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px;}
 .drv-memo-chip{padding:5px 11px;border-radius:20px;border:1.5px solid var(--border);background:#fff;font-size:.75rem;font-weight:700;cursor:pointer;color:var(--text);font-family:inherit;transition:.15s;}
 .drv-memo-chip.active{border-color:var(--navy);background:var(--navy);color:#fff;}
+.drv-weight-row{display:flex;align-items:center;gap:8px;margin-top:7px;border-top:1px dashed var(--border);padding-top:7px;}
+.drv-weight-lbl{font-size:.72rem;color:var(--gray);font-weight:700;flex-shrink:0;}
+.drv-weight-ctrl{display:flex;align-items:center;gap:6px;margin-left:auto;}
+.drv-weight-btn{width:36px;height:36px;border-radius:8px;border:1.5px solid var(--border);background:#fff;font-size:1.15rem;font-weight:900;cursor:pointer;color:var(--navy);display:flex;align-items:center;justify-content:center;font-family:inherit;}
+.drv-weight-btn:active{background:#e8eaf0;}
+.drv-weight-val{min-width:58px;text-align:center;font-size:.95rem;font-weight:900;color:var(--navy);}
 .drv-memo-input{width:100%;padding:7px 10px;border:1.5px solid var(--border);border-radius:6px;font-size:.83rem;font-family:inherit;outline:none;background:#fff;}
 .drv-memo-input:focus{border-color:var(--pink);}
 .drv-item.drv-next{border-color:var(--pink);box-shadow:0 2px 14px rgba(181,23,72,.22);}
@@ -913,7 +919,7 @@ function renderNav(route){
 }
 
 // ═══════════ DRIVE MODE ═══════════
-const DRV={checked:new Set(),memos:{},skipped:new Set(),completedAt:null};
+const DRV={checked:new Set(),memos:{},weights:{},skipped:new Set(),completedAt:null};
 const MEMO_PRESETS=['不在','少なめ','多め','要確認'];
 let drvTimer=null;
 
@@ -941,6 +947,14 @@ function speak(text){
 }
 
 // ── メモ ──
+function adjustWeight(i,delta){
+  const route=S._driveRoute||[];
+  const base=DRV.weights[i]!=null?DRV.weights[i]:(parseFloat((route[i]||{}).weight)||0);
+  const next=Math.max(0,base+delta);
+  DRV.weights[i]=next;
+  const el=document.getElementById('drv-weight-val-'+i);
+  if(el) el.textContent=next+'kg';
+}
 function setMemoChip(i,val){
   DRV.memos[i]=DRV.memos[i]===val?'':val;
   const row=document.getElementById(`drv-memo-row-${i}`);
@@ -958,6 +972,7 @@ function onMemoText(i,val){
 function startDriveMode(){
   DRV.checked=new Set();
   DRV.memos={};
+  DRV.weights={};
   DRV.skipped=new Set();
   DRV.completedAt=null;
   document.getElementById('drv-overlay').style.display='flex';
@@ -1056,7 +1071,11 @@ function renderDriveList(){
   if(allDone){
     if(!DRV.completedAt) DRV.completedAt=new Date().getHours()*60+new Date().getMinutes();
     const completionTime=m2t(DRV.completedAt);
-    const totalWeight=route.reduce((s,st,j)=>s+(done.has(j)&&st.weight?parseFloat(st.weight)||0:0),0);
+    const totalWeight=route.reduce((s,st,j)=>{
+      if(!done.has(j)) return s;
+      const w=DRV.weights[j]!=null?DRV.weights[j]:(parseFloat(st.weight)||0);
+      return s+w;
+    },0);
     const memoItems=route.map((st,j)=>({stop:st,memo:DRV.memos[j]||''})).filter(x=>x.memo);
     const absentCount=memoItems.filter(x=>x.memo==='不在').length;
     DRV._summaryText=generateSummaryText(route,completionTime,totalWeight,memoItems);
@@ -1123,11 +1142,20 @@ function renderDriveList(){
         ${stop.notes?`<div class="drv-notes">📝 ${esc(stop.notes)}</div>`:''}
         ${stop.weight?`<div class="drv-weight">📦 ${stop.weight}kg</div>`:''}`;
     const memoVal=DRV.memos[i]||'';
+    const storedW=DRV.weights[i]!=null?DRV.weights[i]:(parseFloat(stop.weight)||0);
     const memoHtml=isDone?`<div class="drv-memo-row" id="drv-memo-row-${i}">
       <div class="drv-memo-chips">${MEMO_PRESETS.map(p=>`<button class="drv-memo-chip${memoVal===p?' active':''}" onclick="setMemoChip(${i},'${p}')">${p}</button>`).join('')}</div>
       <input class="drv-memo-input" id="drv-memo-text-${i}" type="text" placeholder="その他メモ（任意）"
         value="${MEMO_PRESETS.includes(memoVal)?'':memoVal.replace(/"/g,'&quot;')}"
         oninput="onMemoText(${i},this.value)">
+      <div class="drv-weight-row" id="drv-weight-row-${i}">
+        <span class="drv-weight-lbl">📦 収集量</span>
+        <div class="drv-weight-ctrl">
+          <button class="drv-weight-btn" onclick="adjustWeight(${i},-5)">－</button>
+          <span class="drv-weight-val" id="drv-weight-val-${i}">${storedW}kg</span>
+          <button class="drv-weight-btn" onclick="adjustWeight(${i},5)">＋</button>
+        </div>
+      </div>
     </div>`:'';
 
     if(isNext){
