@@ -460,6 +460,19 @@ function loadStorage() {
     S.locs = d.locs || [];
     S.geoCache = d.geoCache || {};
   } catch(e) { S.locs = []; S.geoCache = {}; }
+  // data.jsのマスタを自動マージ（IDが新しいものだけ追加）
+  if(typeof MASTER_LOCS !== 'undefined' && MASTER_LOCS.length) {
+    const existingIds = new Set(S.locs.map(l => l.id));
+    let added = 0;
+    for(const loc of MASTER_LOCS) {
+      if(!existingIds.has(loc.id)) {
+        S.locs.push({...loc});
+        existingIds.add(loc.id);
+        added++;
+      }
+    }
+    if(added > 0) saveStorage();
+  }
 }
 function saveStorage() {
   try {
