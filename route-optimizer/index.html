@@ -225,6 +225,8 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;backgroun
 
   <button class="opt-btn" id="opt-btn" onclick="startOptimize()">🚚 最適ルートを計算する</button>
 
+  <div id="inline-err" style="display:none;background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;border-radius:8px;padding:12px 14px;margin-top:8px;font-size:.83rem;line-height:1.6;"></div>
+
   <div class="loading" id="loading">
     <div class="spinner"></div>
     <span id="load-msg">計算中...</span>
@@ -330,23 +332,52 @@ function importMasterData() {
 // ═══════════ GEOCODING ═══════════
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
+function normalizeAddr(addr) {
+  // 全角数字→半角、路線名プレフィックス除去
+  return addr
+    .replace(/^(新宿線|大江戸線|浅草線|三田線|都営)/, '')
+    .replace(/[０-９]/g, c => String.fromCharCode(c.charCodeAt(0) - 0xFEE0))
+    .replace(/－/g, '-')
+    .trim();
+}
+
+async function nominatimSearch(q) {
+  await sleep(350);
+  const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=1&countrycodes=jp&accept-language=ja`;
+  const resp = await fetch(url, { headers: {'User-Agent':'SacureRoute/1.0','Accept-Language':'ja'} });
+  const data = await resp.json();
+  return data.length ? { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) } : null;
+}
+
 async function geocode(addr) {
   if (S.geoCache[addr]) return S.geoCache[addr];
   const loc = S.locs.find(l => l.address === addr && l.lat);
   if (loc) { S.geoCache[addr] = {lat:loc.lat, lng:loc.lng}; return S.geoCache[addr]; }
 
-  await sleep(350);
-  const q = encodeURIComponent(addr.replace(/^(新宿線|大江戸線|浅草線|三田線)/, '') + ' 日本');
-  const url = `https://nominatim.openstreetmap.org/search?q=${q}&format=json&limit=1&countrycodes=jp&accept-language=ja`;
-  const resp = await fetch(url, { headers: {'User-Agent':'SacureRoute/1.0','Accept-Language':'ja'} });
-  const data = await resp.json();
-  if (!data.length) throw new Error(`住所が見つかりません：「${addr.slice(0,30)}」`);
-  const pt = { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
-  S.geoCache[addr] = pt;
-  // マスタにも保存
-  const ml = S.locs.find(l => l.address === addr);
-  if (ml && !ml.lat) { ml.lat=pt.lat; ml.lng=pt.lng; }
-  return pt;
+  const base = normalizeAddr(addr);
+
+  // フォールバック候補を順番に試す
+  const candidates = [
+    base + ' 日本',
+    // 番地を除去（例: 2-17-5 → 除去）
+    base.replace(/\s*\d+-\d+-\d+\s*$/, '').trim() + ' 日本',
+    // 丁目以降を除去
+    base.replace(/\s*\d+丁目.*$/, '').trim() + ' 日本',
+    // 数字をすべて除去してエリア名だけ
+    base.replace(/[\d-]+/g, '').replace(/\s+/g, ' ').trim() + ' 日本',
+  ].filter((q, i, arr) => q.trim() !== '日本' && arr.indexOf(q) === i); // 重複除去
+
+  for (const q of candidates) {
+    const pt = await nominatimSearch(q);
+    if (pt) {
+      S.geoCache[addr] = pt;
+      const ml = S.locs.find(l => l.address === addr);
+      if (ml && !ml.lat) { ml.lat=pt.lat; ml.lng=pt.lng; }
+      return pt;
+    }
+  }
+
+  throw new Error(`住所が見つかりませんでした：「${addr.slice(0,30)}」\n→ 数字は半角・都道府県から入力してください`);
 }
 
 // ═══════════ OSRM MATRIX ═══════════
@@ -632,20 +663,36 @@ async function startOptimize(){
   try {
     // 出発地
     let startPt=(startVal==='現在地'&&S.startPt)?S.startPt:null;
-    if(!startPt){setLoad('出発地を検索中...',5);const gc=await geocode(startVal);startPt={name:startVal,address:startVal,...gc};}
+    if(!startPt){
+      setLoad('出発地を検索中... (複数の形式を試しています)',5);
+      try {
+        const gc=await geocode(startVal);
+        startPt={name:startVal,address:startVal,...gc};
+      } catch(e) {
+        hideLoad();
+        document.getElementById('start-msg').innerHTML=`<span style="color:#dc2626;">❌ ${esc(e.message.split('\n')[0])}<br>→ 都道府県から入力 または 📡GPSをお試しください</span>`;
+        return;
+      }
+    }
 
     // 帰着地
     let endPt;
     if(S.endMode==='same') endPt={...startPt};
     else if(S.endMode==='master'){
       const loc=S.endMasterLoc;
-      if(!loc){hideLoad();alert('帰着地を選択してください');return;}
-      if(!loc.lat){setLoad('帰着地を検索中...',8);const gc=await geocode(loc.address);loc.lat=gc.lat;loc.lng=gc.lng;saveStorage();}
+      if(!loc){hideLoad();showInlineError('帰着地を選択してください');return;}
+      if(!loc.lat){
+        setLoad('帰着地を検索中...',8);
+        try{ const gc=await geocode(loc.address);loc.lat=gc.lat;loc.lng=gc.lng;saveStorage(); }
+        catch(e){ hideLoad();showInlineError('帰着地の住所が見つかりません: '+loc.address);return; }
+      }
       endPt={name:loc.name,address:loc.address,lat:loc.lat,lng:loc.lng};
     } else {
       const v=document.getElementById('end-inp').value.trim();
-      if(!v){hideLoad();alert('帰着地を入力してください');return;}
-      setLoad('帰着地を検索中...',8);const gc=await geocode(v);endPt={name:v,address:v,...gc};
+      if(!v){hideLoad();showInlineError('帰着地を入力してください');return;}
+      setLoad('帰着地を検索中...',8);
+      try{ const gc=await geocode(v);endPt={name:v,address:v,...gc}; }
+      catch(e){ hideLoad();showInlineError('帰着地の住所が見つかりません。都道府県から入力してください。');return; }
     }
 
     // 停車地ジオコーディング
@@ -699,12 +746,18 @@ function showLoad(msg,pct){
   document.getElementById('load-msg').textContent=msg;
   document.getElementById('prog-fill').style.width=(pct||0)+'%';
   document.getElementById('opt-btn').disabled=true;
+  document.getElementById('inline-err').style.display='none';
 }
 function setLoad(msg,pct){document.getElementById('load-msg').textContent=msg;if(pct!=null)document.getElementById('prog-fill').style.width=pct+'%';}
 function hideLoad(){
   document.getElementById('loading').style.display='none';
   document.getElementById('opt-btn').disabled=false;
   document.getElementById('prog-fill').style.width='100%';
+}
+function showInlineError(msg){
+  const el=document.getElementById('inline-err');
+  el.textContent='❌ '+msg;
+  el.style.display='block';
 }
 
 // ═══════════ RENDER RESULT ═══════════
