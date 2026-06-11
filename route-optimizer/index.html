@@ -11,6 +11,7 @@
 <meta name="apple-mobile-web-app-title" content="サキュレ">
 <link rel="apple-touch-icon" href="./icon.svg">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{--pink:#b51748;--pink-dk:#8f1038;--navy:#1A1A3A;--text:#333;--gray:#666;--border:#e5e7eb;--bg:#f3f4f6;--green:#16a34a;--amber:#d97706;}
@@ -408,6 +409,15 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;backgroun
   <div class="card mlist-search">
     <input class="fi" id="m-search" type="text" placeholder="🔍 拠点名・住所で絞り込み..." oninput="renderMaster()" style="margin-bottom:6px;">
     <button class="m-noaddr-btn" id="m-noaddr-btn" onclick="toggleNoAddrFilter()">⚠️ 住所なし <span id="m-noaddr-count"></span></button>
+  </div>
+  <div class="card">
+    <div class="card-ttl">Excelインポート</div>
+    <p style="font-size:.75rem;color:var(--gray);margin-bottom:10px;">①拠点マスターシートを含むExcelファイルを選択してください</p>
+    <label class="btn btn-navy btn-full" style="cursor:pointer;justify-content:center;">
+      📂 Excelファイルを選択
+      <input type="file" accept=".xlsx,.xls" style="display:none;" onchange="importFromExcel(this)">
+    </label>
+    <div id="m-import-msg" style="margin-top:8px;"></div>
   </div>
   <div class="card">
     <div class="card-ttl">新規登録</div>
@@ -1248,6 +1258,66 @@ async function addLocation(){
     msg.innerHTML=`<div class="alert alert-s">✅「${esc(name)}」を登録しました</div>`;
     setTimeout(()=>{msg.innerHTML='';},3000);
   }catch(e){msg.innerHTML=`<div class="alert alert-e">❌ ${esc(e.message)}</div>`;}
+}
+function importFromExcel(input){
+  const file=input.files[0];
+  if(!file) return;
+  const msg=document.getElementById('m-import-msg');
+  msg.innerHTML='<div class="alert alert-i">読み込み中...</div>';
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const wb=XLSX.read(e.target.result,{type:'array'});
+      // ①拠点マスターシートを探す
+      const shName=wb.SheetNames.find(n=>n.includes('拠点マスター'));
+      if(!shName) throw new Error('「①拠点マスター」シートが見つかりません');
+      const ws=wb.Sheets[shName];
+      const rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
+      // ヘッダー行を探す（拠点コード列のある行）
+      let hdrRow=-1;
+      for(let i=0;i<rows.length;i++){
+        if(rows[i].some(c=>String(c).includes('拠点コード'))){hdrRow=i;break;}
+      }
+      if(hdrRow<0) throw new Error('ヘッダー行（拠点コード）が見つかりません');
+      const hdr=rows[hdrRow].map(c=>String(c));
+      const ci={
+        id: hdr.findIndex(c=>c.includes('拠点コード')),
+        name: hdr.findIndex(c=>c.includes('拠点名')),
+        addr: hdr.findIndex(c=>c==='住所'||c.includes('住所')&&!c.includes('詳細')),
+        detail: hdr.findIndex(c=>c.includes('詳細住所')),
+        notes: hdr.findIndex(c=>c.includes('備考')),
+        weight: hdr.findIndex(c=>c.includes('週間回収量')),
+        driver: hdr.findIndex(c=>c.includes('担当ドライバー')),
+      };
+      if(ci.name<0||ci.addr<0) throw new Error('拠点名・住所列が見つかりません');
+      const existingIds=new Set(S.locs.map(l=>l.id));
+      let added=0, updated=0;
+      for(let i=hdrRow+1;i<rows.length;i++){
+        const r=rows[i];
+        const name=String(r[ci.name]||'').trim();
+        const addr=String(r[ci.addr]||'').trim();
+        if(!name||!addr) continue;
+        const id=ci.id>=0?String(r[ci.id]||'').trim()||('xl_'+i):'xl_'+i;
+        const detail=ci.detail>=0?String(r[ci.detail]||'').trim():'';
+        const notes=[detail, ci.notes>=0?String(r[ci.notes]||'').trim():''].filter(Boolean).join(' / ');
+        const weight=ci.weight>=0?parseFloat(r[ci.weight])||null:null;
+        const driver=ci.driver>=0?String(r[ci.driver]||'').trim():'';
+        const loc={id,name,address:addr,notes,weight,driver,lat:null,lng:null};
+        if(existingIds.has(id)){
+          const idx=S.locs.findIndex(l=>l.id===id);
+          if(idx>=0){S.locs[idx]={...S.locs[idx],...loc,lat:S.locs[idx].lat,lng:S.locs[idx].lng};updated++;}
+        } else {
+          S.locs.push(loc);existingIds.add(id);added++;
+        }
+      }
+      saveStorage();renderMaster();
+      msg.innerHTML=`<div class="alert alert-s">✅ インポート完了：新規${added}件、更新${updated}件</div>`;
+      input.value='';
+    }catch(err){
+      msg.innerHTML=`<div class="alert alert-e">❌ ${esc(err.message)}</div>`;
+    }
+  };
+  reader.readAsArrayBuffer(file);
 }
 function deleteLoc(id){
   const loc=S.locs.find(l=>l.id===id);
