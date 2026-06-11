@@ -107,8 +107,45 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;backgroun
 .mlist-search{margin-bottom:10px;}
 @media(max-width:400px){.fr{flex-direction:column;gap:0;}.fr .fg{margin-bottom:8px;}}
 
+/* ── ドライブモード ── */
+.drv-overlay{position:fixed;inset:0;background:#f3f4f6;z-index:3000;display:none;flex-direction:column;overflow:hidden;}
+.drv-hd{background:var(--navy);color:#fff;padding:12px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.drv-hd-title{flex:1;font-size:.9rem;font-weight:900;}
+.drv-prog{font-size:.78rem;color:rgba(255,255,255,.7);white-space:nowrap;}
+.drv-close{padding:6px 12px;border-radius:6px;border:1px solid rgba(255,255,255,.4);background:transparent;color:#fff;font-size:.78rem;font-weight:700;cursor:pointer;}
+.drv-body{flex:1;overflow-y:auto;padding:8px 12px 80px;}
+.drv-item{display:flex;align-items:center;gap:10px;padding:10px 10px;border-radius:10px;margin-bottom:6px;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.07);transition:.2s;border:2px solid transparent;}
+.drv-item.drv-done{opacity:.38;background:#f9fafb;}
+.drv-item.drv-next{border-color:var(--pink);box-shadow:0 2px 14px rgba(181,23,72,.22);}
+.drv-chk{width:38px;height:38px;border-radius:50%;border:2px solid var(--border);background:#fff;font-size:1.1rem;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:.15s;}
+.drv-chk.drv-chk-on{background:var(--green);border-color:var(--green);color:#fff;}
+.drv-num{font-size:.65rem;font-weight:900;color:var(--pink);margin-bottom:1px;}
+.drv-info{flex:1;min-width:0;}
+.drv-name{font-size:.9rem;font-weight:700;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.drv-addr{font-size:.72rem;color:var(--gray);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.drv-tw{font-size:.7rem;color:var(--amber);font-weight:700;margin-top:2px;}
+.drv-nav-btn{width:52px;height:52px;border-radius:10px;background:#f0f0f0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;font-size:.58rem;color:var(--gray);flex-shrink:0;gap:2px;font-weight:700;transition:.15s;border:2px solid transparent;}
+.drv-nav-btn.drv-nav-next{background:var(--pink);color:#fff;border-color:var(--pink);}
+.drv-nav-btn span{font-size:1.1rem;line-height:1;}
+.drv-complete{background:#dcfce7;border-radius:12px;padding:20px;text-align:center;margin-top:8px;}
+.drv-complete-ico{font-size:2.5rem;margin-bottom:8px;}
+.drv-complete-msg{font-size:1rem;font-weight:900;color:var(--green);}
+.drv-start-btn{position:sticky;bottom:12px;left:0;right:0;display:flex;justify-content:center;margin-top:10px;}
+.drv-start-btn a,.drv-start-btn button{display:flex;align-items:center;justify-content:center;gap:6px;padding:13px 24px;background:var(--green);color:#fff;border:none;border-radius:10px;font-size:.95rem;font-weight:900;cursor:pointer;box-shadow:0 4px 16px rgba(22,163,74,.35);font-family:inherit;text-decoration:none;}
+
 /* ── タブレット対応 (768px以上) ── */
 @media(min-width:768px){
+  .drv-hd{padding:16px 24px;}
+  .drv-hd-title{font-size:1rem;}
+  .drv-body{padding:12px 24px 100px;}
+  .drv-item{padding:14px 14px;gap:14px;}
+  .drv-chk{width:44px;height:44px;font-size:1.3rem;}
+  .drv-name{font-size:1rem;}
+  .drv-addr{font-size:.8rem;}
+  .drv-tw{font-size:.78rem;}
+  .drv-nav-btn{width:60px;height:60px;font-size:.65rem;}
+  .drv-nav-btn span{font-size:1.3rem;}
+
   body{padding-bottom:80px;}
   .hd{padding:14px 24px;}
   .hd-t{font-size:1.1rem;}
@@ -280,6 +317,9 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;backgroun
 
   <div id="result-sec" style="display:none;margin-top:12px;">
     <div class="res-banner" id="res-banner"></div>
+    <div class="drv-start-btn" id="drv-start-wrap" style="display:none;">
+      <button onclick="startDriveMode()">🚗 ドライブ開始（停車地ナビ）</button>
+    </div>
     <div class="card">
       <div class="card-ttl">最適ルート</div>
       <div id="res-route"></div>
@@ -809,6 +849,9 @@ function showInlineError(msg){
 function renderResult(startPt,endPt,res,departStr,failedStops,geocodedStops,isLarge){
   const {route,timings,totalSec,lastSec,endArr,timeOrdered}=res;
   document.getElementById('result-sec').style.display='block';
+  // Save for drive mode
+  S._driveRoute=route;
+  document.getElementById('drv-start-wrap').style.display='flex';
 
   // Banner
   const totalMin=totalSec?Math.round(totalSec/60):null;
@@ -837,6 +880,7 @@ function renderResult(startPt,endPt,res,departStr,failedStops,geocodedStops,isLa
     const {stop,arr,dep,driveSec,warn}=t;
     if(driveSec!==null) html+=`<div class="rt-arrow">↓ <span class="dur">${fmtSec(driveSec)}</span></div>`;
     else html+=`<div class="rt-arrow">↓</div>`;
+    const navUrl=stop.lat?`https://www.google.com/maps/dir/?api=1&destination=${stop.lat},${stop.lng}&travelmode=driving`:`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(stop.address)}&travelmode=driving`;
     html+=`<div class="rt-item"><div class="rt-top">
       <div class="rt-num" style="background:var(--pink);">${i+1}</div>
       <div style="flex:1;min-width:0;">
@@ -847,7 +891,9 @@ function renderResult(startPt,endPt,res,departStr,failedStops,geocodedStops,isLa
         ${stop.weight?`<div style="font-size:.68rem;color:var(--gray);">収集重量: ${stop.weight}kg</div>`:''}
         <div class="rt-time">到着予定: ${m2t(arr)} ／ 出発: ${m2t(dep)}</div>
         ${warn?`<div class="alert alert-w" style="margin-top:4px;padding:5px 8px;">${warn}</div>`:''}
-      </div></div></div>`;
+      </div>
+      <a href="${navUrl}" target="_blank" rel="noopener" class="drv-nav-btn" title="Googleマップでナビ"><span>📍</span>ナビ</a>
+      </div></div>`;
   });
   html+=`<div class="rt-arrow">↓${lastSec?` <span class="dur">${fmtSec(lastSec)}</span>`:''}</div>`;
   html+=`<div class="rt-item"><div class="rt-top">
@@ -909,6 +955,61 @@ function renderNav(startPt,endPt,route){
   if(links.length===1) html=`<a href="${links[0].url}" target="_blank" rel="noopener" class="gmaps-full">🗺️ Googleマップで全ルートを開く</a>`;
   else links.forEach((lk,idx)=>{html+=`<a href="${lk.url}" target="_blank" rel="noopener" class="gmaps-seg"><span class="gmaps-seg-num">第${idx+1}区間</span><span class="gmaps-seg-lbl">${esc(lk.label)}</span><span class="gmaps-seg-ic">↗</span></a>`;});
   document.getElementById('nav-links').innerHTML=html;
+}
+
+// ═══════════ DRIVE MODE ═══════════
+const DRV={checked:new Set()};
+
+function startDriveMode(){
+  DRV.checked=new Set();
+  document.getElementById('drv-overlay').style.display='flex';
+  renderDriveList();
+}
+
+function exitDriveMode(){
+  document.getElementById('drv-overlay').style.display='none';
+}
+
+function toggleDriveStop(i){
+  if(DRV.checked.has(i)) DRV.checked.delete(i);
+  else DRV.checked.add(i);
+  renderDriveList();
+}
+
+function renderDriveList(){
+  const route=S._driveRoute||[];
+  const done=DRV.checked;
+  const total=route.length;
+  const remaining=total-done.size;
+  const nextIdx=route.findIndex((_,i)=>!done.has(i));
+
+  document.getElementById('drv-prog').textContent=`残り ${remaining}/${total} 件`;
+  document.getElementById('drv-complete').style.display=remaining===0?'block':'none';
+
+  let html='';
+  route.forEach((stop,i)=>{
+    const isDone=done.has(i);
+    const isNext=i===nextIdx;
+    const navUrl=stop.lat
+      ?`https://www.google.com/maps/dir/?api=1&destination=${stop.lat},${stop.lng}&travelmode=driving`
+      :`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(stop.address)}&travelmode=driving`;
+    const tw=stop.twEnd?(stop.twStart?stop.twStart+'〜':'')+stop.twEnd+'まで':(stop.templateTime?'🕐 '+stop.templateTime:'');
+    html+=`<div class="drv-item${isDone?' drv-done':''}${isNext?' drv-next':''}" id="drv-i-${i}">
+      <button class="drv-chk${isDone?' drv-chk-on':''}" onclick="toggleDriveStop(${i})">${isDone?'✓':''}</button>
+      <div class="drv-info">
+        <div class="drv-num">${i+1}番目</div>
+        <div class="drv-name">${esc(stop.name)}</div>
+        <div class="drv-addr">${esc(stop.address)}</div>
+        ${tw?`<div class="drv-tw">⏰ ${esc(tw)}</div>`:''}
+      </div>
+      <a href="${navUrl}" target="_blank" rel="noopener" class="drv-nav-btn${isNext?' drv-nav-next':''}"><span>📍</span>ナビ</a>
+    </div>`;
+  });
+  document.getElementById('drv-list').innerHTML=html;
+  if(nextIdx>=0){
+    const el=document.getElementById(`drv-i-${nextIdx}`);
+    if(el) setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'center'}),80);
+  }
 }
 
 // ═══════════ MASTER ═══════════
@@ -1019,5 +1120,21 @@ document.addEventListener('click',e=>{
   if(!e.target.closest('#end-master-wrap'))document.getElementById('end-master-res').style.display='none';
 });
 </script>
+<!-- ═══ DRIVE MODE OVERLAY ═══ -->
+<div class="drv-overlay" id="drv-overlay">
+  <div class="drv-hd">
+    <div class="drv-hd-title">🚚 ドライブ中</div>
+    <div class="drv-prog" id="drv-prog"></div>
+    <button class="drv-close" onclick="exitDriveMode()">← 戻る</button>
+  </div>
+  <div class="drv-body">
+    <div id="drv-complete" class="drv-complete" style="display:none;">
+      <div class="drv-complete-ico">🎉</div>
+      <div class="drv-complete-msg">全ルート完了！おつかれさまでした</div>
+    </div>
+    <div id="drv-list"></div>
+  </div>
+</div>
+
 </body>
 </html>
