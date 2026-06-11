@@ -226,32 +226,9 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;backgroun
     <div id="tpl-status" style="margin-top:6px;font-size:.75rem;color:var(--gray);"></div>
   </div>
 
-  <!-- 出発・帰着 -->
+  <!-- 時刻 -->
   <div class="card">
-    <div class="card-ttl">出発・帰着・時刻</div>
-    <div class="fg">
-      <label class="fl">出発地</label>
-      <div style="display:flex;gap:6px;">
-        <input class="fi" id="start-inp" type="text" placeholder="住所または地点名" style="flex:1;">
-        <button class="btn btn-navy btn-sm" onclick="useGPS()">📡 GPS</button>
-      </div>
-      <div id="start-msg" style="font-size:.7rem;color:var(--gray);margin-top:3px;"></div>
-    </div>
-    <div class="fg">
-      <label class="fl">帰着地</label>
-      <div class="tg" style="margin-bottom:7px;">
-        <button class="to active" id="etog-manual" onclick="setEndMode('manual')">手入力</button>
-        <button class="to" id="etog-master" onclick="setEndMode('master')">マスタから選択</button>
-        <button class="to" id="etog-same" onclick="setEndMode('same')">出発と同じ</button>
-      </div>
-      <div id="end-manual-wrap"><input class="fi" id="end-inp" type="text" placeholder="帰着地の住所または地点名"></div>
-      <div id="end-master-wrap" style="display:none;">
-        <input class="fi" id="end-master-search" type="text" placeholder="拠点名で検索..." oninput="searchEndMaster(this.value)">
-        <div id="end-master-res" class="stop-search-res" style="display:none;position:static;max-height:160px;"></div>
-        <input type="hidden" id="end-master-val">
-        <div id="end-master-selected" style="font-size:.78rem;color:var(--navy);margin-top:4px;font-weight:700;"></div>
-      </div>
-    </div>
+    <div class="card-ttl">時刻設定</div>
     <div class="fr">
       <div class="fg">
         <label class="fl">出発時刻</label>
@@ -375,9 +352,6 @@ const LARGE_ROUTE = 50; // これ以上は時間順表示
 const S = {
   locs: [],
   stops: [],         // [{id,name,address,lat,lng,twStart,twEnd,dur,isCustom,templateTime,weight}]
-  startPt: null,
-  endMode: 'manual',
-  endMasterLoc: null,
   map: null,
   geoCache: {}
 };
@@ -550,55 +524,6 @@ function timeOrderedResult(stops, departStr, defDur, startPt, endPt) {
   return {route:stops,timings,totalSec:null,lastSec:null,endArr:cur,timeOrdered:true};
 }
 
-// ═══════════ GPS ═══════════
-function useGPS() {
-  const msg=document.getElementById('start-msg');
-  msg.textContent='📡 現在地を取得中...';
-  if(!navigator.geolocation){msg.textContent='❌ GPS非対応';return;}
-  navigator.geolocation.getCurrentPosition(async pos=>{
-    const {latitude:lat,longitude:lng}=pos.coords;
-    try {
-      await sleep(350);
-      const url=`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&accept-language=ja`;
-      const d=await(await fetch(url)).json();
-      document.getElementById('start-inp').value='現在地';
-      S.startPt={name:'現在地',address:d.display_name||`${lat},${lng}`,lat,lng};
-      S.geoCache['現在地']={lat,lng};
-      msg.textContent='✅ 現在地取得完了';
-    } catch(e){
-      document.getElementById('start-inp').value='現在地';
-      S.startPt={name:'現在地',address:`${lat},${lng}`,lat,lng};
-      S.geoCache['現在地']={lat,lng};
-      msg.textContent='✅ 位置情報取得完了';
-    }
-  },()=>{msg.textContent='❌ GPS取得失敗。設定からGPSを許可してください。';});
-}
-
-// ═══════════ END MODE ═══════════
-function setEndMode(m) {
-  S.endMode=m;
-  ['manual','master','same'].forEach(k=>document.getElementById(`etog-${k}`).classList.toggle('active',k===m));
-  document.getElementById('end-manual-wrap').style.display=m==='manual'?'block':'none';
-  document.getElementById('end-master-wrap').style.display=m==='master'?'block':'none';
-}
-function searchEndMaster(q) {
-  const res=document.getElementById('end-master-res');
-  if(!q){res.style.display='none';return;}
-  const hits=S.locs.filter(l=>l.name.includes(q)||l.address.includes(q)).slice(0,8);
-  if(!hits.length){res.style.display='none';return;}
-  res.style.display='block';
-  res.innerHTML=hits.map(l=>`<div class="sr-item" onclick="selectEndMaster('${l.id}')">
-    <div class="sr-name">${esc(l.name)}</div><div class="sr-addr">${esc(l.address)}</div></div>`).join('');
-}
-function selectEndMaster(id) {
-  const loc=S.locs.find(l=>l.id===id);
-  if(!loc)return;
-  S.endMasterLoc=loc;
-  document.getElementById('end-master-val').value=id;
-  document.getElementById('end-master-search').value=loc.name;
-  document.getElementById('end-master-selected').textContent='✅ '+loc.name;
-  document.getElementById('end-master-res').style.display='none';
-}
 
 // ═══════════ TEMPLATE ═══════════
 function populateDriverSel() {
@@ -736,8 +661,6 @@ function removeSel(i){S.stops.splice(i,1);renderSel();}
 // ═══════════ MAIN OPTIMIZE ═══════════
 async function startOptimize(){
   if(!S.stops.length){alert('停車地を追加してください');return;}
-  const startVal=document.getElementById('start-inp').value.trim();
-  if(!startVal){alert('出発地を入力してください');return;}
 
   showLoad('住所を確認中...',0);
   document.getElementById('result-sec').style.display='none';
@@ -746,46 +669,12 @@ async function startOptimize(){
   const isLarge=S.stops.length>LARGE_ROUTE;
 
   try {
-    // 出発地
-    let startPt=(startVal==='現在地'&&S.startPt)?S.startPt:null;
-    if(!startPt){
-      setLoad('出発地を検索中... (複数の形式を試しています)',5);
-      try {
-        const gc=await geocode(startVal);
-        startPt={name:startVal,address:startVal,...gc};
-      } catch(e) {
-        hideLoad();
-        document.getElementById('start-msg').innerHTML=`<span style="color:#dc2626;">❌ ${esc(e.message.split('\n')[0])}<br>→ 都道府県から入力 または 📡GPSをお試しください</span>`;
-        return;
-      }
-    }
-
-    // 帰着地
-    let endPt;
-    if(S.endMode==='same') endPt={...startPt};
-    else if(S.endMode==='master'){
-      const loc=S.endMasterLoc;
-      if(!loc){hideLoad();showInlineError('帰着地を選択してください');return;}
-      if(!loc.lat){
-        setLoad('帰着地を検索中...',8);
-        try{ const gc=await geocode(loc.address);loc.lat=gc.lat;loc.lng=gc.lng;saveStorage(); }
-        catch(e){ hideLoad();showInlineError('帰着地の住所が見つかりません: '+loc.address);return; }
-      }
-      endPt={name:loc.name,address:loc.address,lat:loc.lat,lng:loc.lng};
-    } else {
-      const v=document.getElementById('end-inp').value.trim();
-      if(!v){hideLoad();showInlineError('帰着地を入力してください');return;}
-      setLoad('帰着地を検索中...',8);
-      try{ const gc=await geocode(v);endPt={name:v,address:v,...gc}; }
-      catch(e){ hideLoad();showInlineError('帰着地の住所が見つかりません。都道府県から入力してください。');return; }
-    }
-
     // 停車地ジオコーディング
     const stops=[...S.stops];
     for(let i=0;i<stops.length;i++){
       const s=stops[i];
       if(!s.lat){
-        setLoad(`住所を確認中... ${i+1}/${stops.length}`,10+Math.round(i/stops.length*60));
+        setLoad(`住所を確認中... ${i+1}/${stops.length}`,10+Math.round(i/stops.length*70));
         try {
           const gc=await geocode(s.address);
           s.lat=gc.lat;s.lng=gc.lng;
@@ -797,20 +686,20 @@ async function startOptimize(){
     }
     saveStorage();
 
-    // ジオコード失敗停車地をフィルタ（マップ表示用）
     const geocodedStops=stops.filter(s=>s.lat);
     const failedStops=stops.filter(s=>!s.lat);
 
+    if(geocodedStops.length<1){hideLoad();alert('地図情報の取得に失敗しました。住所を確認してください。');return;}
+
+    // 最初の停車地を内部計算の基点として使用
+    const depotPt={...geocodedStops[0]};
+
     let result;
     if(isLarge){
-      // 大規模ルート: 時間順表示
-      setLoad(`${stops.length}件のルートを整理中...`,75);
-      result=timeOrderedResult(stops,departStr,defDur,startPt,endPt);
+      setLoad(`${stops.length}件のルートを整理中...`,80);
+      result=timeOrderedResult(stops,departStr,defDur,depotPt,depotPt);
     } else {
-      // 通常: OSRM + 最適化
-      const allPts=[startPt,...stops,endPt];
-      const geocodedPts=allPts.filter(p=>p.lat);
-      if(geocodedPts.length<2){hideLoad();alert('地図情報の取得に失敗しました。住所を確認してください。');return;}
+      const allPts=[depotPt,...stops,depotPt];
       setLoad('ルートを計算中...',80);
       const mat=await getMatrix(allPts.map(p=>({lat:p.lat||35.68,lng:p.lng||139.76})));
       const stopsWI=stops.map((s,i)=>({...s,mi:i+1}));
@@ -818,7 +707,7 @@ async function startOptimize(){
     }
 
     hideLoad();
-    renderResult(startPt,endPt,result,departStr,failedStops,geocodedStops,isLarge);
+    renderResult(result,departStr,failedStops,geocodedStops,isLarge);
   } catch(e){
     hideLoad();
     alert('エラー: '+e.message);
@@ -846,7 +735,7 @@ function showInlineError(msg){
 }
 
 // ═══════════ RENDER RESULT ═══════════
-function renderResult(startPt,endPt,res,departStr,failedStops,geocodedStops,isLarge){
+function renderResult(res,departStr,failedStops,geocodedStops,isLarge){
   const {route,timings,totalSec,lastSec,endArr,timeOrdered}=res;
   document.getElementById('result-sec').style.display='block';
   // Save for drive mode
@@ -854,11 +743,10 @@ function renderResult(startPt,endPt,res,departStr,failedStops,geocodedStops,isLa
   document.getElementById('drv-start-wrap').style.display='flex';
 
   // Banner
-  const totalMin=totalSec?Math.round(totalSec/60):null;
   document.getElementById('res-banner').innerHTML=`
     <div class="res-stat"><div class="val">${route.length}件</div><div class="lbl">停車地</div></div>
     <div class="res-stat"><div class="val">${totalSec?fmtSec(totalSec):'—'}</div><div class="lbl">走行時間</div></div>
-    <div class="res-stat"><div class="val">${m2t(endArr)}</div><div class="lbl">帰着予定</div></div>`;
+    <div class="res-stat"><div class="val">${m2t(endArr)}</div><div class="lbl">完了予定</div></div>`;
 
   if(isLarge){
     document.getElementById('res-banner').insertAdjacentHTML('afterend',
@@ -871,10 +759,6 @@ function renderResult(startPt,endPt,res,departStr,failedStops,geocodedStops,isLa
 
   // Route list
   let html='';
-  html+=`<div class="rt-item"><div class="rt-top">
-    <div class="rt-num" style="background:var(--navy);">出</div>
-    <div><div class="rt-name">${esc(startPt.name)}</div><div class="rt-addr">${esc(startPt.address.slice(0,40))}</div>
-    <div class="rt-time">${departStr} 出発</div></div></div></div>`;
 
   timings.forEach((t,i)=>{
     const {stop,arr,dep,driveSec,warn}=t;
@@ -895,28 +779,22 @@ function renderResult(startPt,endPt,res,departStr,failedStops,geocodedStops,isLa
       <a href="${navUrl}" target="_blank" rel="noopener" class="drv-nav-btn" title="Googleマップでナビ"><span>📍</span>ナビ</a>
       </div></div>`;
   });
-  html+=`<div class="rt-arrow">↓${lastSec?` <span class="dur">${fmtSec(lastSec)}</span>`:''}</div>`;
-  html+=`<div class="rt-item"><div class="rt-top">
-    <div class="rt-num" style="background:var(--green);">着</div>
-    <div><div class="rt-name">${esc(endPt.name)}</div><div class="rt-addr">${esc(endPt.address.slice(0,40))}</div>
-    <div class="rt-time">${m2t(endArr)} 到着予定</div></div></div></div>`;
   document.getElementById('res-route').innerHTML=html;
 
   // Map
-  const mapPoints=route.filter(s=>s.lat);
-  if(mapPoints.length>0&&startPt.lat){
+  if(geocodedStops.length>0){
     document.getElementById('map-card').style.display='block';
-    renderMap(startPt,endPt,route);
+    renderMap(route);
   } else {
     document.getElementById('map-card').style.display='none';
   }
 
-  renderNav(startPt,endPt,route);
+  renderNav(route);
   document.getElementById('result-sec').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 // ═══════════ MAP ═══════════
-function renderMap(startPt,endPt,route){
+function renderMap(route){
   if(S.map){S.map.remove();S.map=null;}
   const map=L.map('map');S.map=map;
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18}).addTo(map);
@@ -925,30 +803,28 @@ function renderMap(startPt,endPt,route){
     html:`<div style="background:${bg};color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;border:2px solid #fff;box-shadow:0 2px 5px rgba(0,0,0,.3);">${label}</div>`,
     className:'',iconSize:[26,26],iconAnchor:[13,13]
   });
-  if(startPt.lat){L.marker([startPt.lat,startPt.lng],{icon:mkIcon('出','#1A1A3A')}).bindPopup(`<b>出発：${esc(startPt.name)}</b>`).addTo(map);pts.push([startPt.lat,startPt.lng]);}
   route.forEach((s,i)=>{
     if(!s.lat)return;
     L.marker([s.lat,s.lng],{icon:mkIcon(i+1,'#b51748')}).bindPopup(`<b>${i+1}. ${esc(s.name)}</b><br>${esc(s.address)}${s.templateTime?'<br>🕐 '+esc(s.templateTime):s.twEnd?'<br>⏰ '+esc(s.twEnd)+'まで':''}`).addTo(map);
     pts.push([s.lat,s.lng]);
   });
-  if(endPt.lat){L.marker([endPt.lat,endPt.lng],{icon:mkIcon('着','#16a34a')}).bindPopup(`<b>帰着：${esc(endPt.name)}</b>`).addTo(map);pts.push([endPt.lat,endPt.lng]);}
   if(pts.length>1)L.polyline(pts,{color:'#b51748',weight:3,opacity:.65,dashArray:'6,4'}).addTo(map);
   if(pts.length)map.fitBounds(L.latLngBounds(pts),{padding:[24,24]});
 }
 
 // ═══════════ NAV LINKS ═══════════
-function renderNav(startPt,endPt,route){
-  const all=[startPt,...route,endPt].filter(p=>p.lat);
+function renderNav(route){
+  const all=route.filter(p=>p.lat);
   if(all.length<2){document.getElementById('nav-links').innerHTML='<div class="alert alert-w">地図情報が取得できなかったためナビリンクを生成できませんでした。</div>';return;}
-  const MAX=8;const links=[];
+  const MAX=9;const links=[];
   let i=0;
   while(i<all.length-1){
-    const from=all[i],toIdx=Math.min(i+MAX+1,all.length-1),to=all[toIdx];
+    const from=all[i],toIdx=Math.min(i+MAX,all.length-1),to=all[toIdx];
     const wps=all.slice(i+1,toIdx);
     const wpStr=wps.map(p=>`${p.lat},${p.lng}`).join('|');
     let url=`https://www.google.com/maps/dir/?api=1&origin=${from.lat},${from.lng}&destination=${to.lat},${to.lng}&travelmode=driving`;
     if(wpStr)url+=`&waypoints=${wpStr}`;
-    links.push({url,label:`${from.name||'出発'} → ${to.name||'帰着'}`});
+    links.push({url,label:`${from.name} → ${to.name}`});
     i=toIdx;if(i>=all.length-1)break;
   }
   let html='';
