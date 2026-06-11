@@ -1,4 +1,4 @@
-const CACHE = 'sacure-route-v1';
+const CACHE = 'sacure-route-v2';
 const CORE = ['./', './data.js'];
 
 self.addEventListener('install', e => {
