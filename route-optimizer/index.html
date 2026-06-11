@@ -4,7 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>サキュレ 回収ルート最適化</title>
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#1A1A3A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="サキュレ">
+<link rel="apple-touch-icon" href="./icon.svg">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{--pink:#b51748;--pink-dk:#8f1038;--navy:#1A1A3A;--text:#333;--gray:#666;--border:#e5e7eb;--bg:#f3f4f6;--green:#16a34a;--amber:#d97706;}
@@ -92,6 +99,10 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;backgroun
 .m-addr{font-size:.72rem;color:var(--gray);margin-top:2px;line-height:1.35;}
 .m-notes{font-size:.7rem;color:var(--amber);margin-top:2px;}
 .m-ok{font-size:.67rem;color:var(--green);margin-top:2px;}
+.m-noaddr{font-size:.67rem;color:#b45309;font-weight:700;margin-top:2px;}
+.m-noaddr-btn{padding:6px 12px;border-radius:20px;border:1.5px solid #f59e0b;background:#fffbeb;color:#b45309;font-size:.75rem;font-weight:700;cursor:pointer;font-family:inherit;transition:.15s;}
+.m-noaddr-btn.active{background:#f59e0b;color:#fff;border-color:#f59e0b;}
+.m-item.noaddr{border-left:3px solid #f59e0b;}
 .divider{height:1px;background:var(--border);margin:12px 0;}
 .badge{display:inline-block;padding:1px 7px;border-radius:99px;font-size:.68rem;font-weight:700;}
 .bdg-pink{background:#fff0f3;color:var(--pink);}
@@ -129,6 +140,12 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;backgroun
 .drv-memo-chips{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px;}
 .drv-memo-chip{padding:5px 11px;border-radius:20px;border:1.5px solid var(--border);background:#fff;font-size:.75rem;font-weight:700;cursor:pointer;color:var(--text);font-family:inherit;transition:.15s;}
 .drv-memo-chip.active{border-color:var(--navy);background:var(--navy);color:#fff;}
+.drv-weight-row{display:flex;align-items:center;gap:8px;margin-top:7px;border-top:1px dashed var(--border);padding-top:7px;}
+.drv-weight-lbl{font-size:.72rem;color:var(--gray);font-weight:700;flex-shrink:0;}
+.drv-weight-ctrl{display:flex;align-items:center;gap:6px;margin-left:auto;}
+.drv-weight-btn{width:36px;height:36px;border-radius:8px;border:1.5px solid var(--border);background:#fff;font-size:1.15rem;font-weight:900;cursor:pointer;color:var(--navy);display:flex;align-items:center;justify-content:center;font-family:inherit;}
+.drv-weight-btn:active{background:#e8eaf0;}
+.drv-weight-val{min-width:58px;text-align:center;font-size:.95rem;font-weight:900;color:var(--navy);}
 .drv-memo-input{width:100%;padding:7px 10px;border:1.5px solid var(--border);border-radius:6px;font-size:.83rem;font-family:inherit;outline:none;background:#fff;}
 .drv-memo-input:focus{border-color:var(--pink);}
 .drv-item.drv-next{border-color:var(--pink);box-shadow:0 2px 14px rgba(181,23,72,.22);}
@@ -162,6 +179,27 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;backgroun
 .drv-copy-btn{width:100%;padding:12px;background:var(--navy);color:#fff;border:none;border-radius:8px;font-size:.88rem;font-weight:900;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px;}
 .drv-copy-btn:active{opacity:.8;}
 .drv-copy-ok{font-size:.75rem;color:var(--green);font-weight:700;text-align:center;margin-top:6px;display:none;}
+/* スキップ */
+.drv-skip-btn{width:100%;padding:9px;background:#f8f8f8;color:var(--gray);border:1.5px solid var(--border);border-radius:8px;font-size:.82rem;font-weight:700;cursor:pointer;font-family:inherit;margin-top:6px;transition:.15s;}
+.drv-skip-btn:active{background:#ebebeb;}
+.drv-item.drv-skipped{border-color:var(--amber);background:#fffbeb;opacity:.9;}
+.drv-skipped-badge{font-size:.62rem;font-weight:900;color:#92400e;background:#fef3c7;border-radius:4px;padding:2px 7px;margin-top:3px;display:inline-block;}
+.drv-resume-btn{padding:8px 14px;background:var(--amber);color:#fff;border:none;border-radius:7px;font-size:.82rem;font-weight:900;cursor:pointer;font-family:inherit;flex-shrink:0;}
+.drv-skipped-notice{background:#fef3c7;border:1.5px solid #fcd34d;border-radius:10px;padding:12px 14px;text-align:center;font-size:.88rem;font-weight:900;color:#92400e;}
+/* 印刷ボタン */
+.btn-print{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;background:#fff;color:var(--navy);border:1.5px solid var(--border);border-radius:7px;font-size:.78rem;font-weight:700;cursor:pointer;font-family:inherit;}
+.btn-print:hover{background:#f5f5f5;}
+@media print{
+  .hd,.tab-nav,.drv-start-btn,#opt-btn,#loading,#inline-err,
+  #map-card,.card:has(#nav-links),.btn-print,#sel-card,
+  .card:has(#stop-search-inp),.card:has(#tpl-driver),.card:has(#depart-time){display:none!important;}
+  #view-route,#result-sec{display:block!important;}
+  body{background:#fff;padding:0;}
+  .view{padding:8px;max-width:none;}
+  .card{box-shadow:none;border:1px solid #ddd;break-inside:avoid;}
+  .res-banner{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .rt-arrow{padding-left:20px;}
+}
 /* 次の停車地フッター */
 .drv-footer{background:#fff;border-top:2px solid var(--border);padding:12px 14px;flex-shrink:0;box-shadow:0 -3px 12px rgba(0,0,0,.1);}
 .drv-footer-next{display:flex;align-items:center;gap:10px;}
@@ -344,7 +382,10 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;backgroun
       <button onclick="startDriveMode()">🚗 ドライブ開始（停車地ナビ）</button>
     </div>
     <div class="card">
-      <div class="card-ttl">最適ルート</div>
+      <div class="sh" style="margin-bottom:10px;">
+        <div class="card-ttl" style="margin-bottom:0;">最適ルート</div>
+        <button class="btn-print" onclick="window.print()">🖨️ 印刷</button>
+      </div>
       <div id="res-route"></div>
     </div>
     <div class="card" id="map-card">
@@ -366,7 +407,17 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;backgroun
     <span class="sh-ttl">拠点マスタ <span id="m-count" class="badge bdg-navy">0件</span></span>
   </div>
   <div class="card mlist-search">
-    <input class="fi" id="m-search" type="text" placeholder="🔍 拠点名・住所で絞り込み..." oninput="renderMaster()" style="margin-bottom:0;">
+    <input class="fi" id="m-search" type="text" placeholder="🔍 拠点名・住所で絞り込み..." oninput="renderMaster()" style="margin-bottom:6px;">
+    <button class="m-noaddr-btn" id="m-noaddr-btn" onclick="toggleNoAddrFilter()">⚠️ 住所なし <span id="m-noaddr-count"></span></button>
+  </div>
+  <div class="card">
+    <div class="card-ttl">Excelインポート</div>
+    <p style="font-size:.75rem;color:var(--gray);margin-bottom:10px;">①拠点マスターシートを含むExcelファイルを選択してください</p>
+    <label class="btn btn-navy btn-full" style="cursor:pointer;justify-content:center;">
+      📂 Excelファイルを選択
+      <input type="file" accept=".xlsx,.xls" style="display:none;" onchange="importFromExcel(this)">
+    </label>
+    <div id="m-import-msg" style="margin-top:8px;"></div>
   </div>
   <div class="card">
     <div class="card-ttl">新規登録</div>
@@ -883,7 +934,7 @@ function renderNav(route){
 }
 
 // ═══════════ DRIVE MODE ═══════════
-const DRV={checked:new Set(),memos:{},completedAt:null};
+const DRV={checked:new Set(),memos:{},weights:{},skipped:new Set(),completedAt:null};
 const MEMO_PRESETS=['不在','少なめ','多め','要確認'];
 let drvTimer=null;
 
@@ -911,6 +962,14 @@ function speak(text){
 }
 
 // ── メモ ──
+function adjustWeight(i,delta){
+  const route=S._driveRoute||[];
+  const base=DRV.weights[i]!=null?DRV.weights[i]:(parseFloat((route[i]||{}).weight)||0);
+  const next=Math.max(0,base+delta);
+  DRV.weights[i]=next;
+  const el=document.getElementById('drv-weight-val-'+i);
+  if(el) el.textContent=next+'kg';
+}
 function setMemoChip(i,val){
   DRV.memos[i]=DRV.memos[i]===val?'':val;
   const row=document.getElementById(`drv-memo-row-${i}`);
@@ -928,6 +987,8 @@ function onMemoText(i,val){
 function startDriveMode(){
   DRV.checked=new Set();
   DRV.memos={};
+  DRV.weights={};
+  DRV.skipped=new Set();
   DRV.completedAt=null;
   document.getElementById('drv-overlay').style.display='flex';
   renderDriveList();
@@ -944,6 +1005,19 @@ function exitDriveMode(){
 function toggleDriveStop(i){
   if(DRV.checked.has(i)) DRV.checked.delete(i);
   else DRV.checked.add(i);
+  renderDriveList();
+}
+
+function skipStop(i){
+  DRV.skipped.add(i);
+  if('vibrate' in navigator) navigator.vibrate(40);
+  renderDriveList();
+  const route=S._driveRoute||[];
+  const next=route.findIndex((_,j)=>!DRV.checked.has(j)&&!DRV.skipped.has(j));
+  if(next>=0) speak(`後で回ります。次は${route[next].name}へ`);
+}
+function unskipStop(i){
+  DRV.skipped.delete(i);
   renderDriveList();
 }
 
@@ -987,21 +1061,40 @@ async function copySummary(){
 function renderDriveList(){
   const route=S._driveRoute||[];
   const done=DRV.checked;
+  const skipped=DRV.skipped;
   const total=route.length;
-  const remaining=total-done.size;
-  const nextIdx=route.findIndex((_,i)=>!done.has(i));
-  const pct=total?Math.round((total-remaining)/total*100):0;
+  const allDone=done.size===total;
+  const normalRemaining=route.filter((_,i)=>!done.has(i)&&!skipped.has(i)).length;
+  const skipRemaining=route.filter((_,i)=>skipped.has(i)&&!done.has(i)).length;
+  const allNormalDone=normalRemaining===0;
+  const pct=total?Math.round(done.size/total*100):0;
 
-  document.getElementById('drv-prog').textContent=`残り ${remaining}/${total}`;
+  // 次の停車地: 通常フェーズ→後回しフェーズ
+  const nextIdx=allNormalDone
+    ?route.findIndex((_,i)=>skipped.has(i)&&!done.has(i))
+    :route.findIndex((_,i)=>!done.has(i)&&!skipped.has(i));
+
+  // ヘッダー進捗
+  const progText=allDone?'完了'
+    :allNormalDone&&skipRemaining>0?`後回し ${skipRemaining}件`
+    :`残り ${normalRemaining}/${total-skipRemaining}${skipRemaining?` +後回し${skipRemaining}`:'' }`;
+  document.getElementById('drv-prog').textContent=progText;
   document.getElementById('drv-prog-fill').style.width=pct+'%';
-  if(remaining===0){
+
+  // 完了バナー
+  const completeEl=document.getElementById('drv-complete');
+  if(allDone){
     if(!DRV.completedAt) DRV.completedAt=new Date().getHours()*60+new Date().getMinutes();
     const completionTime=m2t(DRV.completedAt);
-    const totalWeight=route.reduce((s,st,j)=>s+(DRV.checked.has(j)&&st.weight?parseFloat(st.weight)||0:0),0);
+    const totalWeight=route.reduce((s,st,j)=>{
+      if(!done.has(j)) return s;
+      const w=DRV.weights[j]!=null?DRV.weights[j]:(parseFloat(st.weight)||0);
+      return s+w;
+    },0);
     const memoItems=route.map((st,j)=>({stop:st,memo:DRV.memos[j]||''})).filter(x=>x.memo);
     const absentCount=memoItems.filter(x=>x.memo==='不在').length;
     DRV._summaryText=generateSummaryText(route,completionTime,totalWeight,memoItems);
-    document.getElementById('drv-complete').innerHTML=`
+    completeEl.innerHTML=`
       <div class="drv-summary-title">🎉 全ルート完了！おつかれさまでした</div>
       <div class="drv-summary-grid">
         <div class="drv-summary-item"><div class="drv-summary-val">${route.length}件</div><div class="drv-summary-lbl">完了停車地</div></div>
@@ -1012,14 +1105,17 @@ function renderDriveList(){
       ${memoItems.length?`<div class="drv-summary-notes">${memoItems.map(x=>`<div class="drv-summary-note"><span class="drv-summary-note-name">${esc(x.stop.name)}</span><span class="drv-summary-note-memo">${esc(x.memo)}</span></div>`).join('')}</div>`:''}
       <button class="drv-copy-btn" onclick="copySummary()">📋 テキストでコピー（報告用）</button>
       <div class="drv-copy-ok" id="drv-copy-ok">✅ コピーしました！</div>`;
-    document.getElementById('drv-complete').style.display='block';
+    completeEl.style.display='block';
+  } else if(allNormalDone&&skipRemaining>0){
+    completeEl.innerHTML=`<div class="drv-skipped-notice">⏭ 通常ルート完了！後回しの停車地が ${skipRemaining}件 あります</div>`;
+    completeEl.style.display='block';
   } else {
-    document.getElementById('drv-complete').style.display='none';
+    completeEl.style.display='none';
   }
 
-  // フッター（次の停車地）
+  // フッター
   const footerInner=document.getElementById('drv-footer-inner');
-  if(remaining===0){
+  if(allDone){
     footerInner.innerHTML=`<div class="drv-footer-done">🎉 全ルート完了！おつかれさまでした</div>`;
   } else if(nextIdx>=0){
     const ns=route[nextIdx];
@@ -1027,9 +1123,10 @@ function renderDriveList(){
       ?`https://www.google.com/maps/dir/?api=1&destination=${ns.lat},${ns.lng}&travelmode=driving`
       :`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(ns.address)}&travelmode=driving`;
     const nsTiming=S._timings?.[nextIdx];
+    const fLabel=allNormalDone?'⏭ 後回し':'▶ 次の停車地';
     footerInner.innerHTML=`<div class="drv-footer-next">
       <div class="drv-footer-info">
-        <div class="drv-footer-label">▶ 次の停車地 ${nextIdx+1}/${total}</div>
+        <div class="drv-footer-label">${fLabel}</div>
         <div class="drv-footer-name">${esc(ns.name)}</div>
         <div class="drv-footer-sub">${nsTiming?`⏱ ${m2t(nsTiming.arr)} 到着予定`:''}${ns.weight?` · 📦 ${ns.weight}kg`:''}</div>
       </div>
@@ -1040,6 +1137,7 @@ function renderDriveList(){
   let html='';
   route.forEach((stop,i)=>{
     const isDone=done.has(i);
+    const isSkipped=skipped.has(i)&&!isDone;
     const isNext=i===nextIdx;
     const navUrl=stop.lat
       ?`https://www.google.com/maps/dir/?api=1&destination=${stop.lat},${stop.lng}&travelmode=driving`
@@ -1047,23 +1145,34 @@ function renderDriveList(){
     const tw=stop.twEnd?(stop.twStart?stop.twStart+'〜':'')+stop.twEnd+'まで':(stop.templateTime?'🕐 '+stop.templateTime:'');
     const timing=S._timings?.[i];
     const nowMin=new Date().getHours()*60+new Date().getMinutes();
-    const isLate=!isDone&&timing&&nowMin>timing.arr;
+    const isLate=!isDone&&!isSkipped&&timing&&nowMin>timing.arr;
     const infoHtml=`
         <div class="drv-num">${i+1}番目</div>
         <div class="drv-name">${esc(stop.name)}</div>
         <div class="drv-addr">${esc(stop.address)}</div>
+        ${isSkipped?`<div class="drv-skipped-badge">⏭ 後で回る</div>`:''}
         ${tw?`<div class="drv-tw">⏰ ${esc(tw)}</div>`:''}
-        ${timing?`<div class="drv-arr${isLate?' drv-arr-late':''}">⏱ ${m2t(timing.arr)} 到着予定${isLate?' ⚠️ 遅延中':''}</div>`:''}
+        ${timing&&!isSkipped?`<div class="drv-arr${isLate?' drv-arr-late':''}">⏱ ${m2t(timing.arr)} 到着予定${isLate?' ⚠️ 遅延中':''}</div>`:''}
         ${isLate&&!isNext?`<div class="drv-late-badge">⚠️ 予定時刻を過ぎています</div>`:''}
         ${stop.notes?`<div class="drv-notes">📝 ${esc(stop.notes)}</div>`:''}
         ${stop.weight?`<div class="drv-weight">📦 ${stop.weight}kg</div>`:''}`;
     const memoVal=DRV.memos[i]||'';
+    const storedW=DRV.weights[i]!=null?DRV.weights[i]:(parseFloat(stop.weight)||0);
     const memoHtml=isDone?`<div class="drv-memo-row" id="drv-memo-row-${i}">
       <div class="drv-memo-chips">${MEMO_PRESETS.map(p=>`<button class="drv-memo-chip${memoVal===p?' active':''}" onclick="setMemoChip(${i},'${p}')">${p}</button>`).join('')}</div>
       <input class="drv-memo-input" id="drv-memo-text-${i}" type="text" placeholder="その他メモ（任意）"
         value="${MEMO_PRESETS.includes(memoVal)?'':memoVal.replace(/"/g,'&quot;')}"
         oninput="onMemoText(${i},this.value)">
+      <div class="drv-weight-row" id="drv-weight-row-${i}">
+        <span class="drv-weight-lbl">📦 収集量</span>
+        <div class="drv-weight-ctrl">
+          <button class="drv-weight-btn" onclick="adjustWeight(${i},-5)">－</button>
+          <span class="drv-weight-val" id="drv-weight-val-${i}">${storedW}kg</span>
+          <button class="drv-weight-btn" onclick="adjustWeight(${i},5)">＋</button>
+        </div>
+      </div>
     </div>`:'';
+
     if(isNext){
       html+=`<div class="drv-item drv-next${isLate?' drv-late':''}" id="drv-i-${i}">
         <div class="drv-next-row">
@@ -1072,6 +1181,13 @@ function renderDriveList(){
           <a href="${navUrl}" target="_blank" rel="noopener" class="drv-nav-btn drv-nav-next"><span>📍</span>ナビ</a>
         </div>
         <button class="drv-complete-btn" onclick="completeAndNav(${i})">📦 回収完了 → 次の停車地へナビ</button>
+        ${!isSkipped?`<button class="drv-skip-btn" onclick="skipStop(${i})">⏭ 後で回る</button>`:''}
+      </div>`;
+    } else if(isSkipped){
+      html+=`<div class="drv-item drv-skipped" id="drv-i-${i}">
+        <button class="drv-chk" onclick="unskipStop(${i})">↩</button>
+        <div class="drv-info">${infoHtml}</div>
+        <button class="drv-resume-btn" onclick="unskipStop(${i})">今すぐ行く</button>
       </div>`;
     } else {
       html+=`<div class="drv-item${isDone?' drv-done':''}${isLate?' drv-late':''}" id="drv-i-${i}">
@@ -1092,21 +1208,35 @@ function renderDriveList(){
 }
 
 // ═══════════ MASTER ═══════════
+let _mNoAddrFilter=false;
+function toggleNoAddrFilter(){
+  _mNoAddrFilter=!_mNoAddrFilter;
+  document.getElementById('m-noaddr-btn').classList.toggle('active',_mNoAddrFilter);
+  renderMaster();
+}
 function renderMaster(){
   const q=(document.getElementById('m-search')||{}).value||'';
   const el=document.getElementById('master-list');
   const count=document.getElementById('m-count');
-  const filtered=q?S.locs.filter(l=>l.name.includes(q)||l.address.includes(q)):S.locs;
+  const noAddrCount=S.locs.filter(l=>!l.address).length;
+  const noAddrEl=document.getElementById('m-noaddr-count');
+  if(noAddrEl) noAddrEl.textContent=noAddrCount?`${noAddrCount}件`:'';
+  let filtered=q?S.locs.filter(l=>l.name.includes(q)||(l.address||'').includes(q)):S.locs;
+  if(_mNoAddrFilter) filtered=filtered.filter(l=>!l.address);
   count.textContent=`${S.locs.length}件`;
-  if(!filtered.length){el.innerHTML=`<div class="empty"><div class="ico">🔍</div><p>「${esc(q)}」に一致する拠点が見つかりません</p></div>`;return;}
-  // 上限100件表示
+  if(!filtered.length){
+    el.innerHTML=_mNoAddrFilter
+      ?`<div class="empty"><div class="ico">✅</div><p>住所なしの拠点はありません</p></div>`
+      :`<div class="empty"><div class="ico">🔍</div><p>「${esc(q)}」に一致する拠点が見つかりません</p></div>`;
+    return;
+  }
   const show=filtered.slice(0,100);
-  el.innerHTML=show.map((loc,i)=>`
-    <div class="m-item">
-      <div style="width:28px;height:28px;background:var(--pink);border-radius:6px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">📍</div>
+  el.innerHTML=show.map((loc)=>`
+    <div class="m-item${!loc.address?' noaddr':''}">
+      <div style="width:28px;height:28px;background:${loc.address?'var(--pink)':'#f59e0b'};border-radius:6px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">${loc.address?'📍':'⚠️'}</div>
       <div style="flex:1;min-width:0;">
         <div class="m-name">${esc(loc.name)}</div>
-        <div class="m-addr">${esc(loc.address)}</div>
+        ${loc.address?`<div class="m-addr">${esc(loc.address)}</div>`:'<div class="m-noaddr">住所が登録されていません</div>'}
         ${loc.notes?`<div class="m-notes">${esc(loc.notes)}</div>`:''}
         ${loc.lat?'<div class="m-ok">✅ 座標確認済み</div>':''}
       </div>
@@ -1128,6 +1258,66 @@ async function addLocation(){
     msg.innerHTML=`<div class="alert alert-s">✅「${esc(name)}」を登録しました</div>`;
     setTimeout(()=>{msg.innerHTML='';},3000);
   }catch(e){msg.innerHTML=`<div class="alert alert-e">❌ ${esc(e.message)}</div>`;}
+}
+function importFromExcel(input){
+  const file=input.files[0];
+  if(!file) return;
+  const msg=document.getElementById('m-import-msg');
+  msg.innerHTML='<div class="alert alert-i">読み込み中...</div>';
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const wb=XLSX.read(e.target.result,{type:'array'});
+      // ①拠点マスターシートを探す
+      const shName=wb.SheetNames.find(n=>n.includes('拠点マスター'));
+      if(!shName) throw new Error('「①拠点マスター」シートが見つかりません');
+      const ws=wb.Sheets[shName];
+      const rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
+      // ヘッダー行を探す（拠点コード列のある行）
+      let hdrRow=-1;
+      for(let i=0;i<rows.length;i++){
+        if(rows[i].some(c=>String(c).includes('拠点コード'))){hdrRow=i;break;}
+      }
+      if(hdrRow<0) throw new Error('ヘッダー行（拠点コード）が見つかりません');
+      const hdr=rows[hdrRow].map(c=>String(c));
+      const ci={
+        id: hdr.findIndex(c=>c.includes('拠点コード')),
+        name: hdr.findIndex(c=>c.includes('拠点名')),
+        addr: hdr.findIndex(c=>c==='住所'||c.includes('住所')&&!c.includes('詳細')),
+        detail: hdr.findIndex(c=>c.includes('詳細住所')),
+        notes: hdr.findIndex(c=>c.includes('備考')),
+        weight: hdr.findIndex(c=>c.includes('週間回収量')),
+        driver: hdr.findIndex(c=>c.includes('担当ドライバー')),
+      };
+      if(ci.name<0||ci.addr<0) throw new Error('拠点名・住所列が見つかりません');
+      const existingIds=new Set(S.locs.map(l=>l.id));
+      let added=0, updated=0;
+      for(let i=hdrRow+1;i<rows.length;i++){
+        const r=rows[i];
+        const name=String(r[ci.name]||'').trim();
+        const addr=String(r[ci.addr]||'').trim();
+        if(!name||!addr) continue;
+        const id=ci.id>=0?String(r[ci.id]||'').trim()||('xl_'+i):'xl_'+i;
+        const detail=ci.detail>=0?String(r[ci.detail]||'').trim():'';
+        const notes=[detail, ci.notes>=0?String(r[ci.notes]||'').trim():''].filter(Boolean).join(' / ');
+        const weight=ci.weight>=0?parseFloat(r[ci.weight])||null:null;
+        const driver=ci.driver>=0?String(r[ci.driver]||'').trim():'';
+        const loc={id,name,address:addr,notes,weight,driver,lat:null,lng:null};
+        if(existingIds.has(id)){
+          const idx=S.locs.findIndex(l=>l.id===id);
+          if(idx>=0){S.locs[idx]={...S.locs[idx],...loc,lat:S.locs[idx].lat,lng:S.locs[idx].lng};updated++;}
+        } else {
+          S.locs.push(loc);existingIds.add(id);added++;
+        }
+      }
+      saveStorage();renderMaster();
+      msg.innerHTML=`<div class="alert alert-s">✅ インポート完了：新規${added}件、更新${updated}件</div>`;
+      input.value='';
+    }catch(err){
+      msg.innerHTML=`<div class="alert alert-e">❌ ${esc(err.message)}</div>`;
+    }
+  };
+  reader.readAsArrayBuffer(file);
 }
 function deleteLoc(id){
   const loc=S.locs.find(l=>l.id===id);
@@ -1218,5 +1408,10 @@ document.addEventListener('click',e=>{
   </div>
 </div>
 
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{ navigator.serviceWorker.register('./sw.js'); });
+}
+</script>
 </body>
 </html>
