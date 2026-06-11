@@ -133,7 +133,11 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;backgroun
 .drv-nav-btn{width:52px;height:52px;border-radius:10px;background:#f0f0f0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;font-size:.58rem;color:var(--gray);flex-shrink:0;gap:2px;font-weight:700;transition:.15s;border:2px solid transparent;}
 .drv-nav-btn.drv-nav-next{background:var(--pink);color:#fff;border-color:var(--pink);}
 .drv-nav-btn span{font-size:1.1rem;line-height:1;}
-.drv-complete{background:#dcfce7;border-radius:12px;padding:20px;text-align:center;margin-top:8px;}
+.drv-item.drv-next{flex-direction:column;align-items:stretch;gap:0;}
+.drv-next-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.drv-complete-btn{width:100%;padding:13px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:.95rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;font-family:inherit;box-shadow:0 2px 10px rgba(22,163,74,.3);transition:.15s;}
+.drv-complete-btn:active{filter:brightness(.9);}
+@media(min-width:768px){.drv-complete-btn{font-size:1.05rem;padding:15px;}}
 .drv-complete-ico{font-size:2.5rem;margin-bottom:8px;}
 .drv-complete-msg{font-size:1rem;font-weight:900;color:var(--green);}
 /* 次の停車地フッター */
@@ -875,6 +879,19 @@ function toggleDriveStop(i){
   renderDriveList();
 }
 
+function completeAndNav(i){
+  DRV.checked.add(i);
+  renderDriveList();
+  const route=S._driveRoute||[];
+  const nextIdx=route.findIndex((_,j)=>!DRV.checked.has(j));
+  if(nextIdx<0) return;
+  const ns=route[nextIdx];
+  const url=ns.lat
+    ?`https://www.google.com/maps/dir/?api=1&destination=${ns.lat},${ns.lng}&travelmode=driving`
+    :`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(ns.address)}&travelmode=driving`;
+  window.open(url,'_blank');
+}
+
 function renderDriveList(){
   const route=S._driveRoute||[];
   const done=DRV.checked;
@@ -916,19 +933,30 @@ function renderDriveList(){
       :`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(stop.address)}&travelmode=driving`;
     const tw=stop.twEnd?(stop.twStart?stop.twStart+'〜':'')+stop.twEnd+'まで':(stop.templateTime?'🕐 '+stop.templateTime:'');
     const timing=S._timings?.[i];
-    html+=`<div class="drv-item${isDone?' drv-done':''}${isNext?' drv-next':''}" id="drv-i-${i}">
-      <button class="drv-chk${isDone?' drv-chk-on':''}" onclick="toggleDriveStop(${i})">${isDone?'✓':''}</button>
-      <div class="drv-info">
+    const infoHtml=`
         <div class="drv-num">${i+1}番目</div>
         <div class="drv-name">${esc(stop.name)}</div>
         <div class="drv-addr">${esc(stop.address)}</div>
         ${tw?`<div class="drv-tw">⏰ ${esc(tw)}</div>`:''}
         ${timing?`<div class="drv-arr">⏱ ${m2t(timing.arr)} 到着予定</div>`:''}
         ${stop.notes?`<div class="drv-notes">📝 ${esc(stop.notes)}</div>`:''}
-        ${stop.weight?`<div class="drv-weight">📦 ${stop.weight}kg</div>`:''}
-      </div>
-      <a href="${navUrl}" target="_blank" rel="noopener" class="drv-nav-btn${isNext?' drv-nav-next':''}"><span>📍</span>ナビ</a>
-    </div>`;
+        ${stop.weight?`<div class="drv-weight">📦 ${stop.weight}kg</div>`:''}`;
+    if(isNext){
+      html+=`<div class="drv-item drv-next" id="drv-i-${i}">
+        <div class="drv-next-row">
+          <button class="drv-chk" onclick="toggleDriveStop(${i})"></button>
+          <div class="drv-info">${infoHtml}</div>
+          <a href="${navUrl}" target="_blank" rel="noopener" class="drv-nav-btn drv-nav-next"><span>📍</span>ナビ</a>
+        </div>
+        <button class="drv-complete-btn" onclick="completeAndNav(${i})">📦 回収完了 → 次の停車地へナビ</button>
+      </div>`;
+    } else {
+      html+=`<div class="drv-item${isDone?' drv-done':''}" id="drv-i-${i}">
+        <button class="drv-chk${isDone?' drv-chk-on':''}" onclick="toggleDriveStop(${i})">${isDone?'✓':''}</button>
+        <div class="drv-info">${infoHtml}</div>
+        <a href="${navUrl}" target="_blank" rel="noopener" class="drv-nav-btn"><span>📍</span>ナビ</a>
+      </div>`;
+    }
   });
   document.getElementById('drv-list').innerHTML=html;
   if(nextIdx>=0){
