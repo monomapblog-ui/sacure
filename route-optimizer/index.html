@@ -778,7 +778,7 @@ function renderResult(startPt,endPt,res,departStr,failedStops,geocodedStops,isLa
   }
   if(failedStops?.length){
     document.getElementById('res-banner').insertAdjacentHTML('afterend',
-      `<div class="alert alert-w" style="margin-bottom:8px;">⚠️ 住所を取得できなかった${failedStops.length}件は地図に表示されません：${failedStops.map(s=>s.name).join('、')}</div>`);
+      `<div class="alert alert-w" style="margin-bottom:8px;">⚠️ 住所を取得できなかった${failedStops.length}件は地図に表示されません：${failedStops.map(s=>esc(s.name)).join('、')}</div>`);
   }
 
   // Route list
@@ -834,13 +834,13 @@ function renderMap(startPt,endPt,route){
     html:`<div style="background:${bg};color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;border:2px solid #fff;box-shadow:0 2px 5px rgba(0,0,0,.3);">${label}</div>`,
     className:'',iconSize:[26,26],iconAnchor:[13,13]
   });
-  if(startPt.lat){L.marker([startPt.lat,startPt.lng],{icon:mkIcon('出','#1A1A3A')}).bindPopup(`<b>出発：${startPt.name}</b>`).addTo(map);pts.push([startPt.lat,startPt.lng]);}
+  if(startPt.lat){L.marker([startPt.lat,startPt.lng],{icon:mkIcon('出','#1A1A3A')}).bindPopup(`<b>出発：${esc(startPt.name)}</b>`).addTo(map);pts.push([startPt.lat,startPt.lng]);}
   route.forEach((s,i)=>{
     if(!s.lat)return;
-    L.marker([s.lat,s.lng],{icon:mkIcon(i+1,'#b51748')}).bindPopup(`<b>${i+1}. ${s.name}</b><br>${s.address}${s.templateTime?'<br>🕐 '+s.templateTime:s.twEnd?'<br>⏰ '+s.twEnd+'まで':''}`).addTo(map);
+    L.marker([s.lat,s.lng],{icon:mkIcon(i+1,'#b51748')}).bindPopup(`<b>${i+1}. ${esc(s.name)}</b><br>${esc(s.address)}${s.templateTime?'<br>🕐 '+esc(s.templateTime):s.twEnd?'<br>⏰ '+esc(s.twEnd)+'まで':''}`).addTo(map);
     pts.push([s.lat,s.lng]);
   });
-  if(endPt.lat){L.marker([endPt.lat,endPt.lng],{icon:mkIcon('着','#16a34a')}).bindPopup(`<b>帰着：${endPt.name}</b>`).addTo(map);pts.push([endPt.lat,endPt.lng]);}
+  if(endPt.lat){L.marker([endPt.lat,endPt.lng],{icon:mkIcon('着','#16a34a')}).bindPopup(`<b>帰着：${esc(endPt.name)}</b>`).addTo(map);pts.push([endPt.lat,endPt.lng]);}
   if(pts.length>1)L.polyline(pts,{color:'#b51748',weight:3,opacity:.65,dashArray:'6,4'}).addTo(map);
   if(pts.length)map.fitBounds(L.latLngBounds(pts),{padding:[24,24]});
 }
