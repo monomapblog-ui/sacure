@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>板橋事務所 座席表</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Hiragino Kaku Gothic ProN','Meiryo',sans-serif;background:#f3f4f6;padding:24px;color:#1a1a3a;}
+h1{font-size:1.3rem;font-weight:900;color:#1A1A3A;margin-bottom:4px;}
+.updated{font-size:.75rem;color:#888;margin-bottom:24px;}
+.room-wrap{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:28px;}
+
+/* ── 部屋カード ── */
+.room{background:#fff;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.08);padding:18px 20px;flex:1;min-width:280px;}
+.room-title{font-size:.78rem;font-weight:900;color:#fff;background:#1A1A3A;display:inline-block;padding:4px 12px;border-radius:5px;margin-bottom:14px;letter-spacing:.06em;}
+
+/* ── フロアマップ ── */
+.floor{background:#f8f8fb;border:2px solid #e5e7eb;border-radius:10px;padding:14px;margin-bottom:14px;min-height:160px;position:relative;}
+.floor-label{font-size:.65rem;color:#aaa;font-weight:700;position:absolute;top:6px;right:10px;letter-spacing:.05em;}
+
+/* デスクブロック */
+.desk{background:#fff;border:2px solid #1A1A3A;border-radius:7px;padding:8px 10px;min-width:90px;text-align:center;display:inline-flex;flex-direction:column;align-items:center;gap:2px;}
+.desk.empty{border-color:#d1d5db;background:#f9fafb;}
+.desk-num{font-size:.6rem;font-weight:900;color:#b51748;}
+.desk-name{font-size:.88rem;font-weight:900;color:#1A1A3A;line-height:1.3;}
+.desk.empty .desk-name{color:#9ca3af;font-weight:400;}
+.desk-note{font-size:.6rem;color:#6b7280;}
+
+/* グリッド配置 */
+.grid-2x2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.grid-row{display:flex;gap:8px;flex-wrap:wrap;}
+.island{margin-top:12px;padding-top:12px;border-top:1.5px dashed #e5e7eb;}
+.island-label{font-size:.65rem;color:#b51748;font-weight:700;margin-bottom:6px;}
+
+/* ── 一覧表 ── */
+.list-table{width:100%;border-collapse:collapse;font-size:.85rem;}
+.list-table th{background:#1A1A3A;color:#fff;padding:8px 12px;font-size:.72rem;font-weight:700;text-align:left;}
+.list-table td{padding:8px 12px;border-bottom:1px solid #e5e7eb;}
+.list-table tr:last-child td{border-bottom:none;}
+.list-table tr:nth-child(even) td{background:#f9fafb;}
+.tag-room{display:inline-block;padding:1px 8px;border-radius:99px;font-size:.65rem;font-weight:700;}
+.tag-8{background:#eef0fa;color:#1A1A3A;}
+.tag-14{background:#fff0f3;color:#b51748;}
+.tag-empty{background:#f3f4f6;color:#9ca3af;}
+
+@media print{
+  body{background:#fff;padding:10px;}
+  .room{box-shadow:none;border:1px solid #ddd;}
+}
+</style>
+</head>
+<body>
+
+<h1>板橋事務所 座席表</h1>
+<div class="updated">作成日：2026年6月11日</div>
+
+<!-- ── フロアマップ ── -->
+<div class="room-wrap">
+
+  <!-- 8畳 -->
+  <div class="room">
+    <div class="room-title">8畳（4席）</div>
+    <div class="floor">
+      <div class="floor-label">FLOOR MAP</div>
+      <div class="grid-2x2">
+        <div class="desk">
+          <div class="desk-num">① 窓側</div>
+          <div class="desk-name">加藤</div>
+        </div>
+        <div class="desk">
+          <div class="desk-num">② 窓側</div>
+          <div class="desk-name">村田</div>
+        </div>
+        <div class="desk empty">
+          <div class="desk-num">③</div>
+          <div class="desk-name">空き</div>
+        </div>
+        <div class="desk empty">
+          <div class="desk-num">④</div>
+          <div class="desk-name">空き</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 14畳 -->
+  <div class="room">
+    <div class="room-title">14畳（5席＋離れ小島1席）</div>
+    <div class="floor">
+      <div class="floor-label">FLOOR MAP</div>
+      <!-- メイン5席（左奥から） -->
+      <div class="grid-row">
+        <div class="desk">
+          <div class="desk-num">① 左奥</div>
+          <div class="desk-name">内田</div>
+        </div>
+        <div class="desk">
+          <div class="desk-num">②</div>
+          <div class="desk-name">志村</div>
+        </div>
+        <div class="desk">
+          <div class="desk-num">③</div>
+          <div class="desk-name">神谷</div>
+        </div>
+        <div class="desk">
+          <div class="desk-num">④</div>
+          <div class="desk-name">堀</div>
+        </div>
+        <div class="desk empty">
+          <div class="desk-num">⑤</div>
+          <div class="desk-name">空き</div>
+        </div>
+      </div>
+      <!-- 離れ小島 -->
+      <div class="island">
+        <div class="island-label">▲ 離れ小島</div>
+        <div class="desk" style="display:inline-flex;">
+          <div class="desk-num">⑥ 離れ</div>
+          <div class="desk-name">加藤</div>
+          <div class="desk-note">（女性）</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── 一覧表 ── -->
+<div class="room" style="max-width:600px;">
+  <div class="room-title">座席一覧</div>
+  <table class="list-table">
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>部屋</th>
+        <th>席</th>
+        <th>氏名</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td><span class="tag-room tag-8">8畳</span></td><td>① 窓側</td><td>加藤</td></tr>
+      <tr><td>2</td><td><span class="tag-room tag-8">8畳</span></td><td>② 窓側</td><td>村田</td></tr>
+      <tr><td>3</td><td><span class="tag-room tag-8">8畳</span></td><td>③</td><td><span class="tag-room tag-empty">空き</span></td></tr>
+      <tr><td>4</td><td><span class="tag-room tag-8">8畳</span></td><td>④</td><td><span class="tag-room tag-empty">空き</span></td></tr>
+      <tr><td>5</td><td><span class="tag-room tag-14">14畳</span></td><td>① 左奥</td><td>内田</td></tr>
+      <tr><td>6</td><td><span class="tag-room tag-14">14畳</span></td><td>②</td><td>志村</td></tr>
+      <tr><td>7</td><td><span class="tag-room tag-14">14畳</span></td><td>③</td><td>神谷</td></tr>
+      <tr><td>8</td><td><span class="tag-room tag-14">14畳</span></td><td>④</td><td>堀</td></tr>
+      <tr><td>9</td><td><span class="tag-room tag-14">14畳</span></td><td>⑤</td><td><span class="tag-room tag-empty">空き</span></td></tr>
+      <tr><td>10</td><td><span class="tag-room tag-14">14畳</span></td><td>離れ小島</td><td>加藤（女性）</td></tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>
