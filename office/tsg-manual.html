@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TSG運輸システム 勤怠・請求入力マニュアル</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Hiragino Kaku Gothic ProN','Meiryo',sans-serif;background:#f5f5f5;padding:32px 24px;color:#1a1a2e;font-size:14px;}
+.page{max-width:720px;margin:0 auto;background:#fff;border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,.1);padding:36px 40px;}
+h1{font-size:1.25rem;font-weight:900;color:#fff;background:#1A1A3A;padding:14px 20px;border-radius:8px;margin-bottom:28px;letter-spacing:.05em;}
+h1 span{font-size:.8rem;font-weight:400;opacity:.7;margin-left:10px;}
+h2{font-size:.95rem;font-weight:900;color:#fff;background:#b51748;padding:8px 14px;border-radius:6px;margin:24px 0 14px;letter-spacing:.04em;}
+h2.warn{background:#e05c00;}
+.step-list{counter-reset:step;list-style:none;padding:0;}
+.step-list li{counter-increment:step;display:flex;gap:14px;align-items:flex-start;padding:11px 0;border-bottom:1px solid #eee;}
+.step-list li:last-child{border-bottom:none;}
+.step-list li::before{content:counter(step);min-width:28px;height:28px;border-radius:50%;background:#1A1A3A;color:#fff;font-size:.82rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.step-list li .txt{flex:1;line-height:1.6;}
+.step-list li .sub{font-size:.8rem;color:#666;margin-top:3px;}
+.caution{background:#fff8e1;border-left:4px solid #f59e0b;padding:10px 14px;border-radius:0 6px 6px 0;margin-top:6px;font-size:.85rem;color:#7c4a00;line-height:1.6;}
+.caution strong{color:#b45309;}
+.warn-box{border:2px solid #b51748;border-radius:8px;padding:16px 18px;margin-bottom:14px;}
+.warn-box h3{font-size:.9rem;font-weight:900;color:#b51748;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.warn-box ul{list-style:none;padding:0;}
+.warn-box ul li{padding:6px 0;border-bottom:1px dashed #f0c0c8;display:flex;align-items:baseline;gap:8px;font-size:.88rem;line-height:1.55;}
+.warn-box ul li:last-child{border-bottom:none;}
+.warn-box ul li::before{content:"▶";color:#b51748;font-size:.7rem;flex-shrink:0;}
+.warn-box.orange{border-color:#e05c00;}
+.warn-box.orange h3{color:#e05c00;}
+.warn-box.orange ul li::before{color:#e05c00;}
+.warn-box.orange ul li{border-bottom-color:#f5d0b0;}
+.updated{font-size:.72rem;color:#aaa;text-align:right;margin-top:28px;}
+@media print{
+  body{background:#fff;padding:0;}
+  .page{box-shadow:none;padding:20px;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <h1>TSG 運輸システム<span>勤怠・請求入力マニュアル</span></h1>
+
+  <h2>📋 入力手順</h2>
+  <ol class="step-list">
+    <li>
+      <div class="txt">
+        <strong>デスクトップ左上の「運輸システム」を起動する</strong>
+        <div class="sub">TSGアイコン（カラフルなロゴ）をダブルクリック</div>
+      </div>
+    </li>
+    <li>
+      <div class="txt">
+        <strong>メニューから「毎日の入力」を選ぶ</strong>
+      </div>
+    </li>
+    <li>
+      <div class="txt">
+        <strong>同じ従業員・車両の過去データを「複写」して使う</strong>
+        <div class="caution">
+          ⚠️ <strong>必ず複写（コピー）してから更新・保存すること！</strong><br>
+          直接上書きすると過去データが消えてしまいます。<br>
+          新しく入力する場合も、似た過去データを複写→修正の手順で。
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="txt">
+        <strong>内容を修正して保存する</strong>
+        <div class="sub">日付・時刻・走行km・運賃・高速代などを運転日報を見ながら入力</div>
+      </div>
+    </li>
+    <li>
+      <div class="txt">
+        <strong>新しい従業員はデータがない場合がある</strong>
+        <div class="sub">その場合は専務に確認してから新規作成する</div>
+      </div>
+    </li>
+  </ol>
+
+  <h2 class="warn">⚠️ 要注意取引先</h2>
+
+  <div class="warn-box">
+    <h3>🏢 渡辺ベニヤ</h3>
+    <ul>
+      <li><strong>着メーター・発メーターは必ず先に入力すること</strong><br>
+        <span style="font-size:.82rem;color:#666;">後から入力すると「距離増し」が自動で入ってしまうため</span>
+      </li>
+      <li>作業料：<strong>1回あたり 3,000円</strong> を必ず入力</li>
+    </ul>
+  </div>
+
+  <div class="warn-box orange">
+    <h3>🚛 東京運送</h3>
+    <ul>
+      <li><strong>勤務時間に注意</strong>して入力すること</li>
+    </ul>
+  </div>
+
+  <div class="updated">作成日：2026年6月12日　株式会社サキュレ</div>
+
+</div>
+</body>
+</html>
