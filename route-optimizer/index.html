@@ -1047,10 +1047,7 @@ function completeAndNav(i){
   if(nextIdx<0){speak('全ルート完了です。おつかれさまでした。');return;}
   const ns=route[nextIdx];
   speak(`次は${ns.name}へ`);
-  const url=ns.lat
-    ?`https://www.google.com/maps/dir/?api=1&destination=${ns.lat},${ns.lng}&travelmode=driving`
-    :`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(ns.address)}&travelmode=driving`;
-  window.open(url,'_blank');
+  window.open(mapsUrl(ns, route[i]),'_blank');
 }
 
 function generateSummaryText(route,completionTime,totalWeight,memoItems){
@@ -1136,15 +1133,17 @@ function renderDriveList(){
     footerInner.innerHTML=`<div class="drv-footer-done">🎉 全ルート完了！おつかれさまでした</div>`;
   } else if(nextIdx>=0){
     const ns=route[nextIdx];
-    const nsUrl=ns.lat
-      ?`https://www.google.com/maps/dir/?api=1&destination=${ns.lat},${ns.lng}&travelmode=driving`
-      :`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(ns.address)}&travelmode=driving`;
+    // Find last completed stop to use as nav origin (current position)
+    let prevDone=null;
+    for(let k=nextIdx-1;k>=0;k--){if(done.has(k)){prevDone=route[k];break;}}
+    const nsUrl=mapsUrl(ns, prevDone);
     const nsTiming=S._timings?.[nextIdx];
     const fLabel=allNormalDone?'⏭ 後回し':'▶ 次の停車地';
+    const fromLabel=prevDone?`${esc(prevDone.name)} → ${esc(ns.name)}`:`📍 ${esc(ns.name)}`;
     footerInner.innerHTML=`<div class="drv-footer-next">
       <div class="drv-footer-info">
         <div class="drv-footer-label">${fLabel}</div>
-        <div class="drv-footer-name">${esc(ns.name)}</div>
+        <div class="drv-footer-name">${fromLabel}</div>
         <div class="drv-footer-sub">${nsTiming?`⏱ ${m2t(nsTiming.arr)} 到着予定`:''}${ns.weight?` · 📦 ${ns.weight}kg`:''}</div>
       </div>
       <a href="${nsUrl}" target="_blank" rel="noopener" class="drv-footer-navbtn">📍 ナビ</a>
@@ -1156,9 +1155,7 @@ function renderDriveList(){
     const isDone=done.has(i);
     const isSkipped=skipped.has(i)&&!isDone;
     const isNext=i===nextIdx;
-    const navUrl=stop.lat
-      ?`https://www.google.com/maps/dir/?api=1&destination=${stop.lat},${stop.lng}&travelmode=driving`
-      :`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(stop.address)}&travelmode=driving`;
+    const navUrl=mapsUrl(stop, i>0?route[i-1]:null);
     const tw=stop.twEnd?(stop.twStart?stop.twStart+'〜':'')+stop.twEnd+'まで':(stop.templateTime?'🕐 '+stop.templateTime:'');
     const timing=S._timings?.[i];
     const nowMin=new Date().getHours()*60+new Date().getMinutes();
@@ -1389,6 +1386,13 @@ function switchTab(tab){
 
 // ═══════════ UTIL ═══════════
 function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+// Build Google Maps dir URL. origin/dest are stop objects {lat,lng,address}. origin null → GPS.
+function mapsUrl(dest, origin=null){
+  let u='https://www.google.com/maps/dir/?api=1';
+  if(origin){u+=origin.lat?`&origin=${origin.lat},${origin.lng}`:`&origin=${encodeURIComponent(origin.address)}`;}
+  u+=dest.lat?`&destination=${dest.lat},${dest.lng}`:`&destination=${encodeURIComponent(dest.address)}`;
+  return u+'&travelmode=driving';
+}
 
 // ═══════════ INIT ═══════════
 function init(){
