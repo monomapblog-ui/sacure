@@ -31,6 +31,9 @@ h2.warn{background:#e05c00;}
 .warn-box.orange ul li::before{color:#e05c00;}
 .warn-box.orange ul li{border-bottom-color:#f5d0b0;}
 .updated{font-size:.72rem;color:#aaa;text-align:right;margin-top:28px;}
+.diag{margin:10px 0 2px;background:#f5f7ff;border:1px solid #cdd5ee;border-radius:8px;padding:10px 10px 6px;overflow-x:auto;}
+.diag svg{display:block;margin:0 auto;}
+.diag-cap{font-size:.75rem;color:#556;text-align:center;margin-top:4px;line-height:1.5;}
 @media print{
   body{background:#fff;padding:0;}
   .page{box-shadow:none;padding:20px;}
@@ -43,6 +46,33 @@ h2.warn{background:#e05c00;}
   <h1>TSG 運輸システム<span>勤怠・請求入力マニュアル</span></h1>
 
   <h2>📋 入力手順</h2>
+
+  <!-- 全体フロー図 -->
+  <div class="diag">
+    <svg viewBox="0 0 558 68" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:558px;height:68px;">
+      <defs>
+        <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0,8 3,0 6" fill="#1A1A3A"/>
+        </marker>
+      </defs>
+      <rect x="2" y="6" width="148" height="56" rx="7" fill="#1A1A3A"/>
+      <text x="76" y="27" text-anchor="middle" fill="#88bbff" font-size="9">① 起動</text>
+      <text x="76" y="42" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">運輸システム</text>
+      <text x="76" y="56" text-anchor="middle" fill="#99aacc" font-size="8.5">デスクトップアイコン</text>
+      <line x1="150" y1="34" x2="170" y2="34" stroke="#1A1A3A" stroke-width="2" marker-end="url(#arr)"/>
+      <rect x="172" y="6" width="148" height="56" rx="7" fill="#1A1A3A"/>
+      <text x="246" y="27" text-anchor="middle" fill="#88bbff" font-size="9">②③ 選択</text>
+      <text x="246" y="42" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">問い合わせ</text>
+      <text x="246" y="56" text-anchor="middle" fill="#99aacc" font-size="8.5">→ 車両実績問合せ</text>
+      <line x1="320" y1="34" x2="340" y2="34" stroke="#1A1A3A" stroke-width="2" marker-end="url(#arr)"/>
+      <rect x="342" y="6" width="214" height="56" rx="7" fill="#b51748"/>
+      <text x="449" y="27" text-anchor="middle" fill="#ffaacc" font-size="9">④⑤ 入力・保存</text>
+      <text x="449" y="42" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">複写 → 修正 → 保存</text>
+      <text x="449" y="56" text-anchor="middle" fill="#ffccdd" font-size="8.5">日付・時刻・運賃を入力</text>
+    </svg>
+    <div class="diag-cap">操作の全体流れ</div>
+  </div>
+
   <ol class="step-list">
     <li>
       <div class="txt">
@@ -58,11 +88,79 @@ h2.warn{background:#e05c00;}
     <li>
       <div class="txt">
         <strong>「車両実績問合せ」を選ぶ</strong>
+        <div class="diag" style="margin-top:8px;">
+          <svg viewBox="0 0 500 96" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:500px;height:96px;">
+            <rect x="1" y="1" width="498" height="94" rx="3" fill="#c8c8c8" stroke="#888" stroke-width="1"/>
+            <rect x="1" y="1" width="498" height="20" rx="3" fill="#000080"/>
+            <rect x="1" y="11" width="498" height="10" fill="#000080"/>
+            <text x="12" y="15" fill="#fff" font-size="10" font-weight="bold">■ 車両実績問い合せ</text>
+            <rect x="1" y="21" width="498" height="18" fill="#d4d0c8"/>
+            <rect x="5" y="23" width="14" height="14" rx="2" fill="#cc3333"/>
+            <rect x="22" y="23" width="14" height="14" rx="2" fill="#eee" stroke="#aaa" stroke-width="0.5"/>
+            <rect x="39" y="23" width="14" height="14" rx="2" fill="#eee" stroke="#aaa" stroke-width="0.5"/>
+            <rect x="56" y="23" width="14" height="14" rx="2" fill="#eee" stroke="#aaa" stroke-width="0.5"/>
+            <rect x="1" y="39" width="498" height="24" fill="#90dd90"/>
+            <text x="12" y="55" fill="#003300" font-size="10" font-weight="bold">車輌番号</text>
+            <rect x="67" y="43" width="115" height="16" rx="2" fill="white" stroke="#cc0000" stroke-width="2"/>
+            <text x="124" y="54" text-anchor="middle" fill="#cc0000" font-size="8.5" font-weight="bold">← ここに車輌番号を入力</text>
+            <text x="195" y="55" fill="#222" font-size="9">開始日</text>
+            <rect x="218" y="43" width="66" height="16" rx="2" fill="white" stroke="#888" stroke-width="0.5"/>
+            <text x="251" y="54" text-anchor="middle" fill="#444" font-size="9">26/06/01</text>
+            <text x="290" y="55" fill="#222" font-size="9">終了日</text>
+            <rect x="313" y="43" width="66" height="16" rx="2" fill="white" stroke="#888" stroke-width="0.5"/>
+            <text x="346" y="54" text-anchor="middle" fill="#444" font-size="9">26/06/30</text>
+            <rect x="390" y="41" width="100" height="20" rx="3" fill="#006600"/>
+            <text x="440" y="55" text-anchor="middle" fill="white" font-size="10" font-weight="bold">開始 (F4)</text>
+            <rect x="1" y="63" width="498" height="14" fill="#d4d0c8"/>
+            <text x="9" y="73" fill="#333" font-size="7.5">伝票NO</text>
+            <text x="60" y="73" fill="#333" font-size="7.5">管理</text>
+            <text x="94" y="73" fill="#333" font-size="7.5">曜</text>
+            <text x="114" y="73" fill="#333" font-size="7.5">地場区分</text>
+            <text x="182" y="73" fill="#333" font-size="7.5">運転手</text>
+            <text x="252" y="73" fill="#333" font-size="7.5">車種</text>
+            <text x="292" y="73" fill="#333" font-size="7.5">時間</text>
+            <text x="332" y="73" fill="#333" font-size="7.5">Km</text>
+            <rect x="1" y="77" width="498" height="18" fill="#bbb" opacity="0.4"/>
+          </svg>
+          <div class="diag-cap">「車輌番号」欄に番号を入力 → <strong>開始(F4)</strong> で過去データ一覧が表示される（1〜2週間前のデータが出ればOK）</div>
+        </div>
       </div>
     </li>
     <li>
       <div class="txt">
         <strong>まずは車両番号を入力して、同じ従業員の場合は過去データを複写して更新して保存</strong>
+        <div class="diag" style="margin-top:8px;">
+          <svg viewBox="0 0 360 58" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:360px;height:58px;">
+            <rect x="2" y="2" width="340" height="26" rx="3" fill="#d4d0c8" stroke="#aaa" stroke-width="1"/>
+            <!-- btn1 red -->
+            <rect x="7" y="5" width="20" height="20" rx="2" fill="#cc3333"/>
+            <text x="17" y="19" text-anchor="middle" fill="white" font-size="11" font-weight="bold">✕</text>
+            <!-- btn2 -->
+            <rect x="30" y="5" width="20" height="20" rx="2" fill="#f0f0f0" stroke="#aaa" stroke-width="0.5"/>
+            <rect x="34" y="8" width="12" height="14" rx="1" fill="none" stroke="#888" stroke-width="1"/>
+            <!-- btn3 -->
+            <rect x="53" y="5" width="20" height="20" rx="2" fill="#f0f0f0" stroke="#aaa" stroke-width="0.5"/>
+            <path d="M57 9 L57 21 L73 21 L73 13 L67 9 Z" fill="#ccc" stroke="#888" stroke-width="0.8"/>
+            <!-- btn4 HIGHLIGHTED: 複写 -->
+            <rect x="76" y="3" width="24" height="24" rx="3" fill="#ff8800" stroke="#cc5500" stroke-width="2"/>
+            <circle cx="86" cy="13" r="5" fill="none" stroke="white" stroke-width="2"/>
+            <line x1="90" y1="17" x2="95" y2="22" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <!-- btn5-8 -->
+            <rect x="103" y="5" width="20" height="20" rx="2" fill="#f0f0f0" stroke="#aaa" stroke-width="0.5"/>
+            <text x="113" y="18" text-anchor="middle" fill="#555" font-size="9">|◀</text>
+            <rect x="126" y="5" width="20" height="20" rx="2" fill="#f0f0f0" stroke="#aaa" stroke-width="0.5"/>
+            <text x="136" y="18" text-anchor="middle" fill="#555" font-size="9">◀</text>
+            <rect x="149" y="5" width="20" height="20" rx="2" fill="#f0f0f0" stroke="#aaa" stroke-width="0.5"/>
+            <text x="159" y="18" text-anchor="middle" fill="#555" font-size="9">▶</text>
+            <rect x="172" y="5" width="20" height="20" rx="2" fill="#f0f0f0" stroke="#aaa" stroke-width="0.5"/>
+            <text x="182" y="18" text-anchor="middle" fill="#555" font-size="9">▶|</text>
+            <!-- arrow + label -->
+            <line x1="88" y1="27" x2="88" y2="40" stroke="#cc5500" stroke-width="1.5"/>
+            <polygon points="84,40 88,47 92,40" fill="#cc5500"/>
+            <text x="88" y="57" text-anchor="middle" fill="#cc5500" font-size="10" font-weight="bold">複写ボタン（左から4番目）</text>
+          </svg>
+          <div class="diag-cap">ツールバー左から<strong>4番目</strong>のボタンをクリック → 過去データがコピーされる</div>
+        </div>
         <div class="caution">
           ⚠️ <strong>必ず複写すること！！！上書きしないように</strong><br>
           なければ似たようなやつを複写して車両番号を変更してから更新作業。
@@ -72,7 +170,59 @@ h2.warn{background:#e05c00;}
     <li>
       <div class="txt">
         <strong>内容を修正して保存する</strong>
-        <div class="sub">日付・時刻・走行km・運賃・高速代などを運転日報を見ながら入力</div>
+        <div class="sub">運転日報を見ながら日付・時刻・走行km・運賃・高速代などを入力</div>
+        <div class="diag" style="margin-top:8px;">
+          <svg viewBox="0 0 530 218" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:530px;height:218px;">
+            <text x="265" y="14" text-anchor="middle" fill="#1A1A3A" font-size="11" font-weight="bold">詳細入力画面　修正ポイント</text>
+
+            <!-- LEFT: 必ず変更 -->
+            <rect x="4" y="22" width="196" height="124" rx="6" fill="#fff8e1" stroke="#e08000" stroke-width="1.5"/>
+            <rect x="4" y="22" width="196" height="22" rx="6" fill="#e08000"/>
+            <rect x="4" y="33" width="196" height="11" fill="#e08000"/>
+            <text x="102" y="37" text-anchor="middle" fill="white" font-size="9.5" font-weight="bold">▼ 必ず変更する</text>
+            <text x="15" y="59" fill="#7c3800" font-size="9.5" font-weight="bold">出 庫 日</text>
+            <rect x="68" y="50" width="80" height="15" rx="2" fill="white" stroke="#e08000" stroke-width="1.5"/>
+            <text x="155" y="61" fill="#e05c00" font-size="8.5" font-weight="bold">← 変更</text>
+            <text x="15" y="80" fill="#7c3800" font-size="9.5" font-weight="bold">帰 庫 日</text>
+            <rect x="68" y="71" width="80" height="15" rx="2" fill="white" stroke="#e08000" stroke-width="1.5"/>
+            <text x="155" y="82" fill="#e05c00" font-size="8.5" font-weight="bold">← 変更</text>
+            <text x="15" y="101" fill="#7c3800" font-size="9.5" font-weight="bold">出庫時刻</text>
+            <rect x="68" y="92" width="80" height="15" rx="2" fill="white" stroke="#e08000" stroke-width="1.5"/>
+            <text x="155" y="103" fill="#e05c00" font-size="8.5" font-weight="bold">← 変更</text>
+            <text x="15" y="122" fill="#7c3800" font-size="9.5" font-weight="bold">帰庫時刻</text>
+            <rect x="68" y="113" width="80" height="15" rx="2" fill="white" stroke="#e08000" stroke-width="1.5"/>
+            <text x="155" y="124" fill="#e05c00" font-size="8.5" font-weight="bold">← 変更</text>
+
+            <!-- RIGHT: 該当時のみ -->
+            <rect x="210" y="22" width="316" height="124" rx="6" fill="#e8f5e9" stroke="#43a047" stroke-width="1.5"/>
+            <rect x="210" y="22" width="316" height="22" rx="6" fill="#43a047"/>
+            <rect x="210" y="33" width="316" height="11" fill="#43a047"/>
+            <text x="368" y="37" text-anchor="middle" fill="white" font-size="9.5" font-weight="bold">▼ 該当時のみ入力</text>
+            <text x="220" y="59" fill="#1b5e20" font-size="9.5" font-weight="bold">得 意 先</text>
+            <rect x="272" y="50" width="118" height="15" rx="2" fill="white" stroke="#43a047" stroke-width="1"/>
+            <text x="400" y="61" fill="#388e3c" font-size="8.5">同じなら変更不要</text>
+            <text x="220" y="80" fill="#1b5e20" font-size="9.5" font-weight="bold">高速請求</text>
+            <rect x="272" y="71" width="76" height="15" rx="2" fill="white" stroke="#43a047" stroke-width="1"/>
+            <text x="354" y="82" fill="#2e7d32" font-size="8.5">← 高速あり時に入力</text>
+            <text x="220" y="101" fill="#1b5e20" font-size="9.5" font-weight="bold">駐車請求</text>
+            <rect x="272" y="92" width="76" height="15" rx="2" fill="white" stroke="#43a047" stroke-width="1"/>
+            <text x="354" y="103" fill="#2e7d32" font-size="8.5">← 駐車あり時に入力</text>
+
+            <!-- BOTTOM: 渡辺ベニヤ専用 -->
+            <rect x="4" y="154" width="522" height="60" rx="6" fill="#fce4ec" stroke="#b51748" stroke-width="2"/>
+            <rect x="4" y="154" width="522" height="20" rx="6" fill="#b51748"/>
+            <rect x="4" y="164" width="522" height="10" fill="#b51748"/>
+            <text x="265" y="168" text-anchor="middle" fill="white" font-size="9.5" font-weight="bold">🏢 渡辺ベニヤ専用 — 追加で必須入力</text>
+            <text x="18" y="189" fill="#880028" font-size="9.5" font-weight="bold">着 メーター</text>
+            <rect x="82" y="180" width="86" height="15" rx="2" fill="white" stroke="#b51748" stroke-width="1.5"/>
+            <text x="173" y="191" fill="#b51748" font-size="8.5" font-weight="bold">← 必須</text>
+            <text x="240" y="189" fill="#880028" font-size="9.5" font-weight="bold">発 メーター</text>
+            <rect x="304" y="180" width="86" height="15" rx="2" fill="white" stroke="#b51748" stroke-width="1.5"/>
+            <text x="395" y="191" fill="#b51748" font-size="8.5" font-weight="bold">← 必須</text>
+            <text x="18" y="207" fill="#880028" font-size="8">※ 入れないと距離増料金が発生するため</text>
+          </svg>
+          <div class="diag-cap">オレンジ = 必ず変更　緑 = 該当時のみ　赤 = 渡辺ベニヤのみ必須</div>
+        </div>
       </div>
     </li>
     <li>
