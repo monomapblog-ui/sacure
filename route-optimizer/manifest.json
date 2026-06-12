@@ -1,7 +1,7 @@
 {
-  "name": "サキュレ 回収ルート最適化",
-  "short_name": "サキュレ",
-  "description": "回収ルートの最適化・ドライブ支援アプリ",
+  "name": "サキュレ産廃ナビ",
+  "short_name": "産廃ナビ",
+  "description": "産廃回収ルートの最適化・ドライブ支援アプリ",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
