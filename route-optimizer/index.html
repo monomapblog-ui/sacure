@@ -1398,8 +1398,8 @@ init();
 
 // 検索ボックス外クリックで候補を閉じる
 document.addEventListener('click',e=>{
-  if(!e.target.closest('.stop-search'))document.getElementById('stop-search-res').style.display='none';
-  if(!e.target.closest('#end-master-wrap'))document.getElementById('end-master-res').style.display='none';
+  if(!e.target.closest('.stop-search')){const el=document.getElementById('stop-search-res');if(el)el.style.display='none';}
+  const emr=document.getElementById('end-master-res');if(emr&&!e.target.closest('#end-master-wrap'))emr.style.display='none';
 });
 </script>
 <!-- ═══ DRIVE MODE OVERLAY ═══ -->
