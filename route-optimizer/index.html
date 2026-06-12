@@ -503,11 +503,15 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 function normalizeAddr(addr) {
   // 全角数字→半角、路線名プレフィックス除去
-  return addr
+  let a = addr
     .replace(/^(新宿線|大江戸線|浅草線|三田線|都営)/, '')
     .replace(/[０-９]/g, c => String.fromCharCode(c.charCodeAt(0) - 0xFEE0))
     .replace(/－/g, '-')
     .trim();
+  // 建物名を除去：番地の後のスペース以降（全角・半角）は不要
+  // 例: "東京都新宿区2-1-1 ○○ビル" → "東京都新宿区2-1-1"
+  a = a.split(/[\s　]/)[0];
+  return a;
 }
 
 async function nominatimSearch(q) {
