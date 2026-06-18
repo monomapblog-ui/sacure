@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1F4E79">
+<title>勤怠管理 | サキュレ</title>
+<link rel="manifest" href="manifest.json">
+<style>
+:root{--primary:#1F4E79;--primary-lt:#2E75B6;--bg:#F2F5F9;--card:#fff;--border:#DEE2E6;--txt:#212529;--muted:#6C757D;--ok:#2E7D32;--ok-bg:#E8F5E9;--ng:#C62828;--ng-bg:#FFEBEE;--warn:#E65100;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--txt);font-size:15px;min-height:100vh;}
+
+/* ── Header ── */
+.hdr{background:var(--primary);color:#fff;padding:12px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:200;box-shadow:0 2px 6px rgba(0,0,0,.25);}
+.hdr h1{font-size:1.05rem;font-weight:700;flex:1;}
+.hdr-badge{background:rgba(255,255,255,.2);border-radius:12px;padding:3px 10px;font-size:.78rem;}
+
+/* ── Tabs ── */
+.tabs{display:flex;background:#fff;border-bottom:2px solid var(--border);position:sticky;top:47px;z-index:190;overflow-x:auto;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{flex:1;padding:11px 4px;border:none;background:none;font-size:.82rem;font-weight:700;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;transition:.15s;}
+.tab.on{color:var(--primary);border-bottom-color:var(--primary);}
+
+/* ── Panels ── */
+.panel{display:none;padding:14px;}
+.panel.on{display:block;}
+
+/* ── Card ── */
+.card{background:#fff;border-radius:10px;padding:14px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.08);}
+.card-ttl{font-size:.75rem;font-weight:700;color:var(--muted);letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px;}
+
+/* ── Date bar ── */
+.date-bar{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+.date-bar input[type=date]{flex:1;padding:9px 10px;border:1px solid var(--border);border-radius:8px;font-size:.95rem;}
+.btn-today{padding:9px 14px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:.82rem;font-weight:700;cursor:pointer;white-space:nowrap;}
+
+/* ── Employee rows (input) ── */
+.emp-row{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--border);}
+.emp-row:last-child{border-bottom:none;}
+.chk-btn{width:38px;height:38px;border-radius:50%;border:2px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;flex-shrink:0;transition:.2s;}
+.chk-btn.on{background:var(--ok);border-color:var(--ok);color:#fff;}
+.emp-info{flex:1;min-width:0;}
+.emp-name{font-weight:700;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.emp-meta{font-size:.72rem;color:var(--muted);}
+.emp-fields{display:flex;gap:5px;flex-shrink:0;}
+.emp-fields input{padding:6px 7px;border:1px solid var(--border);border-radius:6px;font-size:.82rem;}
+.ef-veh{width:68px;}
+.ef-time{width:72px;}
+.emp-fields.hide{display:none;}
+
+/* ── Save button ── */
+.btn-save{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:14px;}
+.btn-save:active{opacity:.85;}
+
+/* ── Monthly grid ── */
+.month-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.month-nav button{padding:7px 14px;border:1px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-size:1.1rem;}
+.month-lbl{font-size:1.05rem;font-weight:700;}
+.grid-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.08);}
+.gtbl{border-collapse:collapse;font-size:.75rem;background:#fff;}
+.gtbl th{background:var(--primary);color:#fff;padding:5px 4px;text-align:center;white-space:nowrap;font-weight:700;}
+.gtbl th.sticky-col{position:sticky;left:0;z-index:20;}
+.gtbl td{padding:4px 3px;text-align:center;border:1px solid #eee;min-width:34px;}
+.gtbl td.sticky-col{position:sticky;left:0;background:#f8f9fa;font-weight:700;z-index:10;white-space:nowrap;padding:4px 6px;}
+.gtbl tr.sun td{background:#FFF5F5;}
+.gtbl tr.sun td.sticky-col{background:#FFE0E0;color:var(--ng);}
+.gtbl tr.sat td{background:#F0F5FF;}
+.gtbl tr.sat td.sticky-col{background:#DCE8FF;color:var(--primary-lt);}
+.s-ok{display:inline-block;background:var(--ok-bg);color:var(--ok);border-radius:3px;padding:1px 5px;font-weight:700;font-size:.72rem;}
+.s-ng{color:#ccc;font-size:.72rem;}
+.sum-row td{background:var(--primary) !important;color:#fff !important;font-weight:700;padding:5px 4px;}
+.sum-row td.sticky-col{background:var(--primary) !important;}
+
+/* ── Staff panel ── */
+.staff-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);}
+.staff-item:last-child{border-bottom:none;}
+.staff-info{flex:1;min-width:0;}
+.staff-name{font-weight:700;}
+.staff-sub{font-size:.75rem;color:var(--muted);}
+.icon-btn{width:34px;height:34px;border:1px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.icon-btn.del{border-color:var(--ng);color:var(--ng);}
+
+/* ── Form ── */
+.frow{margin-bottom:11px;}
+.frow label{display:block;font-size:.8rem;font-weight:700;color:var(--muted);margin-bottom:4px;}
+.frow input,.frow select{width:100%;padding:9px 10px;border:1px solid var(--border);border-radius:8px;font-size:.92rem;}
+.btn-row{display:flex;gap:8px;margin-top:4px;}
+.btn{padding:10px;border:1px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-size:.88rem;font-weight:700;flex:1;text-align:center;}
+.btn.primary{background:var(--primary);color:#fff;border-color:var(--primary);}
+.btn.success{background:var(--ok);color:#fff;border-color:var(--ok);}
+.btn.danger{background:var(--ng);color:#fff;border-color:var(--ng);}
+
+/* ── Export panel ── */
+.notice{background:#FFF8E1;border:1px solid #FFE082;border-radius:8px;padding:12px;font-size:.85rem;line-height:1.6;margin-bottom:14px;}
+.btn-export{width:100%;padding:14px;background:var(--ok);color:#fff;border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;}
+
+/* ── Toast ── */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(10px);background:#333;color:#fff;padding:9px 20px;border-radius:20px;font-size:.88rem;z-index:9999;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ── Empty ── */
+.empty{text-align:center;padding:40px 20px;color:var(--muted);}
+.empty-icon{font-size:2.5rem;margin-bottom:8px;}
+
+/* ── Detail popup ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:500;display:none;align-items:flex-end;}
+.overlay.show{display:flex;}
+.popup{background:#fff;border-radius:16px 16px 0 0;padding:20px;width:100%;max-height:90vh;overflow-y:auto;}
+.popup-ttl{font-size:1rem;font-weight:700;margin-bottom:14px;}
+.popup-close{float:right;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <h1>勤怠管理</h1>
+  <span class="hdr-badge" id="hdr-month"></span>
+</div>
+
+<div class="tabs">
+  <button class="tab on" onclick="switchTab('input')">入力</button>
+  <button class="tab" onclick="switchTab('monthly')">月別一覧</button>
+  <button class="tab" onclick="switchTab('staff')">社員管理</button>
+  <button class="tab" onclick="switchTab('export')">出力</button>
+</div>
+
+<!-- ══ 入力タブ ══ -->
+<div class="panel on" id="panel-input">
+  <div class="date-bar">
+    <input type="date" id="input-date" onchange="renderInputList()">
+    <button class="btn-today" onclick="setToday()">今日</button>
+  </div>
+  <div class="card">
+    <div class="card-ttl">出勤者を選択・時間を入力</div>
+    <div id="emp-list"></div>
+  </div>
+  <button class="btn-save" onclick="saveDay()">この日を保存</button>
+</div>
+
+<!-- ══ 月別一覧タブ ══ -->
+<div class="panel" id="panel-monthly">
+  <div class="month-nav">
+    <button onclick="changeMonth(-1)">◀</button>
+    <span class="month-lbl" id="monthly-lbl"></span>
+    <button onclick="changeMonth(1)">▶</button>
+  </div>
+  <div class="grid-wrap">
+    <div id="monthly-grid"></div>
+  </div>
+</div>
+
+<!-- ══ 社員管理タブ ══ -->
+<div class="panel" id="panel-staff">
+  <div class="card">
+    <div class="card-ttl">社員を追加</div>
+    <div class="frow"><label>社員番号</label><input type="text" id="f-id" placeholder="例: 290"></div>
+    <div class="frow"><label>氏名</label><input type="text" id="f-name" placeholder="例: 岡村 栄"></div>
+    <div class="frow"><label>デフォルト車両番号</label><input type="text" id="f-veh" placeholder="例: 55-85"></div>
+    <div class="btn-row">
+      <button class="btn primary" onclick="addStaff()">追加</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-ttl">登録社員一覧</div>
+    <div id="staff-list"></div>
+  </div>
+</div>
+
+<!-- ══ 出力タブ ══ -->
+<div class="panel" id="panel-export">
+  <div class="notice">
+    📋 Excelテンプレートが届き次第、現在の出勤簿フォーマットで出力できるようになります。<br><br>
+    現在は基本フォーマット（CSV形式）での出力が可能です。
+  </div>
+  <div class="card">
+    <div class="card-ttl">出力月の選択</div>
+    <div class="frow"><label>年月</label><input type="month" id="export-month"></div>
+    <div class="btn-row">
+      <button class="btn success" onclick="exportCSV()">CSV出力</button>
+      <button class="btn primary" onclick="exportExcel()" id="btn-excel" disabled style="opacity:.5">Excel出力（準備中）</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-ttl">データ管理</div>
+    <div class="btn-row">
+      <button class="btn" onclick="backupData()">バックアップ</button>
+      <button class="btn danger" onclick="clearMonth()">月データ削除</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 詳細ポップアップ ══ -->
+<div class="overlay" id="overlay" onclick="closePopup(event)">
+  <div class="popup" id="popup">
+    <button class="popup-close" onclick="closeOverlay()">✕</button>
+    <div class="popup-ttl" id="popup-ttl"></div>
+    <div id="popup-body"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════
+// Storage
+// ══════════════════════════════
+const S_EMP = 'kintai_emp_v1';
+const S_ATT = 'kintai_att_v1';
+
+function loadEmp(){ try{return JSON.parse(localStorage.getItem(S_EMP))||[];}catch{return[];} }
+function saveEmp(d){ localStorage.setItem(S_EMP, JSON.stringify(d)); }
+function loadAtt(){ try{return JSON.parse(localStorage.getItem(S_ATT))||{};}catch{return{};} }
+function saveAtt(d){ localStorage.setItem(S_ATT, JSON.stringify(d)); }
+
+// ══════════════════════════════
+// Helpers
+// ══════════════════════════════
+function todayStr(){
+  const d=new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function thisMonthStr(){
+  const d=new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+}
+function fmtMonth(ym){
+  const [y,m]=ym.split('-');
+  return `${y}年${parseInt(m)}月`;
+}
+function daysInMonth(ym){
+  const [y,m]=ym.split('-');
+  return new Date(y, m, 0).getDate();
+}
+function dayOfWeek(dateStr){
+  return new Date(dateStr).getDay(); // 0=sun
+}
+const DOW=['日','月','火','水','木','金','土'];
+
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2000);
+}
+
+// ══════════════════════════════
+// State
+// ══════════════════════════════
+let currentTab='input';
+let currentMonth=thisMonthStr();
+const inputDate=document.getElementById('input-date');
+inputDate.value=todayStr();
+
+// ══════════════════════════════
+// Tab switching
+// ══════════════════════════════
+function switchTab(tab){
+  currentTab=tab;
+  document.querySelectorAll('.tab').forEach((b,i)=>{
+    const names=['input','monthly','staff','export'];
+    b.classList.toggle('on', names[i]===tab);
+  });
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.getElementById('panel-'+tab).classList.add('on');
+  if(tab==='monthly') renderMonthly();
+  if(tab==='staff') renderStaff();
+  if(tab==='export'){
+    document.getElementById('export-month').value=currentMonth;
+  }
+}
+
+// ══════════════════════════════
+// Header month display
+// ══════════════════════════════
+function updateHeader(){
+  document.getElementById('hdr-month').textContent=fmtMonth(currentMonth);
+}
+
+// ══════════════════════════════
+// Input tab
+// ══════════════════════════════
+function setToday(){
+  inputDate.value=todayStr();
+  renderInputList();
+}
+
+function renderInputList(){
+  const date=inputDate.value;
+  const emps=loadEmp();
+  const att=loadAtt();
+  const dayData=(att[date])||{};
+  const el=document.getElementById('emp-list');
+
+  if(emps.length===0){
+    el.innerHTML='<div class="empty"><div class="empty-icon">👤</div><p>社員管理タブで社員を登録してください</p></div>';
+    return;
+  }
+
+  el.innerHTML=emps.map(emp=>{
+    const rec=dayData[emp.id]||null;
+    const isOn=!!rec;
+    const veh=rec?rec.vehicle:(emp.vehicle||'');
+    const st=rec?rec.start:'';
+    const en=rec?rec.end:'';
+    return `
+    <div class="emp-row" id="row-${emp.id}">
+      <div class="chk-btn ${isOn?'on':''}" onclick="toggleEmp('${emp.id}')" id="chk-${emp.id}">${isOn?'✓':'−'}</div>
+      <div class="emp-info">
+        <div class="emp-name">${emp.name}</div>
+        <div class="emp-meta">No.${emp.id}</div>
+      </div>
+      <div class="emp-fields ${isOn?'':'hide'}" id="fields-${emp.id}">
+        <input class="ef-veh" type="text" placeholder="車両" value="${veh}" id="veh-${emp.id}">
+        <input class="ef-time" type="time" value="${st}" id="st-${emp.id}" placeholder="出勤">
+        <input class="ef-time" type="time" value="${en}" id="en-${emp.id}" placeholder="退勤">
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleEmp(id){
+  const chk=document.getElementById('chk-'+id);
+  const fields=document.getElementById('fields-'+id);
+  const isOn=chk.classList.toggle('on');
+  chk.textContent=isOn?'✓':'−';
+  fields.classList.toggle('hide',!isOn);
+  if(isOn){
+    const emp=loadEmp().find(e=>e.id===id);
+    if(emp&&emp.vehicle&&!document.getElementById('veh-'+id).value){
+      document.getElementById('veh-'+id).value=emp.vehicle;
+    }
+  }
+}
+
+function saveDay(){
+  const date=inputDate.value;
+  if(!date){toast('日付を選択してください');return;}
+  const emps=loadEmp();
+  const att=loadAtt();
+  att[date]=att[date]||{};
+
+  // Clear existing records for this date
+  emps.forEach(emp=>{
+    const chk=document.getElementById('chk-'+emp.id);
+    if(chk&&chk.classList.contains('on')){
+      att[date][emp.id]={
+        vehicle: document.getElementById('veh-'+emp.id).value.trim(),
+        start:   document.getElementById('st-'+emp.id).value,
+        end:     document.getElementById('en-'+emp.id).value
+      };
+    } else {
+      delete att[date][emp.id];
+    }
+  });
+
+  // Remove empty date keys
+  if(Object.keys(att[date]).length===0) delete att[date];
+
+  saveAtt(att);
+  toast(`${date} を保存しました`);
+}
+
+// ══════════════════════════════
+// Monthly grid
+// ══════════════════════════════
+function changeMonth(delta){
+  const [y,m]=currentMonth.split('-').map(Number);
+  const d=new Date(y, m-1+delta, 1);
+  currentMonth=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+  updateHeader();
+  renderMonthly();
+}
+
+function renderMonthly(){
+  document.getElementById('monthly-lbl').textContent=fmtMonth(currentMonth);
+  const emps=loadEmp();
+  const att=loadAtt();
+  const days=daysInMonth(currentMonth);
+  const [y,m]=currentMonth.split('-');
+
+  if(emps.length===0){
+    document.getElementById('monthly-grid').innerHTML='<div class="empty"><div class="empty-icon">📅</div><p>社員管理タブで社員を登録してください</p></div>';
+    return;
+  }
+
+  // Count attendance per employee
+  const counts={};
+  emps.forEach(e=>counts[e.id]=0);
+
+  let rows='';
+  for(let d=1;d<=days;d++){
+    const ds=`${y}-${m}-${String(d).padStart(2,'0')}`;
+    const dow=dayOfWeek(ds);
+    const cls=dow===0?'sun':dow===6?'sat':'';
+    const dayData=att[ds]||{};
+    const cells=emps.map(emp=>{
+      const rec=dayData[emp.id];
+      if(rec){
+        counts[emp.id]++;
+        const tip=rec.start&&rec.end?`${rec.start}〜${rec.end}`:rec.start||'';
+        return `<td onclick="showDetail('${ds}','${emp.id}')" style="cursor:pointer" title="${tip}"><span class="s-ok">出</span></td>`;
+      }
+      return `<td><span class="s-ng">休</span></td>`;
+    }).join('');
+    rows+=`<tr class="${cls}"><td class="sticky-col">${d}(${DOW[dow]})</td>${cells}</tr>`;
+  }
+
+  const sumCells=emps.map(e=>`<td>${counts[e.id]}</td>`).join('');
+  const headCells=emps.map(e=>`<th title="No.${e.id}">${e.name.split(' ')[0]}</th>`).join('');
+
+  document.getElementById('monthly-grid').innerHTML=`
+  <table class="gtbl">
+    <thead><tr>
+      <th class="sticky-col">日付</th>
+      ${headCells}
+    </tr></thead>
+    <tbody>${rows}
+      <tr class="sum-row"><td class="sticky-col">出勤日数</td>${sumCells}</tr>
+    </tbody>
+  </table>`;
+}
+
+// ══════════════════════════════
+// Detail popup
+// ══════════════════════════════
+function showDetail(date, empId){
+  const att=loadAtt();
+  const rec=(att[date]||{})[empId];
+  const emp=loadEmp().find(e=>e.id===empId);
+  if(!emp) return;
+
+  document.getElementById('popup-ttl').textContent=`${date}　${emp.name}`;
+  document.getElementById('popup-body').innerHTML=rec?`
+    <table style="width:100%;font-size:.9rem;border-collapse:collapse;">
+      <tr><td style="padding:7px 0;color:var(--muted);width:80px">車両番号</td><td style="font-weight:700">${rec.vehicle||'−'}</td></tr>
+      <tr><td style="padding:7px 0;color:var(--muted)">出勤時間</td><td style="font-weight:700">${rec.start||'−'}</td></tr>
+      <tr><td style="padding:7px 0;color:var(--muted)">退勤時間</td><td style="font-weight:700">${rec.end||'−'}</td></tr>
+    </table>
+    <div class="btn-row" style="margin-top:14px">
+      <button class="btn danger" onclick="deleteRecord('${date}','${empId}')">この日の記録を削除</button>
+    </div>`
+  :`<p style="color:var(--muted)">休日</p>`;
+  document.getElementById('overlay').classList.add('show');
+}
+
+function deleteRecord(date, empId){
+  const att=loadAtt();
+  if(att[date]) delete att[date][empId];
+  if(att[date]&&Object.keys(att[date]).length===0) delete att[date];
+  saveAtt(att);
+  closeOverlay();
+  renderMonthly();
+  toast('記録を削除しました');
+}
+
+function closeOverlay(){ document.getElementById('overlay').classList.remove('show'); }
+function closePopup(e){ if(e.target===document.getElementById('overlay')) closeOverlay(); }
+
+// ══════════════════════════════
+// Staff management
+// ══════════════════════════════
+function renderStaff(){
+  const emps=loadEmp();
+  const el=document.getElementById('staff-list');
+  if(emps.length===0){
+    el.innerHTML='<div class="empty"><div class="empty-icon">👤</div><p>まだ社員が登録されていません</p></div>';
+    return;
+  }
+  el.innerHTML=emps.map(emp=>`
+    <div class="staff-item">
+      <div class="staff-info">
+        <div class="staff-name">${emp.name}</div>
+        <div class="staff-sub">No.${emp.id}　車両：${emp.vehicle||'未設定'}</div>
+      </div>
+      <button class="icon-btn" onclick="editStaff('${emp.id}')" title="編集">✏️</button>
+      <button class="icon-btn del" onclick="deleteStaff('${emp.id}')" title="削除">🗑</button>
+    </div>`).join('');
+}
+
+function addStaff(){
+  const id=document.getElementById('f-id').value.trim();
+  const name=document.getElementById('f-name').value.trim();
+  const veh=document.getElementById('f-veh').value.trim();
+  if(!name){toast('氏名を入力してください');return;}
+  const emps=loadEmp();
+  if(id&&emps.find(e=>e.id===id)){toast('同じ社員番号が既に存在します');return;}
+  emps.push({id:id||String(Date.now()),name,vehicle:veh});
+  saveEmp(emps);
+  document.getElementById('f-id').value='';
+  document.getElementById('f-name').value='';
+  document.getElementById('f-veh').value='';
+  renderStaff();
+  toast(`${name} を追加しました`);
+}
+
+function deleteStaff(id){
+  if(!confirm('この社員を削除しますか？')) return;
+  const emps=loadEmp().filter(e=>e.id!==id);
+  saveEmp(emps);
+  renderStaff();
+  toast('削除しました');
+}
+
+function editStaff(id){
+  const emp=loadEmp().find(e=>e.id===id);
+  if(!emp) return;
+  document.getElementById('popup-ttl').textContent='社員情報を編集';
+  document.getElementById('popup-body').innerHTML=`
+    <div class="frow"><label>社員番号</label><input id="ef-id" value="${emp.id}" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:8px;font-size:.92rem"></div>
+    <div class="frow"><label>氏名</label><input id="ef-name" value="${emp.name}" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:8px;font-size:.92rem"></div>
+    <div class="frow"><label>デフォルト車両</label><input id="ef-veh" value="${emp.vehicle||''}" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:8px;font-size:.92rem"></div>
+    <div class="btn-row" style="margin-top:12px">
+      <button class="btn" onclick="closeOverlay()">キャンセル</button>
+      <button class="btn primary" onclick="updateStaff('${id}')">保存</button>
+    </div>`;
+  document.getElementById('overlay').classList.add('show');
+}
+
+function updateStaff(oldId){
+  const newId=document.getElementById('ef-id').value.trim();
+  const name=document.getElementById('ef-name').value.trim();
+  const veh=document.getElementById('ef-veh').value.trim();
+  if(!name){toast('氏名を入力してください');return;}
+  const emps=loadEmp();
+  const idx=emps.findIndex(e=>e.id===oldId);
+  if(idx<0) return;
+  emps[idx]={id:newId||oldId, name, vehicle:veh};
+  saveEmp(emps);
+  closeOverlay();
+  renderStaff();
+  toast('更新しました');
+}
+
+// ══════════════════════════════
+// Export
+// ══════════════════════════════
+function exportCSV(){
+  const ym=document.getElementById('export-month').value;
+  if(!ym){toast('年月を選択してください');return;}
+  const emps=loadEmp();
+  const att=loadAtt();
+  const days=daysInMonth(ym);
+  const [y,m]=ym.split('-');
+
+  let csv='日付,曜日,社員番号,氏名,車両番号,出勤時間,退勤時間\n';
+  for(let d=1;d<=days;d++){
+    const ds=`${y}-${m}-${String(d).padStart(2,'0')}`;
+    const dow=DOW[dayOfWeek(ds)];
+    const dayData=att[ds]||{};
+    emps.forEach(emp=>{
+      const rec=dayData[emp.id];
+      if(rec){
+        csv+=`${ds},${dow},${emp.id},"${emp.name}","${rec.vehicle||''}","${rec.start||''}","${rec.end||''}"\n`;
+      }
+    });
+  }
+
+  const blob=new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`勤怠_${ym}.csv`;
+  a.click();
+  toast('CSVを出力しました');
+}
+
+function backupData(){
+  const data={employees:loadEmp(), attendance:loadAtt(), exported:new Date().toISOString()};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`kintai_backup_${todayStr()}.json`;
+  a.click();
+  toast('バックアップを保存しました');
+}
+
+function clearMonth(){
+  const ym=document.getElementById('export-month').value;
+  if(!ym){toast('年月を選択してください');return;}
+  if(!confirm(`${fmtMonth(ym)}のデータを削除しますか？`)) return;
+  const att=loadAtt();
+  Object.keys(att).filter(k=>k.startsWith(ym)).forEach(k=>delete att[k]);
+  saveAtt(att);
+  toast(`${fmtMonth(ym)}のデータを削除しました`);
+}
+
+function exportExcel(){
+  toast('Excelテンプレート受領後に対応します');
+}
+
+// ══════════════════════════════
+// Service Worker
+// ══════════════════════════════
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./sw.js').catch(()=>{});
+}
+
+// Init
+// ══════════════════════════════
+function init(){
+  updateHeader();
+  renderInputList();
+}
+
+inputDate.addEventListener('change', renderInputList);
+init();
+</script>
+</body>
+</html>
