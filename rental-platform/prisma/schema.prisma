@@ -1,0 +1,106 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserType {
+  INDIVIDUAL
+  CORPORATE
+}
+
+enum KycStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum ProductStatus {
+  AVAILABLE
+  RENTED
+  MAINTENANCE
+  RETIRED
+}
+
+enum ProductGrade {
+  A
+  B
+}
+
+enum OrderStatus {
+  ACTIVE
+  CANCELLED
+  COMPLETED
+  PENDING_RETURN
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String
+  passwordHash  String
+  type          UserType  @default(INDIVIDUAL)
+  kycStatus     KycStatus @default(PENDING)
+  // 法人向け追加フィールド
+  companyName   String?
+  department    String?
+  corporateNo   String?
+  phone         String?
+  address       String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  orders        Order[]
+}
+
+model Product {
+  id           String        @id @default(cuid())
+  name         String
+  brand        String?
+  category     String
+  grade        ProductGrade  @default(A)
+  status       ProductStatus @default(AVAILABLE)
+  monthlyPrice Int
+  imageUrl     String?
+  description  String?
+  // 循環トレーサビリティ
+  sourceLocation String?     // どこで回収されたか
+  refurbishedAt  DateTime?   // 整備完了日
+  refurbishedBy  String?     // 整備担当者名
+  serialNo       String?     @unique
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  orders       Order[]
+  history      ProductHistory[]
+}
+
+model Order {
+  id                    String      @id @default(cuid())
+  userId                String
+  productId             String
+  status                OrderStatus @default(ACTIVE)
+  startDate             DateTime
+  minEndDate            DateTime    // 最低契約期間終了日（startDate + 3ヶ月）
+  endDate               DateTime?   // 実際の返却日
+  stripeSubscriptionId  String?
+  monthlyPrice          Int
+  deliveryAddress       String
+  returnRequestedAt     DateTime?
+  createdAt             DateTime    @default(now())
+  updatedAt             DateTime    @updatedAt
+  user                  User        @relation(fields: [userId], references: [id])
+  product               Product     @relation(fields: [productId], references: [id])
+}
+
+model ProductHistory {
+  id        String   @id @default(cuid())
+  productId String
+  action    String   // "COLLECTED" | "REFURBISHED" | "RENTED" | "RETURNED" | "MAINTENANCE"
+  actor     String
+  notes     String?
+  score     Int?     // 整備スコア（100点満点）
+  createdAt DateTime @default(now())
+  product   Product  @relation(fields: [productId], references: [id])
+}
