@@ -12,12 +12,15 @@ export interface Product {
   grade: ProductGrade
   status: ProductStatus
   monthlyPrice: number
+  monthlyPriceUsed?: number
   imageUrl?: string
   description?: string
   sourceLocation?: string
   refurbishedAt?: string
   serialNo?: string
   createdAt: string
+  isSet?: boolean
+  setItems?: string[]
 }
 
 export interface Order {
