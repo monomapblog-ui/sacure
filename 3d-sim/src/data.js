@@ -19,7 +19,6 @@ export const EMPLOYEES = [
     bodyColor: '#0099D4',
     accentColor: '#B0DFF2',
     desk: [-3.5, 0, -1],
-    // デスクでPC作業に没頭、報告は少なめ
     tasks: [
       'LPをデザイン中',
       'コピーライティング中',
@@ -28,8 +27,6 @@ export const EMPLOYEES = [
       'UI改善中',
       'CVR最適化中',
     ],
-    reportInterval: 20, // 集中型：長めのサイクルで作業
-    talkingLabel: '💻 LP制作の報告です！',
   },
   {
     id: 'sales',
@@ -39,7 +36,6 @@ export const EMPLOYEES = [
     bodyColor: '#27AE60',
     accentColor: '#A9DFB8',
     desk: [3.5, 0, -1],
-    // 外回り→報告の動き：頻繁にむらぴーへ
     tasks: [
       '外回り準備中',
       '顧客へのアポ取得中',
@@ -48,8 +44,6 @@ export const EMPLOYEES = [
       '新規開拓リスト整理中',
       '受注を死守中',
     ],
-    reportInterval: 8, // 鬼営業：短いサイクルでバンバン報告
-    talkingLabel: '📊 営業報告します！',
   },
   {
     id: 'biz',
@@ -59,7 +53,6 @@ export const EMPLOYEES = [
     bodyColor: '#E67E22',
     accentColor: '#FAD7A0',
     desk: [0, 0, -3.5],
-    // 資料作成→むらぴーに定期報告
     tasks: [
       '事業計画を策定中',
       'KPI分析中',
@@ -68,8 +61,6 @@ export const EMPLOYEES = [
       '経営戦略を立案中',
       '全社数値を管理中',
     ],
-    reportInterval: 13, // 定期報告型：中程度のサイクル
-    talkingLabel: '📈 経営状況をご報告！',
   },
 ]
 

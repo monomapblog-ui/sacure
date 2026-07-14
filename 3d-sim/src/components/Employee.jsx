@@ -115,12 +115,11 @@ export function Boss({ data }) {
 }
 
 export function Employee({ data }) {
-  const { statuses, updateStatus } = useSim()
+  const { statuses } = useSim()
   const groupRef = useRef()
   const posRef = useRef(new THREE.Vector3(data.desk[0], 0, data.desk[2]))
   const targetRef = useRef(new THREE.Vector3(data.desk[0], 0, data.desk[2]))
   const stateRef = useRef('WORKING')
-  const timerRef = useRef(data.reportInterval * (0.5 + Math.random()))
   const taskIdxRef = useRef(0)
   const summonedRef = useRef(false)
   const [uiState, setUiState] = useState({ task: data.tasks[0], talking: false, walking: false })
@@ -130,42 +129,22 @@ export function Employee({ data }) {
 
     const empStatus = statuses[data.id]
 
-    // むらぴーから召喚された場合、すぐに駆けつける
+    // むらぴーから召喚 → すぐに駆けつける
     if (empStatus?.status === 'summoned' && !summonedRef.current) {
       summonedRef.current = true
       stateRef.current = 'WALKING_TO_BOSS'
       const offset = new THREE.Vector3((Math.random() - 0.5) * 0.4, 0, 1.2)
       targetRef.current.copy(BOSS_POS).add(offset)
-      timerRef.current = 99
       setUiState(prev => ({ ...prev, walking: true, talking: false }))
     }
 
-    // 召喚解除されたら通常業務に戻る
+    // 召喚解除 → デスクに戻る
     if (empStatus?.status === 'working' && summonedRef.current) {
       summonedRef.current = false
       stateRef.current = 'WALKING_BACK'
       targetRef.current.set(data.desk[0], 0, data.desk[2])
       taskIdxRef.current = (taskIdxRef.current + 1) % data.tasks.length
-      timerRef.current = data.reportInterval + Math.random() * 5
       setUiState({ task: data.tasks[taskIdxRef.current], talking: false, walking: true })
-    }
-
-    timerRef.current -= delta
-
-    // 通常状態遷移（召喚中は無視）
-    if (timerRef.current <= 0 && !summonedRef.current) {
-      if (stateRef.current === 'WORKING') {
-        stateRef.current = 'WALKING_TO_BOSS'
-        const offset = new THREE.Vector3((Math.random() - 0.5) * 0.6, 0, 1.3)
-        targetRef.current.copy(BOSS_POS).add(offset)
-        setUiState(prev => ({ ...prev, walking: true, talking: false }))
-      } else if (stateRef.current === 'TALKING') {
-        stateRef.current = 'WALKING_BACK'
-        targetRef.current.set(data.desk[0], 0, data.desk[2])
-        taskIdxRef.current = (taskIdxRef.current + 1) % data.tasks.length
-        timerRef.current = data.reportInterval + Math.random() * 5
-        setUiState({ task: data.tasks[taskIdxRef.current], talking: false, walking: true })
-      }
     }
 
     // 移動
@@ -176,15 +155,12 @@ export function Employee({ data }) {
       if (dir.length() > 0.05) {
         groupRef.current.rotation.y = Math.atan2(dir.x, dir.z)
       }
-      // 歩行ボブ
       groupRef.current.position.y = Math.abs(Math.sin(state.clock.elapsedTime * 8)) * 0.06
     } else {
       groupRef.current.position.y = 0
       if (stateRef.current === 'WALKING_TO_BOSS') {
         stateRef.current = 'TALKING'
-        timerRef.current = summonedRef.current ? 9999 : 3 + Math.random() * 2
         setUiState(prev => ({ ...prev, talking: true, walking: false }))
-        // むらぴー方向に向く
         const dir = new THREE.Vector3().subVectors(BOSS_POS, posRef.current)
         groupRef.current.rotation.y = Math.atan2(dir.x, dir.z)
       } else if (stateRef.current === 'WALKING_BACK') {
