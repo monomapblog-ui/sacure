@@ -5,25 +5,76 @@ import { EMPLOYEES } from '../../data'
 const LABEL = { lp: 'LP制作君', sales: '営業企画君', biz: '経営企画君', all: '全員' }
 const COLOR  = { lp: '#0099D4', sales: '#27AE60', biz: '#E67E22', all: '#FFD700' }
 
+function FilePreview({ file, onRemove }) {
+  const isImage = file.type.startsWith('image/')
+  const [src, setSrc] = useState(null)
+
+  useEffect(() => {
+    if (isImage) {
+      const reader = new FileReader()
+      reader.onload = e => setSrc(e.target.result)
+      reader.readAsDataURL(file)
+    }
+  }, [file, isImage])
+
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 6,
+      background: 'rgba(255,215,0,0.1)',
+      border: '1px solid rgba(255,215,0,0.3)',
+      borderRadius: 6, padding: '4px 8px', marginBottom: 6,
+    }}>
+      {isImage && src
+        ? <img src={src} alt="" style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: 4 }} />
+        : <span style={{ fontSize: 20 }}>📄</span>
+      }
+      <div style={{ flex: 1, overflow: 'hidden' }}>
+        <div style={{ color: '#FFD700', fontSize: 10, fontWeight: 'bold', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+          {file.name}
+        </div>
+        <div style={{ color: '#567899', fontSize: 9 }}>
+          {(file.size / 1024).toFixed(0)} KB
+        </div>
+      </div>
+      <button onClick={onRemove} style={{
+        background: 'none', border: 'none', color: '#567899',
+        cursor: 'pointer', fontSize: 14, padding: 0, lineHeight: 1,
+      }}>✕</button>
+    </div>
+  )
+}
+
 export default function CeoPanel() {
-  const { log, statuses, activeInstruction, sendInstruction } = useSim()
+  const { log, statuses, sendInstruction } = useSim()
   const [text, setText] = useState('')
   const [target, setTarget] = useState('all')
+  const [attachedFile, setAttachedFile] = useState(null)
   const logRef = useRef(null)
+  const fileInputRef = useRef(null)
 
   useEffect(() => {
     if (logRef.current) logRef.current.scrollTop = 0
   }, [log])
 
   const handleSend = () => {
-    if (!text.trim()) return
-    sendInstruction(text.trim(), target)
+    if (!text.trim() && !attachedFile) return
+    const msg = text.trim() || `📎 ${attachedFile.name}`
+    sendInstruction(msg, target, attachedFile ? { name: attachedFile.name, type: attachedFile.type } : null)
     setText('')
+    setAttachedFile(null)
   }
 
   const handleKey = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend() }
   }
+
+  const handleFileChange = (e) => {
+    const f = e.target.files[0]
+    if (f) setAttachedFile(f)
+    e.target.value = ''
+  }
+
+  const canSend = text.trim() || attachedFile
 
   return (
     <div style={{
@@ -47,7 +98,7 @@ export default function CeoPanel() {
         <div style={{ color: '#FFD700', fontWeight: 'bold', fontSize: 15, display: 'flex', alignItems: 'center', gap: 6 }}>
           👑 むらぴーの指示室
         </div>
-        <div style={{ color: '#B0DFF2', fontSize: 10, marginTop: 2 }}>社員に指示を送れます</div>
+        <div style={{ color: '#B0DFF2', fontSize: 10, marginTop: 2 }}>社員に指示・資料を送れます</div>
       </div>
 
       {/* 社員ステータス */}
@@ -106,12 +157,19 @@ export default function CeoPanel() {
                 <span style={{ color: '#567899', fontSize: 9 }}>{entry.time}</span>
               </div>
             )}
-            <div style={{
-              color: entry.from === 'murapee' ? '#fff' : '#8BCFE8',
-              fontSize: 11, lineHeight: 1.5,
-            }}>
+            <div style={{ color: entry.from === 'murapee' ? '#fff' : '#8BCFE8', fontSize: 11, lineHeight: 1.5 }}>
               {entry.text}
             </div>
+            {entry.file && (
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: 5,
+                marginTop: 5, background: 'rgba(255,215,0,0.08)',
+                borderRadius: 5, padding: '3px 7px',
+              }}>
+                <span style={{ fontSize: 12 }}>{entry.file.type?.startsWith('image/') ? '🖼️' : '📎'}</span>
+                <span style={{ color: '#FFD700', fontSize: 9 }}>{entry.file.name}</span>
+              </div>
+            )}
           </div>
         ))}
       </div>
@@ -136,30 +194,55 @@ export default function CeoPanel() {
 
       {/* 入力エリア */}
       <div style={{ padding: '8px 12px 14px', flexShrink: 0, borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-        <textarea
-          value={text}
-          onChange={e => setText(e.target.value)}
-          onKeyDown={handleKey}
-          placeholder="指示を入力... (Enter で送信)"
-          rows={3}
-          style={{
-            width: '100%', resize: 'none',
-            background: 'rgba(255,255,255,0.07)',
-            border: '1px solid rgba(255,215,0,0.3)',
-            borderRadius: 8, padding: '8px 10px',
-            color: '#fff', fontSize: 12,
-            fontFamily: 'inherit', outline: 'none',
-            boxSizing: 'border-box',
-          }}
-        />
+        {attachedFile && (
+          <FilePreview file={attachedFile} onRemove={() => setAttachedFile(null)} />
+        )}
+        <div style={{ position: 'relative' }}>
+          <textarea
+            value={text}
+            onChange={e => setText(e.target.value)}
+            onKeyDown={handleKey}
+            placeholder="指示を入力... (Enter で送信)"
+            rows={3}
+            style={{
+              width: '100%', resize: 'none',
+              background: 'rgba(255,255,255,0.07)',
+              border: '1px solid rgba(255,215,0,0.3)',
+              borderRadius: 8, padding: '8px 36px 8px 10px',
+              color: '#fff', fontSize: 12,
+              fontFamily: 'inherit', outline: 'none',
+              boxSizing: 'border-box',
+            }}
+          />
+          {/* ファイル添付ボタン */}
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            title="ファイルを添付"
+            style={{
+              position: 'absolute', right: 8, bottom: 10,
+              background: 'none', border: 'none',
+              color: attachedFile ? '#FFD700' : '#567899',
+              cursor: 'pointer', fontSize: 16, padding: 0, lineHeight: 1,
+            }}
+          >
+            📎
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt"
+            onChange={handleFileChange}
+            style={{ display: 'none' }}
+          />
+        </div>
         <button onClick={handleSend} style={{
           width: '100%', marginTop: 6,
-          background: text.trim() ? 'linear-gradient(135deg, #003D5C, #0099D4)' : 'rgba(255,255,255,0.08)',
-          color: text.trim() ? '#FFD700' : '#555',
-          border: `2px solid ${text.trim() ? '#FFD700' : 'rgba(255,255,255,0.1)'}`,
+          background: canSend ? 'linear-gradient(135deg, #003D5C, #0099D4)' : 'rgba(255,255,255,0.08)',
+          color: canSend ? '#FFD700' : '#555',
+          border: `2px solid ${canSend ? '#FFD700' : 'rgba(255,255,255,0.1)'}`,
           borderRadius: 8, padding: '8px', fontSize: 13,
           fontWeight: 'bold', fontFamily: 'inherit',
-          cursor: text.trim() ? 'pointer' : 'default',
+          cursor: canSend ? 'pointer' : 'default',
           transition: 'all 0.2s',
         }}>
           👑 指示を送る
