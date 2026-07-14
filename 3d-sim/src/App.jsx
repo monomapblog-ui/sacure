@@ -4,9 +4,12 @@ import { Suspense } from 'react'
 import Office from './components/Office'
 import { Boss, Employee } from './components/Employee'
 import { BOSS, EMPLOYEES } from './data'
+import { SimProvider } from './context/SimContext'
+import CeoPanel from './components/ui/CeoPanel'
 
 export default function App() {
   return (
+    <SimProvider>
     <div style={{ width: '100vw', height: '100vh', background: '#1a0a2e', position: 'relative' }}>
       <Canvas shadows camera={{ position: [0, 14, 8], fov: 45 }} gl={{ antialias: true }}>
         <Suspense fallback={null}>
@@ -60,9 +63,12 @@ export default function App() {
         </div>
       </div>
 
-      <div style={{ position: 'absolute', bottom: 16, right: 16, color: 'rgba(255,255,255,0.35)', fontSize: 11, fontFamily: 'sans-serif' }}>
+      <div style={{ position: 'absolute', bottom: 16, left: 16, color: 'rgba(255,255,255,0.35)', fontSize: 11, fontFamily: 'sans-serif' }}>
         ドラッグで回転 / スクロールでズーム
       </div>
+
+      <CeoPanel />
     </div>
+    </SimProvider>
   )
 }

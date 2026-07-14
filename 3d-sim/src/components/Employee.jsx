@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { Html } from '@react-three/drei'
 import * as THREE from 'three'
+import { useSim } from '../context/SimContext'
 
 const BOSS_POS = new THREE.Vector3(0, 0, 3)
 
@@ -111,21 +112,45 @@ export function Boss({ data }) {
 }
 
 export function Employee({ data }) {
+  const { statuses, updateStatus } = useSim()
   const groupRef = useRef()
   const posRef = useRef(new THREE.Vector3(data.desk[0], 0, data.desk[2]))
   const targetRef = useRef(new THREE.Vector3(data.desk[0], 0, data.desk[2]))
   const stateRef = useRef('WORKING')
   const timerRef = useRef(data.reportInterval * (0.5 + Math.random()))
   const taskIdxRef = useRef(0)
+  const summonedRef = useRef(false)
   const [uiState, setUiState] = useState({ task: data.tasks[0], talking: false, walking: false })
 
   useFrame((state, delta) => {
     if (!groupRef.current) return
 
+    const empStatus = statuses[data.id]
+
+    // むらぴーから召喚された場合、すぐに駆けつける
+    if (empStatus?.status === 'summoned' && !summonedRef.current) {
+      summonedRef.current = true
+      stateRef.current = 'WALKING_TO_BOSS'
+      const offset = new THREE.Vector3((Math.random() - 0.5) * 0.4, 0, 1.2)
+      targetRef.current.copy(BOSS_POS).add(offset)
+      timerRef.current = 99
+      setUiState(prev => ({ ...prev, walking: true, talking: false }))
+    }
+
+    // 召喚解除されたら通常業務に戻る
+    if (empStatus?.status === 'working' && summonedRef.current) {
+      summonedRef.current = false
+      stateRef.current = 'WALKING_BACK'
+      targetRef.current.set(data.desk[0], 0, data.desk[2])
+      taskIdxRef.current = (taskIdxRef.current + 1) % data.tasks.length
+      timerRef.current = data.reportInterval + Math.random() * 5
+      setUiState({ task: data.tasks[taskIdxRef.current], talking: false, walking: true })
+    }
+
     timerRef.current -= delta
 
-    // 状態遷移
-    if (timerRef.current <= 0) {
+    // 通常状態遷移（召喚中は無視）
+    if (timerRef.current <= 0 && !summonedRef.current) {
       if (stateRef.current === 'WORKING') {
         stateRef.current = 'WALKING_TO_BOSS'
         const offset = new THREE.Vector3((Math.random() - 0.5) * 0.6, 0, 1.3)
@@ -154,7 +179,7 @@ export function Employee({ data }) {
       groupRef.current.position.y = 0
       if (stateRef.current === 'WALKING_TO_BOSS') {
         stateRef.current = 'TALKING'
-        timerRef.current = 3 + Math.random() * 2
+        timerRef.current = summonedRef.current ? 9999 : 3 + Math.random() * 2
         setUiState(prev => ({ ...prev, talking: true, walking: false }))
         // むらぴー方向に向く
         const dir = new THREE.Vector3().subVectors(BOSS_POS, posRef.current)
@@ -216,8 +241,8 @@ export function Employee({ data }) {
         </div>
         {uiState.talking && (
           <div style={{
-            background: '#fff',
-            color: '#003D5C',
+            background: summonedRef.current ? 'linear-gradient(135deg, #003D5C, #0099D4)' : '#fff',
+            color: summonedRef.current ? '#FFD700' : '#003D5C',
             padding: '4px 10px',
             borderRadius: '10px',
             fontSize: '11px',
@@ -226,8 +251,13 @@ export function Employee({ data }) {
             whiteSpace: 'nowrap',
             fontFamily: 'sans-serif',
             boxShadow: '0 2px 6px rgba(255,215,0,0.4)',
+            maxWidth: '120px',
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
           }}>
-            💬 指示受け中...
+            {summonedRef.current
+              ? `👑 ${(statuses[data.id]?.instruction || '指示受け中...').slice(0, 12)}${(statuses[data.id]?.instruction || '').length > 12 ? '…' : ''}`
+              : '💬 指示受け中...'}
           </div>
         )}
         {!uiState.talking && (
