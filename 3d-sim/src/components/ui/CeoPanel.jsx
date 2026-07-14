@@ -39,11 +39,34 @@ function FilePreview({ file, onRemove }) {
   )
 }
 
+function CopyButton({ text }) {
+  const [copied, setCopied] = useState(false)
+  const handleCopy = () => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1500)
+    })
+  }
+  return (
+    <button onClick={handleCopy} style={{
+      background: copied ? 'rgba(39,174,96,0.2)' : 'rgba(255,255,255,0.08)',
+      border: `1px solid ${copied ? 'rgba(39,174,96,0.4)' : 'rgba(255,255,255,0.15)'}`,
+      color: copied ? '#27AE60' : '#8BCFE8',
+      borderRadius: 4, padding: '2px 8px', fontSize: 9,
+      cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0,
+    }}>
+      {copied ? '✓ コピー済み' : 'コピー'}
+    </button>
+  )
+}
+
 function LogEntry({ entry }) {
+  const [expanded, setExpanded] = useState(true)
   const isMurapee = entry.from === 'murapee'
   const isSystem  = entry.from === 'system'
   const isLoading = entry.loading
   const empColor  = COLOR[entry.from]
+  const isLong    = entry.text && entry.text.length > 200
 
   if (isSystem) return (
     <div style={{
@@ -83,7 +106,7 @@ function LogEntry({ entry }) {
     </div>
   )
 
-  // 社員の返答
+  // 社員の返答（成果物）
   return (
     <div style={{
       background: isLoading ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.06)',
@@ -92,19 +115,39 @@ function LogEntry({ entry }) {
       borderRadius: '0 8px 8px 0', padding: '6px 10px',
       opacity: isLoading ? 0.7 : 1,
     }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 5 }}>
         <span style={{ color: empColor || '#8BCFE8', fontSize: 9, fontWeight: 'bold' }}>
           {LABEL[entry.from] || entry.name || entry.from}
         </span>
-        <span style={{ color: '#567899', fontSize: 9 }}>{entry.time}</span>
+        <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+          <span style={{ color: '#567899', fontSize: 9 }}>{entry.time}</span>
+          {!isLoading && isLong && (
+            <button onClick={() => setExpanded(v => !v)} style={{
+              background: 'none', border: 'none', color: '#567899',
+              cursor: 'pointer', fontSize: 9, padding: '0 2px',
+            }}>
+              {expanded ? '▲ 閉じる' : '▼ 開く'}
+            </button>
+          )}
+          {!isLoading && <CopyButton text={entry.text} />}
+        </div>
       </div>
-      <div style={{ color: isLoading ? '#567899' : '#E8F4FC', fontSize: 11, lineHeight: 1.6 }}>
-        {isLoading ? (
-          <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <span style={{ animation: 'pulse 1s infinite' }}>💭</span> 考え中...
-          </span>
-        ) : entry.text}
-      </div>
+
+      {isLoading ? (
+        <div style={{ color: '#567899', fontSize: 11, display: 'flex', alignItems: 'center', gap: 6 }}>
+          <span style={{ animation: 'pulse 1s infinite' }}>💭</span> 作成中...
+        </div>
+      ) : (
+        <div style={{
+          color: '#E8F4FC', fontSize: 11, lineHeight: 1.7,
+          whiteSpace: 'pre-wrap', wordBreak: 'break-word',
+          maxHeight: expanded ? 'none' : '60px',
+          overflow: 'hidden',
+          fontFamily: 'monospace',
+        }}>
+          {entry.text}
+        </div>
+      )}
     </div>
   )
 }
