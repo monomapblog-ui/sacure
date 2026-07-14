@@ -3,9 +3,9 @@ import { createContext, useContext, useState, useCallback } from 'react'
 const SimContext = createContext(null)
 
 const INITIAL_STATUSES = {
-  lp:    { task: 'LPデザイン中', status: 'working', instruction: null },
-  sales: { task: '提案書作成中', status: 'working', instruction: null },
-  biz:   { task: '事業計画作成中', status: 'working', instruction: null },
+  lp:    { task: 'LPをデザイン中', status: 'working', instruction: null },
+  sales: { task: '外回り準備中', status: 'working', instruction: null },
+  biz:   { task: '経営戦略を立案中', status: 'working', instruction: null },
 }
 
 export function SimProvider({ children }) {

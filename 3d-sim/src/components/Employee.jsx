@@ -91,6 +91,9 @@ export function Boss({ data }) {
           <span style={{ display: 'block', fontSize: '10px', color: '#FFD700', fontWeight: 'normal' }}>
             {data.role}
           </span>
+          <span style={{ display: 'block', fontSize: '9px', color: '#B0DFF2', fontWeight: 'normal', marginTop: 1 }}>
+            ✨ {data.skill}
+          </span>
         </div>
         <div style={{
           background: 'rgba(255,215,0,0.15)',
@@ -238,6 +241,9 @@ export function Employee({ data }) {
           <span style={{ display: 'block', fontSize: '9px', color: data.accentColor, fontWeight: 'normal' }}>
             {data.role}
           </span>
+          <span style={{ display: 'block', fontSize: '8px', color: 'rgba(255,255,255,0.6)', fontWeight: 'normal', marginTop: 1 }}>
+            {data.skill}
+          </span>
         </div>
         {uiState.talking && (
           <div style={{
@@ -251,13 +257,13 @@ export function Employee({ data }) {
             whiteSpace: 'nowrap',
             fontFamily: 'sans-serif',
             boxShadow: '0 2px 6px rgba(255,215,0,0.4)',
-            maxWidth: '120px',
+            maxWidth: '130px',
             textOverflow: 'ellipsis',
             overflow: 'hidden',
           }}>
             {summonedRef.current
-              ? `👑 ${(statuses[data.id]?.instruction || '指示受け中...').slice(0, 12)}${(statuses[data.id]?.instruction || '').length > 12 ? '…' : ''}`
-              : '💬 指示受け中...'}
+              ? `👑 ${(statuses[data.id]?.instruction || '指示受け中...').slice(0, 14)}${(statuses[data.id]?.instruction || '').length > 14 ? '…' : ''}`
+              : data.talkingLabel || '💬 報告中...'}
           </div>
         )}
         {!uiState.talking && (
