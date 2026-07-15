@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>留学生向け家電レンタル｜株式会社サキュレ</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Segoe UI', sans-serif; line-height: 1.6; color: #333; background: #fff; }
+
+        /* ナビ */
+        .nav { position: sticky; top: 0; z-index: 100; background: #1e3c72; border-bottom: 3px solid #ffd700; }
+        .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+        .nav-logo { font-size: 20px; font-weight: 900; color: #fff; }
+        .nav-logo span { color: #ffd700; }
+        .nav-cta { background: #ffd700; color: #1e3c72; font-weight: 800; font-size: 13px; padding: 8px 20px; border-radius: 4px; text-decoration: none; transition: background .18s, transform .12s; }
+        .nav-cta:hover { background: #ffe94d; transform: translateY(-1px); }
+
+        /* ヒーロー */
+        .hero { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; padding: 70px 20px 60px; position: relative; overflow: hidden; }
+        .hero-bg { position: absolute; top: -40px; right: -30px; font-size: 360px; font-weight: 900; color: rgba(255,255,255,0.03); line-height: 1; pointer-events: none; }
+        .hero-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
+        .hero-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .15em; color: #ffd700; text-transform: uppercase; margin-bottom: 14px; }
+        .hero h1 { font-size: clamp(26px, 4vw, 44px); font-weight: 900; line-height: 1.3; margin-bottom: 16px; }
+        .hero h1 em { font-style: normal; color: #ffd700; }
+        .hero-sub { font-size: 15px; color: rgba(255,255,255,.8); margin-bottom: 36px; max-width: 560px; }
+        .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 36px; max-width: 680px; }
+        .kpi { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.15); border-radius: 8px; padding: 14px 12px; text-align: center; }
+        .kpi-num { font-size: clamp(20px, 3vw, 28px); font-weight: 900; color: #ffd700; line-height: 1.1; }
+        .kpi-label { font-size: 10px; color: rgba(255,255,255,.6); margin-top: 4px; }
+        .hero-badges { display: flex; flex-wrap: wrap; gap: 8px; }
+        .badge { background: rgba(255,255,255,.1); color: rgba(255,255,255,.9); border-radius: 20px; padding: 5px 13px; font-size: 12px; font-weight: 600; }
+
+        /* ミッション */
+        .mission { background: #ffd700; padding: 22px 20px; text-align: center; }
+        .mission p { font-size: clamp(14px, 2vw, 18px); font-weight: 900; color: #1e3c72; }
+        .mission p span { opacity: .6; font-weight: 500; }
+
+        /* セクション共通 */
+        .section { padding: 72px 20px; }
+        .section-alt { background: #f8f9fb; }
+        .container { max-width: 1100px; margin: 0 auto; }
+        .s-label { font-size: 10px; font-weight: 700; letter-spacing: .18em; color: #ffd700; text-transform: uppercase; margin-bottom: 8px; }
+        .s-title { font-size: clamp(22px, 3vw, 30px); font-weight: 900; color: #1e3c72; margin-bottom: 8px; }
+        .s-lead { font-size: 14px; color: #6b8299; margin-bottom: 40px; }
+
+        /* サービスの流れ */
+        .flow-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0; }
+        .flow-card { text-align: center; padding: 0 4px; position: relative; }
+        .flow-card:not(:last-child)::after { content: ''; position: absolute; top: 26px; right: -10px; width: 20px; height: 2px; background: #d0dee9; z-index: 1; }
+        .flow-num { width: 52px; height: 52px; border-radius: 50%; background: #1e3c72; color: #fff; font-size: 17px; font-weight: 900; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; position: relative; z-index: 2; }
+        .flow-num.amber { background: #ffd700; color: #1e3c72; }
+        .flow-tag { font-size: 8px; font-weight: 700; color: #8ba3bc; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 3px; }
+        .flow-title { font-size: 11px; font-weight: 800; color: #1e3c72; line-height: 1.3; margin-bottom: 4px; }
+        .flow-note { font-size: 9px; color: #8ba3bc; }
+        .flow-chip { display: inline-block; background: #e3eff8; color: #1a5c9a; font-size: 8px; font-weight: 700; border-radius: 3px; padding: 2px 5px; margin-top: 4px; }
+        .flow-chip.green { background: #e6f4ec; color: #1a8a4a; }
+
+        /* 保証 */
+        .guarantee { background: #1e3c72; padding: 18px 20px; }
+        .guarantee-inner { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; }
+        .g-item { display: flex; align-items: center; gap: 10px; padding: 10px 20px; flex: 1; min-width: 180px; }
+        .g-item:not(:last-child) { border-right: 1px solid rgba(255,255,255,.15); }
+        .g-icon { font-size: 20px; flex-shrink: 0; }
+        .g-text { font-size: 12px; color: rgba(255,255,255,.85); }
+        .g-text strong { display: block; color: #fff; font-size: 13px; }
+
+        /* メリット */
+        .merit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .merit-card { background: #f8f9fb; border: 1px solid #d9e4ef; border-left: 4px solid #1e3c72; border-radius: 0 8px 8px 0; padding: 26px 22px; }
+        .merit-card.green { border-left-color: #1a8a4a; }
+        .merit-card.amber { border-left-color: #f09c22; }
+        .merit-card.purple { border-left-color: #7b5ea7; }
+        .merit-num { font-size: 10px; font-weight: 700; color: #8ba3bc; letter-spacing: .1em; margin-bottom: 6px; }
+        .merit-title { font-size: 18px; font-weight: 900; color: #1e3c72; margin-bottom: 10px; line-height: 1.4; }
+        .merit-body { font-size: 13px; color: #6b8299; margin-bottom: 14px; line-height: 1.7; }
+        .merit-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+        .mchip { font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 3px; background: #e3eff8; color: #1a5c9a; }
+        .mchip.green { background: #e6f4ec; color: #1a8a4a; }
+        .mchip.amber { background: #fef5e4; color: #b06010; }
+
+        /* 料金 */
+        .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+        .price-block-title { font-size: 12px; font-weight: 700; color: #8ba3bc; text-transform: uppercase; letter-spacing: .06em; border-bottom: 2px solid #d9e4ef; padding-bottom: 8px; margin-bottom: 16px; }
+        .compare-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .compare-label { font-size: 12px; color: #333; min-width: 110px; }
+        .bar { height: 24px; border-radius: 3px; display: flex; align-items: center; padding: 0 8px; font-size: 11px; font-weight: 800; }
+        .bar-gray { background: #d0dee9; color: #1e3c72; }
+        .bar-blue { background: #1e3c72; color: #fff; }
+        .bar-amber { background: #ffd700; color: #1e3c72; }
+        .discount { font-size: 10px; font-weight: 800; background: #e6f4ec; color: #1a8a4a; border-radius: 10px; padding: 2px 7px; white-space: nowrap; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 10px 12px; text-align: left; font-size: 13px; border-bottom: 1px solid #d9e4ef; }
+        th { font-size: 11px; font-weight: 700; color: #8ba3bc; background: #f8f9fb; }
+        .price-val { font-weight: 900; color: #1e3c72; }
+        .set-box { background: #1e3c72; border-radius: 8px; padding: 20px 24px; margin-top: 20px; display: flex; align-items: center; justify-content: space-between; }
+        .set-label { font-size: 13px; font-weight: 700; color: rgba(255,255,255,.7); }
+        .set-price { font-size: 30px; font-weight: 900; color: #ffd700; }
+        .set-price span { font-size: 13px; color: rgba(255,255,255,.5); }
+
+        /* 導入ステップ */
+        .steps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .step-list { display: flex; flex-direction: column; gap: 20px; }
+        .step-item { display: flex; gap: 14px; }
+        .step-circle { width: 42px; height: 42px; border-radius: 50%; background: #ffd700; color: #1e3c72; font-size: 17px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .step-title { font-size: 15px; font-weight: 800; color: #1e3c72; margin-bottom: 3px; }
+        .step-body { font-size: 13px; color: #6b8299; }
+        .zero-box { background: #ffd700; border-radius: 8px; padding: 24px; text-align: center; margin-top: 8px; }
+        .zero-label { font-size: 12px; color: rgba(0,0,0,.5); margin-bottom: 4px; }
+        .zero-val { font-size: 34px; font-weight: 900; color: #1e3c72; }
+        .zero-sub { font-size: 12px; font-weight: 700; color: #1e3c72; margin-top: 4px; }
+
+        /* FAQ */
+        .faq-item { border-bottom: 1px solid #d9e4ef; padding: 16px 0; }
+        .faq-q { font-size: 14px; font-weight: 800; color: #1e3c72; display: flex; gap: 8px; }
+        .faq-q-mark { color: #ffd700; flex-shrink: 0; }
+        .faq-a { font-size: 13px; color: #6b8299; padding-left: 22px; margin-top: 6px; line-height: 1.7; }
+
+        /* フッター */
+        .footer { background: #1e3c72; padding: 60px 20px; text-align: center; }
+        .footer-title { font-size: clamp(18px, 3vw, 28px); font-weight: 900; color: #fff; margin-bottom: 8px; }
+        .footer-sub { font-size: 13px; color: rgba(255,255,255,.6); margin-bottom: 32px; }
+        .contact-row { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; }
+        .contact-box { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15); border-radius: 6px; padding: 14px 22px; min-width: 180px; }
+        .contact-type { font-size: 10px; color: rgba(255,255,255,.4); letter-spacing: .1em; margin-bottom: 4px; }
+        .contact-val { font-size: 16px; font-weight: 800; color: #fff; }
+        .footer-btn { display: inline-block; background: #ffd700; color: #1e3c72; font-weight: 900; font-size: 15px; padding: 14px 40px; border-radius: 4px; text-decoration: none; transition: background .18s, transform .12s; }
+        .footer-btn:hover { background: #ffe94d; transform: translateY(-2px); }
+        .footer-company { margin-top: 36px; font-size: 11px; color: rgba(255,255,255,.3); }
+
+        /* ヒーローCTA */
+        .hero-cta { display: inline-block; margin-top: 28px; background: #ffd700; color: #1e3c72; font-weight: 900; font-size: 16px; padding: 16px 40px; border-radius: 4px; text-decoration: none; letter-spacing: .04em; transition: background .18s, transform .12s, box-shadow .18s; box-shadow: 0 4px 20px rgba(0,0,0,.25); }
+        .hero-cta:hover { background: #ffe94d; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,.3); }
+
+        /* 中間CTA */
+        .mid-cta { background: #1e3c72; padding: 52px 20px; text-align: center; }
+        .mid-cta-label { font-size: 12px; font-weight: 700; letter-spacing: .14em; color: rgba(255,255,255,.5); text-transform: uppercase; margin-bottom: 10px; }
+        .mid-cta-title { font-size: clamp(18px, 2.5vw, 24px); font-weight: 900; color: #fff; margin-bottom: 8px; }
+        .mid-cta-sub { font-size: 13px; color: rgba(255,255,255,.6); margin-bottom: 28px; }
+        .mid-cta-btn { display: inline-block; background: #ffd700; color: #1e3c72; font-weight: 900; font-size: 15px; padding: 14px 44px; border-radius: 4px; text-decoration: none; transition: background .18s, transform .12s; }
+        .mid-cta-btn:hover { background: #ffe94d; transform: translateY(-2px); }
+
+        /* お問い合わせフォーム */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; text-align: left; }
+        .form-group { display: flex; flex-direction: column; gap: 5px; }
+        .form-group.full { grid-column: 1 / -1; }
+        .form-label { font-size: 11px; font-weight: 700; color: rgba(255,255,255,.5); letter-spacing: .06em; }
+        .form-input, .form-textarea { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.2); border-radius: 4px; padding: 10px 12px; font-size: 13px; color: #fff; font-family: inherit; outline: none; transition: border-color .15s; }
+        .form-input::placeholder, .form-textarea::placeholder { color: rgba(255,255,255,.3); }
+        .form-input:focus, .form-textarea:focus { border-color: #ffd700; }
+        .form-textarea { min-height: 90px; resize: vertical; }
+        .form-submit { background: #ffd700; color: #1e3c72; font-weight: 900; font-size: 15px; padding: 14px 48px; border: none; border-radius: 4px; cursor: pointer; transition: background .18s, transform .12s; }
+        .form-submit:hover { background: #ffe94d; transform: translateY(-2px); }
+
+        /* エリアバー */
+        .area-bar { background: #e6f4ec; border-top: 1px solid #1a8a4a; border-bottom: 1px solid #1a8a4a; padding: 12px 20px; text-align: center; font-size: 13px; font-weight: 700; color: #1a8a4a; }
+
+        @media (max-width: 768px) {
+            .kpi-row { grid-template-columns: repeat(2,1fr); }
+            .flow-grid { grid-template-columns: repeat(4,1fr); }
+            .merit-grid, .pricing-grid, .steps-grid, .form-grid { grid-template-columns: 1fr; }
+            .guarantee-inner { flex-direction: column; }
+            .g-item:not(:last-child) { border-right: none; border-bottom: 1px solid rgba(255,255,255,.1); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ナビ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">サキュ<span>レ</span></div>
+    <a href="#contact" class="nav-cta">無料で資料請求する</a>
+  </div>
+</nav>
+
+<!-- ヒーロー -->
+<section class="hero">
+  <div class="hero-bg" aria-hidden="true">循環</div>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">大学・国際学生寮・生協 様向けパートナーご提案</p>
+    <h1>留学生の家電問題を、<br><em>すべて</em>弊社が引き受けます。</h1>
+    <p class="hero-sub">入居当日から退去まで、調達・配送・故障対応・回収を完全無料でワンストップ対応。貴校のご負担はゼロです。</p>
+
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-num">30万人</div><div class="kpi-label">都内滞在対象留学生</div></div>
+      <div class="kpi"><div class="kpi-num">15万台</div><div class="kpi-label">年間廃棄家電</div></div>
+      <div class="kpi"><div class="kpi-num">1,000台</div><div class="kpi-label">当社年間循環実績</div></div>
+      <div class="kpi"><div class="kpi-num">¥2,980</div><div class="kpi-label">3点セット月額〜</div></div>
+    </div>
+
+    <div class="hero-badges">
+      <span class="badge">🏫 大学・学生寮向け</span>
+      <span class="badge">🌍 SDGs対応</span>
+      <span class="badge">🏛️ 行政認定事業者</span>
+      <span class="badge">🌐 英語・中国語対応</span>
+      <span class="badge">⚡ 最短翌日配送</span>
+    </div>
+    <a href="#contact" class="hero-cta">無料で資料請求する →</a>
+  </div>
+</section>
+
+<!-- ミッション -->
+<div class="mission">
+  <p>"モノの命をつなぐ、社会に好循環を生み出す。" <span>— 回収から再生まで、ワンストップで担う唯一の学生特化型家電リユースサービス</span></p>
+</div>
+
+<!-- サービスの流れ -->
+<section class="section section-alt">
+  <div class="container">
+    <p class="s-label">Service Flow</p>
+    <h2 class="s-title">サービスの流れ</h2>
+    <p class="s-lead">与野倉庫〜都内40〜60分 / 最短翌日納品・緊急交換対応</p>
+    <div class="flow-grid">
+      <div class="flow-card">
+        <div class="flow-num">1</div>
+        <p class="flow-tag">University</p>
+        <p class="flow-title">大学・学生寮がご紹介</p>
+        <p class="flow-note">しおり掲載・窓口案内のみ</p>
+        <span class="flow-chip">負担ゼロ</span>
+      </div>
+      <div class="flow-card">
+        <div class="flow-num">2</div>
+        <p class="flow-tag">Student</p>
+        <p class="flow-title">留学生がLINE/Webで申込</p>
+        <p class="flow-note">英語・中国語対応 / 24h</p>
+        <span class="flow-chip">多言語</span>
+      </div>
+      <div class="flow-card">
+        <div class="flow-num">3</div>
+        <p class="flow-tag">Sacure</p>
+        <p class="flow-title">弊社が受付・審査・手配</p>
+        <p class="flow-note">最短翌日〜対応</p>
+        <span class="flow-chip">スピード</span>
+      </div>
+      <div class="flow-card">
+        <div class="flow-num amber">4</div>
+        <p class="flow-tag">Delivery</p>
+        <p class="flow-title">配送・設置（完全無料）</p>
+        <p class="flow-note">東京23区・神奈川 無料</p>
+        <span class="flow-chip green">送料無料</span>
+      </div>
+      <div class="flow-card">
+        <div class="flow-num amber">5</div>
+        <p class="flow-tag">Rental</p>
+        <p class="flow-title">月額レンタルスタート</p>
+        <p class="flow-note">¥2,980/月〜 3点セット</p>
+        <span class="flow-chip">低コスト</span>
+      </div>
+      <div class="flow-card">
+        <div class="flow-num">6</div>
+        <p class="flow-tag">Return</p>
+        <p class="flow-title">退去時に無料回収</p>
+        <p class="flow-note">準備→次の学生へ循環</p>
+        <span class="flow-chip green">廃棄ゼロ</span>
+      </div>
+      <div class="flow-card">
+        <div class="flow-num">7</div>
+        <p class="flow-tag">Circulation</p>
+        <p class="flow-title">再整備して次の学生へ</p>
+        <p class="flow-note">廃棄ゼロ・好循環!</p>
+        <span class="flow-chip green">SDGs</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 保証 -->
+<div class="guarantee">
+  <div class="guarantee-inner">
+    <div class="g-item"><span class="g-icon">🛡️</span><div class="g-text"><strong>故障・トラブル対応保証</strong>動作保証は月額料金に含む</div></div>
+    <div class="g-item"><span class="g-icon">📞</span><div class="g-text"><strong>状況確認・対応決定</strong>弊社担当者に報告</div></div>
+    <div class="g-item"><span class="g-icon">🚚</span><div class="g-text"><strong>代替品を緊急手配</strong>最短当日〜翌日（都内）</div></div>
+    <div class="g-item"><span class="g-icon">✅</span><div class="g-text"><strong>交換設置・完了報告</strong>担当者にもご連絡</div></div>
+  </div>
+</div>
+
+<!-- メリット -->
+<section class="section">
+  <div class="container">
+    <p class="s-label">Why Sacure</p>
+    <h2 class="s-title">大学・学生寮へのメリット</h2>
+    <p class="s-lead">家電に関するあらゆる課題を根本から解決します。</p>
+    <div class="merit-grid">
+      <div class="merit-card">
+        <p class="merit-num">01 — SMOOTH MOVE-IN</p>
+        <h3 class="merit-title">留学生の受け入れを<br>スムーズに</h3>
+        <p class="merit-body">家電確保のボトルネックを解消し、学生満足度・大学評価の向上に直結。最短翌日配送で急な入居にも対応します。</p>
+        <div class="merit-chips">
+          <span class="mchip">入居当日から使える</span>
+          <span class="mchip">最短翌日配送</span>
+          <span class="mchip">英語・中国語対応</span>
+        </div>
+      </div>
+      <div class="merit-card green">
+        <p class="merit-num">02 — ZERO HASSLE EXIT</p>
+        <h3 class="merit-title">退去・修了時の家電問題を<br>完全解決</h3>
+        <p class="merit-body">放置・不法投棄による施設トラブルを根本解消。処分費・廃棄手続き・退去立会いがすべて不要になります。</p>
+        <div class="merit-chips">
+          <span class="mchip green">処分費ゼロ</span>
+          <span class="mchip green">放置トラブルゼロ</span>
+          <span class="mchip">退去立会い不要</span>
+        </div>
+      </div>
+      <div class="merit-card amber">
+        <p class="merit-num">03 — SDGs PARTNERSHIP</p>
+        <h3 class="merit-title">SDGs・環境活動として<br>大学PRに活用可能</h3>
+        <p class="merit-body">年間1,000台の循環実績を、CSR・サステナビリティ報告書・大学広報に掲載いただけます。広報素材は無償提供。</p>
+        <div class="merit-chips">
+          <span class="mchip amber">CSRレポートへ掲載</span>
+          <span class="mchip amber">SDGs目標12対応</span>
+          <span class="mchip">広報素材を無償提供</span>
+        </div>
+      </div>
+      <div class="merit-card purple">
+        <p class="merit-num">04 — GLOBAL SUPPORT</p>
+        <h3 class="merit-title">外国人留学生のハードルを<br>徹底排除</h3>
+        <p class="merit-body">在学証明書のみで申込OK。クレジット・保証人・日本の銀行口座は不要。WeChat・LINE・RED対応。</p>
+        <div class="merit-chips">
+          <span class="mchip">在学証明書のみOK</span>
+          <span class="mchip">クレジット不要</span>
+          <span class="mchip">WeChat / LINE / RED</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 中間CTA -->
+<div class="mid-cta">
+  <p class="mid-cta-label">Free Consultation</p>
+  <p class="mid-cta-title">まずは無料相談・資料請求から</p>
+  <p class="mid-cta-sub">試験導入・1名からでもOK。お気軽にお声がけください。</p>
+  <a href="#contact" class="mid-cta-btn">無料で相談する →</a>
+</div>
+
+<!-- エリア -->
+<div class="area-bar">✅ 無料対応エリア：東京23区・神奈川県　/ 配送・回収・設置すべて無料</div>
+
+<!-- 料金 -->
+<section class="section section-alt">
+  <div class="container">
+    <p class="s-label">Pricing</p>
+    <h2 class="s-title">料金のご案内</h2>
+    <p class="s-lead">新品購入と比べて最大70%コスト削減。4年利用なら¥1,980/月の長期割引。</p>
+    <div class="pricing-grid">
+      <div>
+        <p class="price-block-title">新品購入 vs サキュレレンタル（3点セット）</p>
+        <p style="font-size:12px;color:#8ba3bc;margin-bottom:8px">新品一括購入（初期費用）</p>
+        <div class="compare-row">
+          <span class="compare-label">初期購入</span>
+          <div class="bar bar-gray" style="width:100%">¥50,000〜120,000</div>
+        </div>
+        <p style="font-size:12px;color:#8ba3bc;margin:12px 0 8px">スタンダード（¥2,980/月）</p>
+        <div class="compare-row">
+          <span class="compare-label">1年合計</span>
+          <div class="bar bar-blue" style="width:30%;min-width:80px">¥35,760</div>
+          <span class="discount">↓70%</span>
+        </div>
+        <div class="compare-row">
+          <span class="compare-label">2年合計</span>
+          <div class="bar bar-blue" style="width:60%;min-width:80px">¥71,520</div>
+          <span class="discount">↓40%</span>
+        </div>
+        <p style="font-size:12px;color:#8ba3bc;margin:12px 0 8px">長期割引（¥1,980/月）</p>
+        <div class="compare-row">
+          <span class="compare-label">4年合計</span>
+          <div class="bar bar-amber" style="width:79%;min-width:80px">¥95,040</div>
+          <span class="discount">↓21%</span>
+        </div>
+        <p style="font-size:10px;color:#8ba3bc;margin-top:6px">※配送・設置・回収・保険すべて含む</p>
+      </div>
+      <div>
+        <p class="price-block-title">個別レンタル料金（税抜）</p>
+        <table>
+          <thead><tr><th>品目</th><th>月額</th></tr></thead>
+          <tbody>
+            <tr><td>冷蔵庫（100〜150L）</td><td><span class="price-val">¥1,500〜</span>/月</td></tr>
+            <tr><td>洗濯機（4.5kg）</td><td><span class="price-val">¥2,000〜</span>/月</td></tr>
+            <tr><td>電子レンジ</td><td><span class="price-val">¥800〜</span>/月</td></tr>
+            <tr><td><strong>3点セット割</strong><br><span style="font-size:10px;color:#8ba3bc">冷蔵庫・洗濯機・電子レンジ</span></td><td><span class="price-val" style="color:#f09c22;font-size:18px">¥2,980〜</span>/月</td></tr>
+          </tbody>
+        </table>
+        <div class="set-box">
+          <div>
+            <p class="set-label">3点セット月額（最低3ヶ月）</p>
+            <p style="font-size:10px;color:rgba(255,255,255,.4);margin-top:3px">長期割引 ¥1,980/月 も選べます</p>
+          </div>
+          <div class="set-price">¥2,980<span>/月〜</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 導入ステップ + FAQ -->
+<section class="section">
+  <div class="container">
+    <p class="s-label">How to Start</p>
+    <h2 class="s-title">ご紹介の方法と貴校のご負担</h2>
+    <p class="s-lead">たった3ステップ。費用も手間もかかりません。</p>
+    <div class="steps-grid">
+      <div>
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-circle">1</div>
+            <div>
+              <p class="step-title">入居案内・しおりにQRを掲載</p>
+              <p class="step-body">案内文・QRコード素材は弊社が無料作成し、提供するだけでOKです。</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-circle">2</div>
+            <div>
+              <p class="step-title">窓口でのご案内（任意）</p>
+              <p class="step-body">国際交流センター・募集受付でのご案内があれば効果的ですが、任意です。</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-circle">3</div>
+            <div>
+              <p class="step-title">あとは弊社が全対応</p>
+              <p class="step-body">申込〜配送〜故障対応〜退去回収まで、貴校のご負担はゼロです。</p>
+            </div>
+          </div>
+        </div>
+        <div class="zero-box">
+          <p class="zero-label">貴校のご負担</p>
+          <p class="zero-val">¥0・手間ゼロ</p>
+          <p class="zero-sub">ご紹介いただくだけで、あとは全て弊社が対応します</p>
+        </div>
+      </div>
+      <div>
+        <p style="font-size:12px;font-weight:700;color:#8ba3bc;margin-bottom:14px;letter-spacing:.06em;text-transform:uppercase">よくあるご質問</p>
+        <div class="faq-item">
+          <p class="faq-q"><span class="faq-q-mark">Q</span>導入に費用・手続きはかかりますか？</p>
+          <p class="faq-a">一切不要です。案内素材を提供し、掲載いただくだけで開始できます。</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q"><span class="faq-q-mark">Q</span>外国人学生でも申し込めますか？</p>
+          <p class="faq-a">在学証明書のみOKです。クレジット・保証人・日本の銀行口座は不要です。</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q"><span class="faq-q-mark">Q</span>放置した場合、大学側の対応は必要ですか？</p>
+          <p class="faq-a">不要です。学生がLINEで直接連絡→弊社が最短当日〜翌日に交換対応します。</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q"><span class="faq-q-mark">Q</span>対応エリア外のキャンパスでも使えますか？</p>
+          <p class="faq-a">東京23区・神奈川が無料エリアです。隣接エリアはご相談ください。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- フッター -->
+<footer class="footer" id="contact">
+  <div class="container">
+    <p class="footer-title">まずは無料相談・資料請求から</p>
+    <p class="footer-sub">試験導入・1名からでもOK / 入居案内・学内ポスター・多言語チラシの提供も対応</p>
+    <div class="contact-row">
+      <div class="contact-box"><p class="contact-type">TEL</p><p class="contact-val">080-5961-9393</p></div>
+      <div class="contact-box"><p class="contact-type">MAIL</p><p class="contact-val">murata@surijie.co.jp</p></div>
+      <div class="contact-box"><p class="contact-type">LINE</p><p class="contact-val">24時間受付</p></div>
+    </div>
+
+    <form action="mailto:murata@surijie.co.jp" method="post" enctype="text/plain" style="max-width:640px;margin:0 auto 28px;">
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">お名前 *</label>
+          <input class="form-input" type="text" name="name" placeholder="山田 太郎" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">大学・機関名 *</label>
+          <input class="form-input" type="text" name="organization" placeholder="○○大学 国際センター" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">メールアドレス *</label>
+          <input class="form-input" type="email" name="email" placeholder="yamada@univ.ac.jp" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">電話番号</label>
+          <input class="form-input" type="tel" name="tel" placeholder="03-xxxx-xxxx">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">ご相談内容</label>
+          <textarea class="form-textarea" name="message" placeholder="例：留学生が約100名おり、入居時の家電調達にお困りです。詳しいサービス内容を教えてください。"></textarea>
+        </div>
+      </div>
+      <button type="submit" class="form-submit">無料で資料を請求する →</button>
+    </form>
+
+    <p class="footer-company">株式会社サキュレ　東京都大田区仲池上1-24-7</p>
+  </div>
+</footer>
+
+</body>
+</html>
