@@ -9,15 +9,18 @@
         html { scroll-behavior: smooth; }
         body { font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Segoe UI', sans-serif; line-height: 1.6; color: #333; background: #fff; }
 
-        /* ナビ */
         .nav { position: sticky; top: 0; z-index: 100; background: #1e3c72; border-bottom: 3px solid #ffd700; }
-        .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; height: 56px; }
-        .nav-logo { font-size: 20px; font-weight: 900; color: #fff; }
+        .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 16px; display: flex; align-items: center; justify-content: space-between; height: 56px; gap: 12px; }
+        .nav-logo { font-size: 20px; font-weight: 900; color: #fff; flex-shrink: 0; }
         .nav-logo span { color: #ffd700; }
-        .nav-cta { background: #ffd700; color: #1e3c72; font-weight: 800; font-size: 13px; padding: 8px 20px; border-radius: 4px; text-decoration: none; transition: background .18s, transform .12s; }
+        .nav-right { display: flex; align-items: center; gap: 10px; }
+        .lang-sw { display: flex; gap: 3px; }
+        .lang-btn { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25); color: rgba(255,255,255,.75); font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 3px; cursor: pointer; transition: all .15s; letter-spacing: .04em; }
+        .lang-btn:hover { background: rgba(255,255,255,.22); color: #fff; }
+        .lang-btn.active { background: #ffd700; border-color: #ffd700; color: #1e3c72; }
+        .nav-cta { background: #ffd700; color: #1e3c72; font-weight: 800; font-size: 12px; padding: 7px 16px; border-radius: 4px; text-decoration: none; white-space: nowrap; transition: background .18s, transform .12s; }
         .nav-cta:hover { background: #ffe94d; transform: translateY(-1px); }
 
-        /* ヒーロー */
         .hero { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; padding: 70px 20px 60px; position: relative; overflow: hidden; }
         .hero-bg { position: absolute; top: -40px; right: -30px; font-size: 360px; font-weight: 900; color: rgba(255,255,255,0.03); line-height: 1; pointer-events: none; }
         .hero-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
@@ -31,13 +34,13 @@
         .kpi-label { font-size: 10px; color: rgba(255,255,255,.6); margin-top: 4px; }
         .hero-badges { display: flex; flex-wrap: wrap; gap: 8px; }
         .badge { background: rgba(255,255,255,.1); color: rgba(255,255,255,.9); border-radius: 20px; padding: 5px 13px; font-size: 12px; font-weight: 600; }
+        .hero-cta { display: inline-block; margin-top: 28px; background: #ffd700; color: #1e3c72; font-weight: 900; font-size: 16px; padding: 16px 40px; border-radius: 4px; text-decoration: none; letter-spacing: .04em; transition: background .18s, transform .12s, box-shadow .18s; box-shadow: 0 4px 20px rgba(0,0,0,.25); }
+        .hero-cta:hover { background: #ffe94d; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,.3); }
 
-        /* ミッション */
         .mission { background: #ffd700; padding: 22px 20px; text-align: center; }
-        .mission p { font-size: clamp(14px, 2vw, 18px); font-weight: 900; color: #1e3c72; }
+        .mission p { font-size: clamp(13px, 2vw, 17px); font-weight: 900; color: #1e3c72; }
         .mission p span { opacity: .6; font-weight: 500; }
 
-        /* セクション共通 */
         .section { padding: 72px 20px; }
         .section-alt { background: #f8f9fb; }
         .container { max-width: 1100px; margin: 0 auto; }
@@ -45,7 +48,6 @@
         .s-title { font-size: clamp(22px, 3vw, 30px); font-weight: 900; color: #1e3c72; margin-bottom: 8px; }
         .s-lead { font-size: 14px; color: #6b8299; margin-bottom: 40px; }
 
-        /* サービスの流れ */
         .flow-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0; }
         .flow-card { text-align: center; padding: 0 4px; position: relative; }
         .flow-card:not(:last-child)::after { content: ''; position: absolute; top: 26px; right: -10px; width: 20px; height: 2px; background: #d0dee9; z-index: 1; }
@@ -57,7 +59,6 @@
         .flow-chip { display: inline-block; background: #e3eff8; color: #1a5c9a; font-size: 8px; font-weight: 700; border-radius: 3px; padding: 2px 5px; margin-top: 4px; }
         .flow-chip.green { background: #e6f4ec; color: #1a8a4a; }
 
-        /* 保証 */
         .guarantee { background: #1e3c72; padding: 18px 20px; }
         .guarantee-inner { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; }
         .g-item { display: flex; align-items: center; gap: 10px; padding: 10px 20px; flex: 1; min-width: 180px; }
@@ -66,7 +67,6 @@
         .g-text { font-size: 12px; color: rgba(255,255,255,.85); }
         .g-text strong { display: block; color: #fff; font-size: 13px; }
 
-        /* メリット */
         .merit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .merit-card { background: #f8f9fb; border: 1px solid #d9e4ef; border-left: 4px solid #1e3c72; border-radius: 0 8px 8px 0; padding: 26px 22px; }
         .merit-card.green { border-left-color: #1a8a4a; }
@@ -80,11 +80,19 @@
         .mchip.green { background: #e6f4ec; color: #1a8a4a; }
         .mchip.amber { background: #fef5e4; color: #b06010; }
 
-        /* 料金 */
+        .mid-cta { background: #1e3c72; padding: 52px 20px; text-align: center; }
+        .mid-cta-label { font-size: 12px; font-weight: 700; letter-spacing: .14em; color: rgba(255,255,255,.5); text-transform: uppercase; margin-bottom: 10px; }
+        .mid-cta-title { font-size: clamp(18px, 2.5vw, 24px); font-weight: 900; color: #fff; margin-bottom: 8px; }
+        .mid-cta-sub { font-size: 13px; color: rgba(255,255,255,.6); margin-bottom: 28px; }
+        .mid-cta-btn { display: inline-block; background: #ffd700; color: #1e3c72; font-weight: 900; font-size: 15px; padding: 14px 44px; border-radius: 4px; text-decoration: none; transition: background .18s, transform .12s; }
+        .mid-cta-btn:hover { background: #ffe94d; transform: translateY(-2px); }
+
+        .area-bar { background: #e6f4ec; border-top: 1px solid #1a8a4a; border-bottom: 1px solid #1a8a4a; padding: 12px 20px; text-align: center; font-size: 13px; font-weight: 700; color: #1a8a4a; }
+
         .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
         .price-block-title { font-size: 12px; font-weight: 700; color: #8ba3bc; text-transform: uppercase; letter-spacing: .06em; border-bottom: 2px solid #d9e4ef; padding-bottom: 8px; margin-bottom: 16px; }
         .compare-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-        .compare-label { font-size: 12px; color: #333; min-width: 110px; }
+        .compare-label { font-size: 12px; color: #333; min-width: 90px; }
         .bar { height: 24px; border-radius: 3px; display: flex; align-items: center; padding: 0 8px; font-size: 11px; font-weight: 800; }
         .bar-gray { background: #d0dee9; color: #1e3c72; }
         .bar-blue { background: #1e3c72; color: #fff; }
@@ -99,7 +107,6 @@
         .set-price { font-size: 30px; font-weight: 900; color: #ffd700; }
         .set-price span { font-size: 13px; color: rgba(255,255,255,.5); }
 
-        /* 導入ステップ */
         .steps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
         .step-list { display: flex; flex-direction: column; gap: 20px; }
         .step-item { display: flex; gap: 14px; }
@@ -111,13 +118,11 @@
         .zero-val { font-size: 34px; font-weight: 900; color: #1e3c72; }
         .zero-sub { font-size: 12px; font-weight: 700; color: #1e3c72; margin-top: 4px; }
 
-        /* FAQ */
         .faq-item { border-bottom: 1px solid #d9e4ef; padding: 16px 0; }
         .faq-q { font-size: 14px; font-weight: 800; color: #1e3c72; display: flex; gap: 8px; }
         .faq-q-mark { color: #ffd700; flex-shrink: 0; }
         .faq-a { font-size: 13px; color: #6b8299; padding-left: 22px; margin-top: 6px; line-height: 1.7; }
 
-        /* フッター */
         .footer { background: #1e3c72; padding: 60px 20px; text-align: center; }
         .footer-title { font-size: clamp(18px, 3vw, 28px); font-weight: 900; color: #fff; margin-bottom: 8px; }
         .footer-sub { font-size: 13px; color: rgba(255,255,255,.6); margin-bottom: 32px; }
@@ -125,23 +130,7 @@
         .contact-box { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15); border-radius: 6px; padding: 14px 22px; min-width: 180px; }
         .contact-type { font-size: 10px; color: rgba(255,255,255,.4); letter-spacing: .1em; margin-bottom: 4px; }
         .contact-val { font-size: 16px; font-weight: 800; color: #fff; }
-        .footer-btn { display: inline-block; background: #ffd700; color: #1e3c72; font-weight: 900; font-size: 15px; padding: 14px 40px; border-radius: 4px; text-decoration: none; transition: background .18s, transform .12s; }
-        .footer-btn:hover { background: #ffe94d; transform: translateY(-2px); }
         .footer-company { margin-top: 36px; font-size: 11px; color: rgba(255,255,255,.3); }
-
-        /* ヒーローCTA */
-        .hero-cta { display: inline-block; margin-top: 28px; background: #ffd700; color: #1e3c72; font-weight: 900; font-size: 16px; padding: 16px 40px; border-radius: 4px; text-decoration: none; letter-spacing: .04em; transition: background .18s, transform .12s, box-shadow .18s; box-shadow: 0 4px 20px rgba(0,0,0,.25); }
-        .hero-cta:hover { background: #ffe94d; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,.3); }
-
-        /* 中間CTA */
-        .mid-cta { background: #1e3c72; padding: 52px 20px; text-align: center; }
-        .mid-cta-label { font-size: 12px; font-weight: 700; letter-spacing: .14em; color: rgba(255,255,255,.5); text-transform: uppercase; margin-bottom: 10px; }
-        .mid-cta-title { font-size: clamp(18px, 2.5vw, 24px); font-weight: 900; color: #fff; margin-bottom: 8px; }
-        .mid-cta-sub { font-size: 13px; color: rgba(255,255,255,.6); margin-bottom: 28px; }
-        .mid-cta-btn { display: inline-block; background: #ffd700; color: #1e3c72; font-weight: 900; font-size: 15px; padding: 14px 44px; border-radius: 4px; text-decoration: none; transition: background .18s, transform .12s; }
-        .mid-cta-btn:hover { background: #ffe94d; transform: translateY(-2px); }
-
-        /* お問い合わせフォーム */
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; text-align: left; }
         .form-group { display: flex; flex-direction: column; gap: 5px; }
         .form-group.full { grid-column: 1 / -1; }
@@ -153,173 +142,170 @@
         .form-submit { background: #ffd700; color: #1e3c72; font-weight: 900; font-size: 15px; padding: 14px 48px; border: none; border-radius: 4px; cursor: pointer; transition: background .18s, transform .12s; }
         .form-submit:hover { background: #ffe94d; transform: translateY(-2px); }
 
-        /* エリアバー */
-        .area-bar { background: #e6f4ec; border-top: 1px solid #1a8a4a; border-bottom: 1px solid #1a8a4a; padding: 12px 20px; text-align: center; font-size: 13px; font-weight: 700; color: #1a8a4a; }
-
         @media (max-width: 768px) {
             .kpi-row { grid-template-columns: repeat(2,1fr); }
             .flow-grid { grid-template-columns: repeat(4,1fr); }
             .merit-grid, .pricing-grid, .steps-grid, .form-grid { grid-template-columns: 1fr; }
             .guarantee-inner { flex-direction: column; }
             .g-item:not(:last-child) { border-right: none; border-bottom: 1px solid rgba(255,255,255,.1); }
+            .nav-cta { display: none; }
         }
     </style>
 </head>
 <body>
 
-<!-- ナビ -->
 <nav class="nav">
   <div class="nav-inner">
     <div class="nav-logo">サキュ<span>レ</span></div>
-    <a href="#contact" class="nav-cta">無料で資料請求する</a>
+    <div class="nav-right">
+      <div class="lang-sw">
+        <button class="lang-btn active" data-lang="ja">日本語</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="zh">中文</button>
+      </div>
+      <a href="#contact" class="nav-cta" data-i18n="nav.cta">無料で資料請求する</a>
+    </div>
   </div>
 </nav>
 
-<!-- ヒーロー -->
 <section class="hero">
   <div class="hero-bg" aria-hidden="true">循環</div>
   <div class="hero-inner">
-    <p class="hero-eyebrow">大学・国際学生寮・生協 様向けパートナーご提案</p>
-    <h1>留学生の家電問題を、<br><em>すべて</em>弊社が引き受けます。</h1>
-    <p class="hero-sub">入居当日から退去まで、調達・配送・故障対応・回収を完全無料でワンストップ対応。貴校のご負担はゼロです。</p>
-
+    <p class="hero-eyebrow" data-i18n="hero.eyebrow">大学・国際学生寮・生協 様向けパートナーご提案</p>
+    <h1 data-i18n="hero.h1">留学生の家電問題を、<br><em>すべて</em>弊社が引き受けます。</h1>
+    <p class="hero-sub" data-i18n="hero.sub">入居当日から退去まで、調達・配送・故障対応・回収を完全無料でワンストップ対応。貴校のご負担はゼロです。</p>
     <div class="kpi-row">
-      <div class="kpi"><div class="kpi-num">30万人</div><div class="kpi-label">都内滞在対象留学生</div></div>
-      <div class="kpi"><div class="kpi-num">15万台</div><div class="kpi-label">年間廃棄家電</div></div>
-      <div class="kpi"><div class="kpi-num">1,000台</div><div class="kpi-label">当社年間循環実績</div></div>
-      <div class="kpi"><div class="kpi-num">¥2,980</div><div class="kpi-label">3点セット月額〜</div></div>
+      <div class="kpi"><div class="kpi-num">30万人</div><div class="kpi-label" data-i18n="kpi.1">都内滞在対象留学生</div></div>
+      <div class="kpi"><div class="kpi-num">15万台</div><div class="kpi-label" data-i18n="kpi.2">年間廃棄家電</div></div>
+      <div class="kpi"><div class="kpi-num">1,000台</div><div class="kpi-label" data-i18n="kpi.3">当社年間循環実績</div></div>
+      <div class="kpi"><div class="kpi-num">¥2,980</div><div class="kpi-label" data-i18n="kpi.4">3点セット月額〜</div></div>
     </div>
-
     <div class="hero-badges">
-      <span class="badge">🏫 大学・学生寮向け</span>
-      <span class="badge">🌍 SDGs対応</span>
-      <span class="badge">🏛️ 行政認定事業者</span>
-      <span class="badge">🌐 英語・中国語対応</span>
-      <span class="badge">⚡ 最短翌日配送</span>
+      <span class="badge" data-i18n="badge.1">🏫 大学・学生寮向け</span>
+      <span class="badge" data-i18n="badge.2">🌍 SDGs対応</span>
+      <span class="badge" data-i18n="badge.3">🏛️ 行政認定事業者</span>
+      <span class="badge" data-i18n="badge.4">🌐 英語・中国語対応</span>
+      <span class="badge" data-i18n="badge.5">⚡ 最短翌日配送</span>
     </div>
-    <a href="#contact" class="hero-cta">無料で資料請求する →</a>
+    <a href="#contact" class="hero-cta" data-i18n="nav.cta">無料で資料請求する →</a>
   </div>
 </section>
 
-<!-- ミッション -->
 <div class="mission">
-  <p>"モノの命をつなぐ、社会に好循環を生み出す。" <span>— 回収から再生まで、ワンストップで担う唯一の学生特化型家電リユースサービス</span></p>
+  <p data-i18n="mission">"モノの命をつなぐ、社会に好循環を生み出す。" <span data-i18n="mission.sub">— 回収から再生まで、ワンストップで担う唯一の学生特化型家電リユースサービス</span></p>
 </div>
 
-<!-- サービスの流れ -->
 <section class="section section-alt">
   <div class="container">
-    <p class="s-label">Service Flow</p>
-    <h2 class="s-title">サービスの流れ</h2>
-    <p class="s-lead">与野倉庫〜都内40〜60分 / 最短翌日納品・緊急交換対応</p>
+    <p class="s-label" data-i18n="flow.label">Service Flow</p>
+    <h2 class="s-title" data-i18n="flow.title">サービスの流れ</h2>
+    <p class="s-lead" data-i18n="flow.lead">与野倉庫〜都内40〜60分 / 最短翌日納品・緊急交換対応</p>
     <div class="flow-grid">
       <div class="flow-card">
         <div class="flow-num">1</div>
-        <p class="flow-tag">University</p>
-        <p class="flow-title">大学・学生寮がご紹介</p>
-        <p class="flow-note">しおり掲載・窓口案内のみ</p>
-        <span class="flow-chip">負担ゼロ</span>
+        <p class="flow-tag" data-i18n="f1.tag">University</p>
+        <p class="flow-title" data-i18n="f1.title">大学・学生寮がご紹介</p>
+        <p class="flow-note" data-i18n="f1.note">しおり掲載・窓口案内のみ</p>
+        <span class="flow-chip" data-i18n="f1.chip">負担ゼロ</span>
       </div>
       <div class="flow-card">
         <div class="flow-num">2</div>
-        <p class="flow-tag">Student</p>
-        <p class="flow-title">留学生がLINE/Webで申込</p>
-        <p class="flow-note">英語・中国語対応 / 24h</p>
-        <span class="flow-chip">多言語</span>
+        <p class="flow-tag" data-i18n="f2.tag">Student</p>
+        <p class="flow-title" data-i18n="f2.title">留学生がLINE/Webで申込</p>
+        <p class="flow-note" data-i18n="f2.note">英語・中国語対応 / 24h</p>
+        <span class="flow-chip" data-i18n="f2.chip">多言語</span>
       </div>
       <div class="flow-card">
         <div class="flow-num">3</div>
-        <p class="flow-tag">Sacure</p>
-        <p class="flow-title">弊社が受付・審査・手配</p>
-        <p class="flow-note">最短翌日〜対応</p>
-        <span class="flow-chip">スピード</span>
+        <p class="flow-tag" data-i18n="f3.tag">Sacure</p>
+        <p class="flow-title" data-i18n="f3.title">弊社が受付・審査・手配</p>
+        <p class="flow-note" data-i18n="f3.note">最短翌日〜対応</p>
+        <span class="flow-chip" data-i18n="f3.chip">スピード</span>
       </div>
       <div class="flow-card">
         <div class="flow-num amber">4</div>
-        <p class="flow-tag">Delivery</p>
-        <p class="flow-title">配送・設置（完全無料）</p>
-        <p class="flow-note">東京23区・神奈川 無料</p>
-        <span class="flow-chip green">送料無料</span>
+        <p class="flow-tag" data-i18n="f4.tag">Delivery</p>
+        <p class="flow-title" data-i18n="f4.title">配送・設置（完全無料）</p>
+        <p class="flow-note" data-i18n="f4.note">東京23区・神奈川 無料</p>
+        <span class="flow-chip green" data-i18n="f4.chip">送料無料</span>
       </div>
       <div class="flow-card">
         <div class="flow-num amber">5</div>
-        <p class="flow-tag">Rental</p>
-        <p class="flow-title">月額レンタルスタート</p>
-        <p class="flow-note">¥2,980/月〜 3点セット</p>
-        <span class="flow-chip">低コスト</span>
+        <p class="flow-tag" data-i18n="f5.tag">Rental</p>
+        <p class="flow-title" data-i18n="f5.title">月額レンタルスタート</p>
+        <p class="flow-note" data-i18n="f5.note">¥2,980/月〜 3点セット</p>
+        <span class="flow-chip" data-i18n="f5.chip">低コスト</span>
       </div>
       <div class="flow-card">
         <div class="flow-num">6</div>
-        <p class="flow-tag">Return</p>
-        <p class="flow-title">退去時に無料回収</p>
-        <p class="flow-note">準備→次の学生へ循環</p>
-        <span class="flow-chip green">廃棄ゼロ</span>
+        <p class="flow-tag" data-i18n="f6.tag">Return</p>
+        <p class="flow-title" data-i18n="f6.title">退去時に無料回収</p>
+        <p class="flow-note" data-i18n="f6.note">準備→次の学生へ循環</p>
+        <span class="flow-chip green" data-i18n="f6.chip">廃棄ゼロ</span>
       </div>
       <div class="flow-card">
         <div class="flow-num">7</div>
-        <p class="flow-tag">Circulation</p>
-        <p class="flow-title">再整備して次の学生へ</p>
-        <p class="flow-note">廃棄ゼロ・好循環!</p>
+        <p class="flow-tag" data-i18n="f7.tag">Circulation</p>
+        <p class="flow-title" data-i18n="f7.title">再整備して次の学生へ</p>
+        <p class="flow-note" data-i18n="f7.note">廃棄ゼロ・好循環!</p>
         <span class="flow-chip green">SDGs</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 保証 -->
 <div class="guarantee">
   <div class="guarantee-inner">
-    <div class="g-item"><span class="g-icon">🛡️</span><div class="g-text"><strong>故障・トラブル対応保証</strong>動作保証は月額料金に含む</div></div>
-    <div class="g-item"><span class="g-icon">📞</span><div class="g-text"><strong>状況確認・対応決定</strong>弊社担当者に報告</div></div>
-    <div class="g-item"><span class="g-icon">🚚</span><div class="g-text"><strong>代替品を緊急手配</strong>最短当日〜翌日（都内）</div></div>
-    <div class="g-item"><span class="g-icon">✅</span><div class="g-text"><strong>交換設置・完了報告</strong>担当者にもご連絡</div></div>
+    <div class="g-item"><span class="g-icon">🛡️</span><div class="g-text"><strong data-i18n="g1.strong">故障・トラブル対応保証</strong><span data-i18n="g1.text">動作保証は月額料金に含む</span></div></div>
+    <div class="g-item"><span class="g-icon">📞</span><div class="g-text"><strong data-i18n="g2.strong">状況確認・対応決定</strong><span data-i18n="g2.text">弊社担当者に報告</span></div></div>
+    <div class="g-item"><span class="g-icon">🚚</span><div class="g-text"><strong data-i18n="g3.strong">代替品を緊急手配</strong><span data-i18n="g3.text">最短当日〜翌日（都内）</span></div></div>
+    <div class="g-item"><span class="g-icon">✅</span><div class="g-text"><strong data-i18n="g4.strong">交換設置・完了報告</strong><span data-i18n="g4.text">担当者にもご連絡</span></div></div>
   </div>
 </div>
 
-<!-- メリット -->
 <section class="section">
   <div class="container">
-    <p class="s-label">Why Sacure</p>
-    <h2 class="s-title">大学・学生寮へのメリット</h2>
-    <p class="s-lead">家電に関するあらゆる課題を根本から解決します。</p>
+    <p class="s-label" data-i18n="merit.label">Why Sacure</p>
+    <h2 class="s-title" data-i18n="merit.title">大学・学生寮へのメリット</h2>
+    <p class="s-lead" data-i18n="merit.lead">家電に関するあらゆる課題を根本から解決します。</p>
     <div class="merit-grid">
       <div class="merit-card">
         <p class="merit-num">01 — SMOOTH MOVE-IN</p>
-        <h3 class="merit-title">留学生の受け入れを<br>スムーズに</h3>
-        <p class="merit-body">家電確保のボトルネックを解消し、学生満足度・大学評価の向上に直結。最短翌日配送で急な入居にも対応します。</p>
+        <h3 class="merit-title" data-i18n="m1.title">留学生の受け入れを<br>スムーズに</h3>
+        <p class="merit-body" data-i18n="m1.body">家電確保のボトルネックを解消し、学生満足度・大学評価の向上に直結。最短翌日配送で急な入居にも対応します。</p>
         <div class="merit-chips">
-          <span class="mchip">入居当日から使える</span>
-          <span class="mchip">最短翌日配送</span>
-          <span class="mchip">英語・中国語対応</span>
+          <span class="mchip" data-i18n="m1.c1">入居当日から使える</span>
+          <span class="mchip" data-i18n="m1.c2">最短翌日配送</span>
+          <span class="mchip" data-i18n="m1.c3">英語・中国語対応</span>
         </div>
       </div>
       <div class="merit-card green">
         <p class="merit-num">02 — ZERO HASSLE EXIT</p>
-        <h3 class="merit-title">退去・修了時の家電問題を<br>完全解決</h3>
-        <p class="merit-body">放置・不法投棄による施設トラブルを根本解消。処分費・廃棄手続き・退去立会いがすべて不要になります。</p>
+        <h3 class="merit-title" data-i18n="m2.title">退去・修了時の家電問題を<br>完全解決</h3>
+        <p class="merit-body" data-i18n="m2.body">放置・不法投棄による施設トラブルを根本解消。処分費・廃棄手続き・退去立会いがすべて不要になります。</p>
         <div class="merit-chips">
-          <span class="mchip green">処分費ゼロ</span>
-          <span class="mchip green">放置トラブルゼロ</span>
-          <span class="mchip">退去立会い不要</span>
+          <span class="mchip green" data-i18n="m2.c1">処分費ゼロ</span>
+          <span class="mchip green" data-i18n="m2.c2">放置トラブルゼロ</span>
+          <span class="mchip" data-i18n="m2.c3">退去立会い不要</span>
         </div>
       </div>
       <div class="merit-card amber">
         <p class="merit-num">03 — SDGs PARTNERSHIP</p>
-        <h3 class="merit-title">SDGs・環境活動として<br>大学PRに活用可能</h3>
-        <p class="merit-body">年間1,000台の循環実績を、CSR・サステナビリティ報告書・大学広報に掲載いただけます。広報素材は無償提供。</p>
+        <h3 class="merit-title" data-i18n="m3.title">SDGs・環境活動として<br>大学PRに活用可能</h3>
+        <p class="merit-body" data-i18n="m3.body">年間1,000台の循環実績を、CSR・サステナビリティ報告書・大学広報に掲載いただけます。広報素材は無償提供。</p>
         <div class="merit-chips">
-          <span class="mchip amber">CSRレポートへ掲載</span>
-          <span class="mchip amber">SDGs目標12対応</span>
-          <span class="mchip">広報素材を無償提供</span>
+          <span class="mchip amber" data-i18n="m3.c1">CSRレポートへ掲載</span>
+          <span class="mchip amber" data-i18n="m3.c2">SDGs目標12対応</span>
+          <span class="mchip" data-i18n="m3.c3">広報素材を無償提供</span>
         </div>
       </div>
       <div class="merit-card purple">
         <p class="merit-num">04 — GLOBAL SUPPORT</p>
-        <h3 class="merit-title">外国人留学生のハードルを<br>徹底排除</h3>
-        <p class="merit-body">在学証明書のみで申込OK。クレジット・保証人・日本の銀行口座は不要。WeChat・LINE・RED対応。</p>
+        <h3 class="merit-title" data-i18n="m4.title">外国人留学生のハードルを<br>徹底排除</h3>
+        <p class="merit-body" data-i18n="m4.body">在学証明書のみで申込OK。クレジット・保証人・日本の銀行口座は不要。WeChat・LINE・RED対応。</p>
         <div class="merit-chips">
-          <span class="mchip">在学証明書のみOK</span>
-          <span class="mchip">クレジット不要</span>
+          <span class="mchip" data-i18n="m4.c1">在学証明書のみOK</span>
+          <span class="mchip" data-i18n="m4.c2">クレジット不要</span>
           <span class="mchip">WeChat / LINE / RED</span>
         </div>
       </div>
@@ -327,65 +313,62 @@
   </div>
 </section>
 
-<!-- 中間CTA -->
 <div class="mid-cta">
-  <p class="mid-cta-label">Free Consultation</p>
-  <p class="mid-cta-title">まずは無料相談・資料請求から</p>
-  <p class="mid-cta-sub">試験導入・1名からでもOK。お気軽にお声がけください。</p>
-  <a href="#contact" class="mid-cta-btn">無料で相談する →</a>
+  <p class="mid-cta-label" data-i18n="midcta.label">Free Consultation</p>
+  <p class="mid-cta-title" data-i18n="midcta.title">まずは無料相談・資料請求から</p>
+  <p class="mid-cta-sub" data-i18n="midcta.sub">試験導入・1名からでもOK。お気軽にお声がけください。</p>
+  <a href="#contact" class="mid-cta-btn" data-i18n="midcta.btn">無料で相談する →</a>
 </div>
 
-<!-- エリア -->
-<div class="area-bar">✅ 無料対応エリア：東京23区・神奈川県　/ 配送・回収・設置すべて無料</div>
+<div class="area-bar" data-i18n="area">✅ 無料対応エリア：東京23区・神奈川県　/ 配送・回収・設置すべて無料</div>
 
-<!-- 料金 -->
 <section class="section section-alt">
   <div class="container">
-    <p class="s-label">Pricing</p>
-    <h2 class="s-title">料金のご案内</h2>
-    <p class="s-lead">新品購入と比べて最大70%コスト削減。4年利用なら¥1,980/月の長期割引。</p>
+    <p class="s-label" data-i18n="price.label">Pricing</p>
+    <h2 class="s-title" data-i18n="price.title">料金のご案内</h2>
+    <p class="s-lead" data-i18n="price.lead">新品購入と比べて最大70%コスト削減。4年利用なら¥1,980/月の長期割引。</p>
     <div class="pricing-grid">
       <div>
-        <p class="price-block-title">新品購入 vs サキュレレンタル（3点セット）</p>
-        <p style="font-size:12px;color:#8ba3bc;margin-bottom:8px">新品一括購入（初期費用）</p>
+        <p class="price-block-title" data-i18n="price.block1">新品購入 vs サキュレレンタル（3点セット）</p>
+        <p style="font-size:12px;color:#8ba3bc;margin-bottom:8px" data-i18n="price.new">新品一括購入（初期費用）</p>
         <div class="compare-row">
-          <span class="compare-label">初期購入</span>
+          <span class="compare-label" data-i18n="price.c0">初期購入</span>
           <div class="bar bar-gray" style="width:100%">¥50,000〜120,000</div>
         </div>
-        <p style="font-size:12px;color:#8ba3bc;margin:12px 0 8px">スタンダード（¥2,980/月）</p>
+        <p style="font-size:12px;color:#8ba3bc;margin:12px 0 8px" data-i18n="price.std">スタンダード（¥2,980/月）</p>
         <div class="compare-row">
-          <span class="compare-label">1年合計</span>
+          <span class="compare-label" data-i18n="price.c1">1年合計</span>
           <div class="bar bar-blue" style="width:30%;min-width:80px">¥35,760</div>
           <span class="discount">↓70%</span>
         </div>
         <div class="compare-row">
-          <span class="compare-label">2年合計</span>
+          <span class="compare-label" data-i18n="price.c2">2年合計</span>
           <div class="bar bar-blue" style="width:60%;min-width:80px">¥71,520</div>
           <span class="discount">↓40%</span>
         </div>
-        <p style="font-size:12px;color:#8ba3bc;margin:12px 0 8px">長期割引（¥1,980/月）</p>
+        <p style="font-size:12px;color:#8ba3bc;margin:12px 0 8px" data-i18n="price.long">長期割引（¥1,980/月）</p>
         <div class="compare-row">
-          <span class="compare-label">4年合計</span>
+          <span class="compare-label" data-i18n="price.c4">4年合計</span>
           <div class="bar bar-amber" style="width:79%;min-width:80px">¥95,040</div>
           <span class="discount">↓21%</span>
         </div>
-        <p style="font-size:10px;color:#8ba3bc;margin-top:6px">※配送・設置・回収・保険すべて含む</p>
+        <p style="font-size:10px;color:#8ba3bc;margin-top:6px" data-i18n="price.note">※配送・設置・回収・保険すべて含む</p>
       </div>
       <div>
-        <p class="price-block-title">個別レンタル料金（税抜）</p>
+        <p class="price-block-title" data-i18n="price.block2">個別レンタル料金（税抜）</p>
         <table>
-          <thead><tr><th>品目</th><th>月額</th></tr></thead>
+          <thead><tr><th data-i18n="price.th1">品目</th><th data-i18n="price.th2">月額</th></tr></thead>
           <tbody>
-            <tr><td>冷蔵庫（100〜150L）</td><td><span class="price-val">¥1,500〜</span>/月</td></tr>
-            <tr><td>洗濯機（4.5kg）</td><td><span class="price-val">¥2,000〜</span>/月</td></tr>
-            <tr><td>電子レンジ</td><td><span class="price-val">¥800〜</span>/月</td></tr>
-            <tr><td><strong>3点セット割</strong><br><span style="font-size:10px;color:#8ba3bc">冷蔵庫・洗濯機・電子レンジ</span></td><td><span class="price-val" style="color:#f09c22;font-size:18px">¥2,980〜</span>/月</td></tr>
+            <tr><td data-i18n="price.item1">冷蔵庫（100〜150L）</td><td><span class="price-val">¥1,500〜</span>/月</td></tr>
+            <tr><td data-i18n="price.item2">洗濯機（4.5kg）</td><td><span class="price-val">¥2,000〜</span>/月</td></tr>
+            <tr><td data-i18n="price.item3">電子レンジ</td><td><span class="price-val">¥800〜</span>/月</td></tr>
+            <tr><td><strong data-i18n="price.set">3点セット割</strong><br><span style="font-size:10px;color:#8ba3bc" data-i18n="price.set.sub">冷蔵庫・洗濯機・電子レンジ</span></td><td><span class="price-val" style="color:#f09c22;font-size:18px">¥2,980〜</span>/月</td></tr>
           </tbody>
         </table>
         <div class="set-box">
           <div>
-            <p class="set-label">3点セット月額（最低3ヶ月）</p>
-            <p style="font-size:10px;color:rgba(255,255,255,.4);margin-top:3px">長期割引 ¥1,980/月 も選べます</p>
+            <p class="set-label" data-i18n="price.setlabel">3点セット月額（最低3ヶ月）</p>
+            <p style="font-size:10px;color:rgba(255,255,255,.4);margin-top:3px" data-i18n="price.setsub">長期割引 ¥1,980/月 も選べます</p>
           </div>
           <div class="set-price">¥2,980<span>/月〜</span></div>
         </div>
@@ -394,106 +377,273 @@
   </div>
 </section>
 
-<!-- 導入ステップ + FAQ -->
 <section class="section">
   <div class="container">
-    <p class="s-label">How to Start</p>
-    <h2 class="s-title">ご紹介の方法と貴校のご負担</h2>
-    <p class="s-lead">たった3ステップ。費用も手間もかかりません。</p>
+    <p class="s-label" data-i18n="step.label">How to Start</p>
+    <h2 class="s-title" data-i18n="step.title">ご紹介の方法と貴校のご負担</h2>
+    <p class="s-lead" data-i18n="step.lead">たった3ステップ。費用も手間もかかりません。</p>
     <div class="steps-grid">
       <div>
         <div class="step-list">
           <div class="step-item">
             <div class="step-circle">1</div>
             <div>
-              <p class="step-title">入居案内・しおりにQRを掲載</p>
-              <p class="step-body">案内文・QRコード素材は弊社が無料作成し、提供するだけでOKです。</p>
+              <p class="step-title" data-i18n="s1.title">入居案内・しおりにQRを掲載</p>
+              <p class="step-body" data-i18n="s1.body">案内文・QRコード素材は弊社が無料作成し、提供するだけでOKです。</p>
             </div>
           </div>
           <div class="step-item">
             <div class="step-circle">2</div>
             <div>
-              <p class="step-title">窓口でのご案内（任意）</p>
-              <p class="step-body">国際交流センター・募集受付でのご案内があれば効果的ですが、任意です。</p>
+              <p class="step-title" data-i18n="s2.title">窓口でのご案内（任意）</p>
+              <p class="step-body" data-i18n="s2.body">国際交流センター・募集受付でのご案内があれば効果的ですが、任意です。</p>
             </div>
           </div>
           <div class="step-item">
             <div class="step-circle">3</div>
             <div>
-              <p class="step-title">あとは弊社が全対応</p>
-              <p class="step-body">申込〜配送〜故障対応〜退去回収まで、貴校のご負担はゼロです。</p>
+              <p class="step-title" data-i18n="s3.title">あとは弊社が全対応</p>
+              <p class="step-body" data-i18n="s3.body">申込〜配送〜故障対応〜退去回収まで、貴校のご負担はゼロです。</p>
             </div>
           </div>
         </div>
         <div class="zero-box">
-          <p class="zero-label">貴校のご負担</p>
-          <p class="zero-val">¥0・手間ゼロ</p>
-          <p class="zero-sub">ご紹介いただくだけで、あとは全て弊社が対応します</p>
+          <p class="zero-label" data-i18n="zero.label">貴校のご負担</p>
+          <p class="zero-val" data-i18n="zero.val">¥0・手間ゼロ</p>
+          <p class="zero-sub" data-i18n="zero.sub">ご紹介いただくだけで、あとは全て弊社が対応します</p>
         </div>
       </div>
       <div>
-        <p style="font-size:12px;font-weight:700;color:#8ba3bc;margin-bottom:14px;letter-spacing:.06em;text-transform:uppercase">よくあるご質問</p>
+        <p style="font-size:12px;font-weight:700;color:#8ba3bc;margin-bottom:14px;letter-spacing:.06em;text-transform:uppercase" data-i18n="faq.header">よくあるご質問</p>
         <div class="faq-item">
-          <p class="faq-q"><span class="faq-q-mark">Q</span>導入に費用・手続きはかかりますか？</p>
-          <p class="faq-a">一切不要です。案内素材を提供し、掲載いただくだけで開始できます。</p>
+          <p class="faq-q"><span class="faq-q-mark">Q</span><span data-i18n="q1">導入に費用・手続きはかかりますか？</span></p>
+          <p class="faq-a" data-i18n="a1">一切不要です。案内素材を提供し、掲載いただくだけで開始できます。</p>
         </div>
         <div class="faq-item">
-          <p class="faq-q"><span class="faq-q-mark">Q</span>外国人学生でも申し込めますか？</p>
-          <p class="faq-a">在学証明書のみOKです。クレジット・保証人・日本の銀行口座は不要です。</p>
+          <p class="faq-q"><span class="faq-q-mark">Q</span><span data-i18n="q2">外国人学生でも申し込めますか？</span></p>
+          <p class="faq-a" data-i18n="a2">在学証明書のみOKです。クレジット・保証人・日本の銀行口座は不要です。</p>
         </div>
         <div class="faq-item">
-          <p class="faq-q"><span class="faq-q-mark">Q</span>放置した場合、大学側の対応は必要ですか？</p>
-          <p class="faq-a">不要です。学生がLINEで直接連絡→弊社が最短当日〜翌日に交換対応します。</p>
+          <p class="faq-q"><span class="faq-q-mark">Q</span><span data-i18n="q3">放置した場合、大学側の対応は必要ですか？</span></p>
+          <p class="faq-a" data-i18n="a3">不要です。学生がLINEで直接連絡→弊社が最短当日〜翌日に交換対応します。</p>
         </div>
         <div class="faq-item">
-          <p class="faq-q"><span class="faq-q-mark">Q</span>対応エリア外のキャンパスでも使えますか？</p>
-          <p class="faq-a">東京23区・神奈川が無料エリアです。隣接エリアはご相談ください。</p>
+          <p class="faq-q"><span class="faq-q-mark">Q</span><span data-i18n="q4">対応エリア外のキャンパスでも使えますか？</span></p>
+          <p class="faq-a" data-i18n="a4">東京23区・神奈川が無料エリアです。隣接エリアはご相談ください。</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- フッター -->
 <footer class="footer" id="contact">
   <div class="container">
-    <p class="footer-title">まずは無料相談・資料請求から</p>
-    <p class="footer-sub">試験導入・1名からでもOK / 入居案内・学内ポスター・多言語チラシの提供も対応</p>
+    <p class="footer-title" data-i18n="footer.title">まずは無料相談・資料請求から</p>
+    <p class="footer-sub" data-i18n="footer.sub">試験導入・1名からでもOK / 入居案内・学内ポスター・多言語チラシの提供も対応</p>
     <div class="contact-row">
       <div class="contact-box"><p class="contact-type">TEL</p><p class="contact-val">080-5961-9393</p></div>
       <div class="contact-box"><p class="contact-type">MAIL</p><p class="contact-val">murata@surijie.co.jp</p></div>
-      <div class="contact-box"><p class="contact-type">LINE</p><p class="contact-val">24時間受付</p></div>
+      <div class="contact-box"><p class="contact-type">LINE</p><p class="contact-val" data-i18n="contact.line">24時間受付</p></div>
     </div>
-
     <form action="mailto:murata@surijie.co.jp" method="post" enctype="text/plain" style="max-width:640px;margin:0 auto 28px;">
       <div class="form-grid">
         <div class="form-group">
-          <label class="form-label">お名前 *</label>
-          <input class="form-input" type="text" name="name" placeholder="山田 太郎" required>
+          <label class="form-label" data-i18n="form.name">お名前 *</label>
+          <input class="form-input" type="text" name="name" data-ph="form.ph.name" placeholder="山田 太郎" required>
         </div>
         <div class="form-group">
-          <label class="form-label">大学・機関名 *</label>
-          <input class="form-input" type="text" name="organization" placeholder="○○大学 国際センター" required>
+          <label class="form-label" data-i18n="form.org">大学・機関名 *</label>
+          <input class="form-input" type="text" name="organization" data-ph="form.ph.org" placeholder="○○大学 国際センター" required>
         </div>
         <div class="form-group">
-          <label class="form-label">メールアドレス *</label>
+          <label class="form-label" data-i18n="form.email">メールアドレス *</label>
           <input class="form-input" type="email" name="email" placeholder="yamada@univ.ac.jp" required>
         </div>
         <div class="form-group">
-          <label class="form-label">電話番号</label>
+          <label class="form-label" data-i18n="form.tel">電話番号</label>
           <input class="form-input" type="tel" name="tel" placeholder="03-xxxx-xxxx">
         </div>
         <div class="form-group full">
-          <label class="form-label">ご相談内容</label>
-          <textarea class="form-textarea" name="message" placeholder="例：留学生が約100名おり、入居時の家電調達にお困りです。詳しいサービス内容を教えてください。"></textarea>
+          <label class="form-label" data-i18n="form.msg">ご相談内容</label>
+          <textarea class="form-textarea" name="message" data-ph="form.ph.msg" placeholder="例：留学生が約100名おり、入居時の家電調達にお困りです。詳しいサービス内容を教えてください。"></textarea>
         </div>
       </div>
-      <button type="submit" class="form-submit">無料で資料を請求する →</button>
+      <button type="submit" class="form-submit" data-i18n="form.submit">無料で資料を請求する →</button>
     </form>
-
     <p class="footer-company">株式会社サキュレ　東京都大田区仲池上1-24-7</p>
   </div>
 </footer>
 
+<script>
+const i18n = {
+  ja: {
+    'nav.cta': '無料で資料請求する',
+    'hero.eyebrow': '大学・国際学生寮・生協 様向けパートナーご提案',
+    'hero.h1': '留学生の家電問題を、<br><em>すべて</em>弊社が引き受けます。',
+    'hero.sub': '入居当日から退去まで、調達・配送・故障対応・回収を完全無料でワンストップ対応。貴校のご負担はゼロです。',
+    'kpi.1':'都内滞在対象留学生','kpi.2':'年間廃棄家電','kpi.3':'当社年間循環実績','kpi.4':'3点セット月額〜',
+    'badge.1':'🏫 大学・学生寮向け','badge.2':'🌍 SDGs対応','badge.3':'🏛️ 行政認定事業者','badge.4':'🌐 英語・中国語対応','badge.5':'⚡ 最短翌日配送',
+    'mission': '"モノの命をつなぐ、社会に好循環を生み出す。"',
+    'mission.sub': '— 回収から再生まで、ワンストップで担う唯一の学生特化型家電リユースサービス',
+    'flow.label':'Service Flow','flow.title':'サービスの流れ','flow.lead':'与野倉庫〜都内40〜60分 / 最短翌日納品・緊急交換対応',
+    'f1.tag':'University','f1.title':'大学・学生寮がご紹介','f1.note':'しおり掲載・窓口案内のみ','f1.chip':'負担ゼロ',
+    'f2.tag':'Student','f2.title':'留学生がLINE/Webで申込','f2.note':'英語・中国語対応 / 24h','f2.chip':'多言語',
+    'f3.tag':'Sacure','f3.title':'弊社が受付・審査・手配','f3.note':'最短翌日〜対応','f3.chip':'スピード',
+    'f4.tag':'Delivery','f4.title':'配送・設置（完全無料）','f4.note':'東京23区・神奈川 無料','f4.chip':'送料無料',
+    'f5.tag':'Rental','f5.title':'月額レンタルスタート','f5.note':'¥2,980/月〜 3点セット','f5.chip':'低コスト',
+    'f6.tag':'Return','f6.title':'退去時に無料回収','f6.note':'準備→次の学生へ循環','f6.chip':'廃棄ゼロ',
+    'f7.tag':'Circulation','f7.title':'再整備して次の学生へ','f7.note':'廃棄ゼロ・好循環!',
+    'g1.strong':'故障・トラブル対応保証','g1.text':'動作保証は月額料金に含む',
+    'g2.strong':'状況確認・対応決定','g2.text':'弊社担当者に報告',
+    'g3.strong':'代替品を緊急手配','g3.text':'最短当日〜翌日（都内）',
+    'g4.strong':'交換設置・完了報告','g4.text':'担当者にもご連絡',
+    'merit.label':'Why Sacure','merit.title':'大学・学生寮へのメリット','merit.lead':'家電に関するあらゆる課題を根本から解決します。',
+    'm1.title':'留学生の受け入れを<br>スムーズに','m1.body':'家電確保のボトルネックを解消し、学生満足度・大学評価の向上に直結。最短翌日配送で急な入居にも対応します。','m1.c1':'入居当日から使える','m1.c2':'最短翌日配送','m1.c3':'英語・中国語対応',
+    'm2.title':'退去・修了時の家電問題を<br>完全解決','m2.body':'放置・不法投棄による施設トラブルを根本解消。処分費・廃棄手続き・退去立会いがすべて不要になります。','m2.c1':'処分費ゼロ','m2.c2':'放置トラブルゼロ','m2.c3':'退去立会い不要',
+    'm3.title':'SDGs・環境活動として<br>大学PRに活用可能','m3.body':'年間1,000台の循環実績を、CSR・サステナビリティ報告書・大学広報に掲載いただけます。広報素材は無償提供。','m3.c1':'CSRレポートへ掲載','m3.c2':'SDGs目標12対応','m3.c3':'広報素材を無償提供',
+    'm4.title':'外国人留学生のハードルを<br>徹底排除','m4.body':'在学証明書のみで申込OK。クレジット・保証人・日本の銀行口座は不要。WeChat・LINE・RED対応。','m4.c1':'在学証明書のみOK','m4.c2':'クレジット不要',
+    'midcta.label':'Free Consultation','midcta.title':'まずは無料相談・資料請求から','midcta.sub':'試験導入・1名からでもOK。お気軽にお声がけください。','midcta.btn':'無料で相談する →',
+    'area':'✅ 無料対応エリア：東京23区・神奈川県　/ 配送・回収・設置すべて無料',
+    'price.label':'Pricing','price.title':'料金のご案内','price.lead':'新品購入と比べて最大70%コスト削減。4年利用なら¥1,980/月の長期割引。',
+    'price.block1':'新品購入 vs サキュレレンタル（3点セット）','price.new':'新品一括購入（初期費用）','price.c0':'初期購入','price.std':'スタンダード（¥2,980/月）','price.c1':'1年合計','price.c2':'2年合計','price.long':'長期割引（¥1,980/月）','price.c4':'4年合計','price.note':'※配送・設置・回収・保険すべて含む',
+    'price.block2':'個別レンタル料金（税抜）','price.th1':'品目','price.th2':'月額','price.item1':'冷蔵庫（100〜150L）','price.item2':'洗濯機（4.5kg）','price.item3':'電子レンジ','price.set':'3点セット割','price.set.sub':'冷蔵庫・洗濯機・電子レンジ',
+    'price.setlabel':'3点セット月額（最低3ヶ月）','price.setsub':'長期割引 ¥1,980/月 も選べます',
+    'step.label':'How to Start','step.title':'ご紹介の方法と貴校のご負担','step.lead':'たった3ステップ。費用も手間もかかりません。',
+    's1.title':'入居案内・しおりにQRを掲載','s1.body':'案内文・QRコード素材は弊社が無料作成し、提供するだけでOKです。',
+    's2.title':'窓口でのご案内（任意）','s2.body':'国際交流センター・募集受付でのご案内があれば効果的ですが、任意です。',
+    's3.title':'あとは弊社が全対応','s3.body':'申込〜配送〜故障対応〜退去回収まで、貴校のご負担はゼロです。',
+    'zero.label':'貴校のご負担','zero.val':'¥0・手間ゼロ','zero.sub':'ご紹介いただくだけで、あとは全て弊社が対応します',
+    'faq.header':'よくあるご質問',
+    'q1':'導入に費用・手続きはかかりますか？','a1':'一切不要です。案内素材を提供し、掲載いただくだけで開始できます。',
+    'q2':'外国人学生でも申し込めますか？','a2':'在学証明書のみOKです。クレジット・保証人・日本の銀行口座は不要です。',
+    'q3':'放置した場合、大学側の対応は必要ですか？','a3':'不要です。学生がLINEで直接連絡→弊社が最短当日〜翌日に交換対応します。',
+    'q4':'対応エリア外のキャンパスでも使えますか？','a4':'東京23区・神奈川が無料エリアです。隣接エリアはご相談ください。',
+    'footer.title':'まずは無料相談・資料請求から','footer.sub':'試験導入・1名からでもOK / 入居案内・学内ポスター・多言語チラシの提供も対応',
+    'contact.line':'24時間受付',
+    'form.name':'お名前 *','form.org':'大学・機関名 *','form.email':'メールアドレス *','form.tel':'電話番号','form.msg':'ご相談内容','form.submit':'無料で資料を請求する →',
+    'form.ph.name':'山田 太郎','form.ph.org':'○○大学 国際センター','form.ph.msg':'例：留学生が約100名おり、入居時の家電調達にお困りです。詳しいサービス内容を教えてください。'
+  },
+  en: {
+    'nav.cta': 'Request Free Info',
+    'hero.eyebrow': 'Partnership Proposal for Universities, International Student Housing & Co-ops',
+    'hero.h1': 'We Take Care of <em>All</em><br>International Students\' Appliance Needs.',
+    'hero.sub': 'From move-in day to departure — procurement, delivery, repairs, and collection, all completely free. Zero burden on your institution.',
+    'kpi.1':'Int\'l Students in Tokyo','kpi.2':'Appliances Discarded/Year','kpi.3':'Annual Units Recycled','kpi.4':'3-Item Set/Month From',
+    'badge.1':'🏫 For Universities & Dorms','badge.2':'🌍 SDGs Compliant','badge.3':'🏛️ Gov. Certified Operator','badge.4':'🌐 EN & ZH Support','badge.5':'⚡ Next-Day Delivery',
+    'mission': '"Extending the life of things, creating a virtuous cycle for society."',
+    'mission.sub': '— The only student-focused appliance reuse service handling everything from collection to refurbishment',
+    'flow.label':'Service Flow','flow.title':'How It Works','flow.lead':'Saitama warehouse to central Tokyo in 40–60 min. Next-day delivery & emergency swap available.',
+    'f1.tag':'University','f1.title':'University Refers Students','f1.note':'Handbook & reception only','f1.chip':'Zero Burden',
+    'f2.tag':'Student','f2.title':'Student Applies via LINE/Web','f2.note':'EN & ZH Support / 24h','f2.chip':'Multilingual',
+    'f3.tag':'Sacure','f3.title':'Sacure Handles Intake & Setup','f3.note':'From next day','f3.chip':'Fast',
+    'f4.tag':'Delivery','f4.title':'Free Delivery & Installation','f4.note':'Tokyo 23 wards & Kanagawa: free','f4.chip':'Free Shipping',
+    'f5.tag':'Rental','f5.title':'Monthly Rental Begins','f5.note':'From ¥2,980/mo (3-item set)','f5.chip':'Low Cost',
+    'f6.tag':'Return','f6.title':'Free Collection at Move-Out','f6.note':'Prep → next student cycle','f6.chip':'Zero Waste',
+    'f7.tag':'Circulation','f7.title':'Refurbished for Next Student','f7.note':'Zero waste, virtuous cycle!',
+    'g1.strong':'Malfunction & Issue Coverage','g1.text':'Operational warranty included in monthly fee',
+    'g2.strong':'Assessment & Response Decision','g2.text':'Our staff handles the report',
+    'g3.strong':'Emergency Replacement Arranged','g3.text':'Same day to next day (Tokyo)',
+    'g4.strong':'Swap, Setup & Completion Report','g4.text':'Notification sent to your staff too',
+    'merit.label':'Why Sacure','merit.title':'Benefits for Universities & Dorms','merit.lead':'We solve every appliance-related challenge at the root.',
+    'm1.title':'Smooth Move-In<br>for International Students','m1.body':'Remove the appliance bottleneck, directly boosting student satisfaction and your institution\'s reputation. Next-day delivery handles even last-minute arrivals.','m1.c1':'Ready from move-in day','m1.c2':'Next-Day Delivery','m1.c3':'EN & ZH Support',
+    'm2.title':'Completely Resolve<br>Move-Out Appliance Issues','m2.body':'Root out facility issues from abandoned or illegally dumped appliances. No disposal fees, no procedures, no move-out inspections needed.','m2.c1':'Zero Disposal Cost','m2.c2':'Zero Abandonment Issues','m2.c3':'No Move-Out Inspection',
+    'm3.title':'Leverage as SDGs &<br>Environmental PR','m3.body':'Our annual 1,000-unit circulation record can be featured in your CSR reports, sustainability publications, and university PR. Media materials provided free.','m3.c1':'Featured in CSR Report','m3.c2':'SDG Goal 12 Compliant','m3.c3':'Free PR Materials',
+    'm4.title':'Eliminating Every Barrier<br>for International Students','m4.body':'Enrollment certificate only — no credit card, guarantor, or Japanese bank account needed. Supports WeChat, LINE, and RED.','m4.c1':'Enrollment Certificate Only','m4.c2':'No Credit Card Required',
+    'midcta.label':'Free Consultation','midcta.title':'Start with a Free Consultation','midcta.sub':'Pilot programs welcome. Even 1 student is fine. Feel free to reach out.','midcta.btn':'Consult for Free →',
+    'area':'✅ Free Service Area: Tokyo 23 Wards & Kanagawa  /  Delivery, Collection & Setup — All Free',
+    'price.label':'Pricing','price.title':'Pricing Guide','price.lead':'Save up to 70% vs. buying new. Long-term discount of ¥1,980/month for 4-year contracts.',
+    'price.block1':'New Purchase vs. Sacure Rental (3-Item Set)','price.new':'New Purchase (upfront cost)','price.c0':'Buy New','price.std':'Standard (¥2,980/mo)','price.c1':'1-Year Total','price.c2':'2-Year Total','price.long':'Long-Term Discount (¥1,980/mo)','price.c4':'4-Year Total','price.note':'※ Incl. delivery, setup, collection & insurance',
+    'price.block2':'Individual Rental Rates (excl. tax)','price.th1':'Item','price.th2':'Monthly','price.item1':'Refrigerator (100–150L)','price.item2':'Washing Machine (4.5kg)','price.item3':'Microwave','price.set':'3-Item Set Discount','price.set.sub':'Fridge + Washer + Microwave',
+    'price.setlabel':'3-Item Set/Month (min. 3 months)','price.setsub':'Long-term discount ¥1,980/mo also available',
+    'step.label':'How to Start','step.title':'How to Partner & Your Responsibilities','step.lead':'Just 3 steps. No cost, no hassle.',
+    's1.title':'Add QR Code to Move-In Guide','s1.body':'We create the guide text and QR code materials for free — your institution just distributes them.',
+    's2.title':'Reception Guidance (Optional)','s2.body':'Guidance at the international center or admissions desk is effective but optional.',
+    's3.title':'Sacure Handles Everything Else','s3.body':'From application to delivery, repairs, and move-out collection — zero burden on your institution.',
+    'zero.label':'Your Institution\'s Cost','zero.val':'¥0 · Zero Hassle','zero.sub':'Just refer students — we handle everything else',
+    'faq.header':'FAQ',
+    'q1':'Is there any cost or procedure to get started?','a1':'None at all. We provide the materials — just distribute them and you\'re ready to go.',
+    'q2':'Can international students apply?','a2':'Yes — enrollment certificate only. No credit card, guarantor, or Japanese bank account needed.',
+    'q3':'If an appliance is abandoned, does the university need to respond?','a3':'No. The student contacts us directly via LINE, and we arrange a swap same-day or next day.',
+    'q4':'Can campuses outside the service area use the service?','a4':'Tokyo 23 wards and Kanagawa are our free zones. Adjacent areas — please inquire.',
+    'footer.title':'Start with a Free Consultation','footer.sub':'Pilot programs welcome. Even 1 student OK. / Move-in guides, campus posters & multilingual flyers available.',
+    'contact.line':'24h Available',
+    'form.name':'Name *','form.org':'University / Institution *','form.email':'Email Address *','form.tel':'Phone Number','form.msg':'Inquiry','form.submit':'Request Free Info →',
+    'form.ph.name':'Taro Yamada','form.ph.org':'XYZ University International Center','form.ph.msg':'e.g. We have about 100 international students and are looking for appliance solutions for move-in.'
+  },
+  zh: {
+    'nav.cta': '免费申请资料',
+    'hero.eyebrow': '面向大学・国际学生宿舍・生协的合作提案',
+    'hero.h1': '留学生的家电问题，<br>由我们<em>全部</em>承包解决。',
+    'hero.sub': '从入住当天到退房，采购・配送・维修・回收，全程免费一站式服务。贵校零负担。',
+    'kpi.1':'东京留学生人数','kpi.2':'年废弃家电台数','kpi.3':'本公司年循环实绩','kpi.4':'三件套月租起',
+    'badge.1':'🏫 面向大学・学生宿舍','badge.2':'🌍 SDGs达标','badge.3':'🏛️ 政府认定运营商','badge.4':'🌐 英中文支持','badge.5':'⚡ 最快次日配送',
+    'mission': '"延续物品的生命，为社会创造良性循环。"',
+    'mission.sub': '— 从回收到再生，一站式承担的唯一学生专用家电循环利用服务',
+    'flow.label':'服务流程','flow.title':'服务流程','flow.lead':'埼玉仓库至东京市区40～60分钟。最快次日发货，支持紧急换货。',
+    'f1.tag':'大学','f1.title':'大学介绍学生','f1.note':'仅需手册刊载・前台介绍','f1.chip':'零负担',
+    'f2.tag':'学生','f2.title':'留学生通过LINE/网页申请','f2.note':'英中文支持 / 24小时','f2.chip':'多语言',
+    'f3.tag':'Sacure','f3.title':'我司负责受理・审核・安排','f3.note':'最快次日起','f3.chip':'快速',
+    'f4.tag':'配送','f4.title':'免费配送・安装','f4.note':'东京23区・神奈川免费','f4.chip':'免运费',
+    'f5.tag':'租赁','f5.title':'月租开始','f5.note':'三件套¥2,980/月起','f5.chip':'低成本',
+    'f6.tag':'归还','f6.title':'退房时免费回收','f6.note':'整备后循环给下一位学生','f6.chip':'零废弃',
+    'f7.tag':'循环','f7.title':'整备后供给下一位学生','f7.note':'零废弃・良性循环！',
+    'g1.strong':'故障及问题处理保障','g1.text':'运行保障含在月租费中',
+    'g2.strong':'情况确认・决定应对方案','g2.text':'向我司负责人报告',
+    'g3.strong':'紧急安排替换品','g3.text':'最快当日至次日（东京市内）',
+    'g4.strong':'换货安装・完成报告','g4.text':'同时通知贵校负责人',
+    'merit.label':'为什么选择Sacure','merit.title':'对大学・学生宿舍的优势','merit.lead':'从根本上解决所有家电相关问题。',
+    'm1.title':'让留学生<br>顺利入住','m1.body':'消除家电采购瓶颈，直接提升学生满意度和大学评价。最快次日配送，应对突发入住需求。','m1.c1':'入住当天即可使用','m1.c2':'最快次日配送','m1.c3':'英中文支持',
+    'm2.title':'彻底解决<br>退房时的家电问题','m2.body':'从根本解决因遗弃・非法丢弃引发的设施纠纷。无需处理费・废弃手续・退房验收。','m2.c1':'零处理费','m2.c2':'零遗弃纠纷','m2.c3':'无需退房验收',
+    'm3.title':'作为SDGs・环保活动<br>用于大学宣传','m3.body':'年循环1,000台的实绩，可刊载于CSR・可持续发展报告・大学宣传材料。宣传素材免费提供。','m3.c1':'刊载于CSR报告','m3.c2':'SDGs目标12达标','m3.c3':'免费提供宣传素材',
+    'm4.title':'彻底消除<br>外国留学生的申请门槛','m4.body':'仅凭在校证明即可申请。无需信用卡・担保人・日本银行账户。支持微信・LINE・小红书。','m4.c1':'仅需在校证明','m4.c2':'无需信用卡',
+    'midcta.label':'免费咨询','midcta.title':'欢迎免费咨询・索取资料','midcta.sub':'欢迎试点导入，哪怕只有一名学生也没问题。请随时联系我们。','midcta.btn':'免费咨询 →',
+    'area':'✅ 免费服务范围：东京23区・神奈川县　/ 配送・回收・安装全部免费',
+    'price.label':'费用','price.title':'费用说明','price.lead':'与购买新品相比最多节省70%。使用4年享¥1,980/月长期优惠。',
+    'price.block1':'购买新品 vs Sacure租赁（三件套）','price.new':'新品一次性购买（初期费用）','price.c0':'购买新品','price.std':'标准方案（¥2,980/月）','price.c1':'1年合计','price.c2':'2年合计','price.long':'长期优惠（¥1,980/月）','price.c4':'4年合计','price.note':'※含配送・安装・回收・保险',
+    'price.block2':'单件租赁费用（不含税）','price.th1':'品目','price.th2':'月租','price.item1':'冰箱（100~150L）','price.item2':'洗衣机（4.5kg）','price.item3':'微波炉','price.set':'三件套优惠','price.set.sub':'冰箱・洗衣机・微波炉',
+    'price.setlabel':'三件套月租（最少3个月）','price.setsub':'长期优惠¥1,980/月也可选择',
+    'step.label':'导入方式','step.title':'介绍方式及贵校承担内容','step.lead':'仅需3步。无需费用，无需操心。',
+    's1.title':'在入住手册中刊载QR码','s1.body':'我司免费制作介绍文案和QR码素材，贵校只需发放即可。',
+    's2.title':'前台介绍（可选）','s2.body':'若在国际交流中心・招生处进行介绍效果更佳，但非必须。',
+    's3.title':'剩下全由我司负责','s3.body':'从申请到配送・维修・退房回收，贵校全程零负担。',
+    'zero.label':'贵校承担内容','zero.val':'¥0・零负担','zero.sub':'只需介绍，其余全部由我司负责',
+    'faq.header':'常见问题',
+    'q1':'导入是否需要费用或手续？','a1':'完全不需要。我司提供介绍素材，贵校只需发放即可开始。',
+    'q2':'外国留学生可以申请吗？','a2':'可以，仅凭在校证明即可。无需信用卡・担保人・日本银行账户。',
+    'q3':'若家电被遗弃，大学需要处理吗？','a3':'不需要。学生直接通过LINE联系，我司最快当日至次日安排换货。',
+    'q4':'服务范围外的校区也能使用吗？','a4':'东京23区・神奈川为免费服务区。邻近地区请咨询。',
+    'footer.title':'欢迎免费咨询・索取资料','footer.sub':'欢迎试点，哪怕只有1名学生也没问题。可提供入住手册・校内海报・多语言宣传单。',
+    'contact.line':'24小时受理',
+    'form.name':'姓名 *','form.org':'大学・机构名称 *','form.email':'邮箱地址 *','form.tel':'电话号码','form.msg':'咨询内容','form.submit':'免费申请资料 →',
+    'form.ph.name':'山田太郎','form.ph.org':'○○大学 国际中心','form.ph.msg':'例：本校有约100名留学生，入住时家电采购困难，请介绍详细服务内容。'
+  }
+};
+
+let currentLang = localStorage.getItem('lang') || 'ja';
+
+function applyLang(lang) {
+  currentLang = lang;
+  const t = i18n[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) el.innerHTML = t[key];
+  });
+  document.querySelectorAll('[data-ph]').forEach(el => {
+    const key = el.getAttribute('data-ph');
+    if (t[key] !== undefined) el.placeholder = t[key];
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+  document.documentElement.lang = lang === 'zh' ? 'zh-Hans' : lang;
+  localStorage.setItem('lang', lang);
+}
+
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+});
+
+applyLang(currentLang);
+</script>
 </body>
 </html>
