@@ -166,7 +166,6 @@ function hrule(s, x, y, w, col) {
     '回収先250施設の廃棄物量を毎月記録・蓄積',
     '施設の稼働状況・消費トレンドの代替指標',
     'ヘッジファンド／調査会社／ESG部門が需要',
-    '既存システムで蓄積済み → 追加コストほぼゼロ',
   ];
   wastePoints.forEach((p, i) => {
     dot(s, 0.6, 1.99 + i * 0.56 + 0.02, GREEN);
@@ -206,32 +205,20 @@ function hrule(s, x, y, w, col) {
   card(s, 0, 0, 10, 5.625, WHITE);
   pgTitle(s, '事業①　廃棄物量データビジネス', 2);
 
-  // Left: market & data
-  card(s, 0.4, 0.82, 4.42, 1.18, LTGRN, LGREY);
+  // Left: market context
+  card(s, 0.4, 0.82, 4.42, 2.56, LTGRN, LGREY);
   slab(s, 'なぜ廃棄物データに価値があるのか', 0.4, 0.82, 4.42, 0.3, GREEN);
   const reasons = [
     '廃棄物量は「見えない経済指標」として機能',
     '空港ゴミ量→来場者数、ホテルゴミ→稼働率など',
     '日本のESGデータ開示義務が2030年方向で拡大中',
+    '廃棄物収集許可業者だけが施設内のデータを取得可能',
+    '廃棄物データの代替データ需要は米国で年数百億円規模',
   ];
   reasons.forEach((r, i) => {
-    dot(s, 0.56, 1.22 + i * 0.26 + 0.02, GREEN);
-    txt(s, r, 0.78, 1.19 + i * 0.26, 3.9, 0.24,
-      { fontSize: 10.5, color: DTXT });
-  });
-
-  card(s, 0.4, 2.1, 4.42, 1.28, LTGRN, LGREY);
-  slab(s, 'サキュレが持つデータ', 0.4, 2.1, 4.42, 0.3, DKGRN);
-  const dataItems = [
-    '回収先250施設 × 月次収集量（品目別）',
-    '過去累積データ（長期トレンド分析に活用可）',
-    '曜日・季節・天候との相関分析が可能',
-    '施設種別（飲食・医療・工場・商業）で分類済み',
-  ];
-  dataItems.forEach((d, i) => {
-    dot(s, 0.56, 2.5 + i * 0.24 + 0.02, DKGRN);
-    txt(s, d, 0.78, 2.47 + i * 0.24, 3.9, 0.22,
-      { fontSize: 10, color: DTXT });
+    dot(s, 0.56, 1.22 + i * 0.42 + 0.02, GREEN);
+    txt(s, r, 0.78, 1.19 + i * 0.42, 3.9, 0.38,
+      { fontSize: 10.5, color: DTXT, lineSpacingMultiple: 1.3 });
   });
 
   // Right: customers table
@@ -268,16 +255,16 @@ function hrule(s, x, y, w, col) {
   txt(s, '初期戦略：まず調査会社1〜2社に無償サンプル提供 → ニーズ確認後に有償化。ヘッジファンドは紹介経由でのアプローチを優先。', 0.56, 3.5, 8.9, 0.52,
     { fontSize: 11, color: DTXT, lineSpacingMultiple: 1.4 });
 
-  // Bottom chart: data flow
-  slab(s, 'データ収集フロー', 0.4, 4.14, 9.2, 0.28, GREEN);
-  const flow = ['施設で廃棄物収集', '管理システムに記録\n（品目・重量・施設）', 'DB蓄積・クレンジング', 'API / レポート販売'];
+  // Bottom chart: business model flow
+  slab(s, 'ビジネスモデル', 0.4, 4.14, 9.2, 0.28, GREEN);
+  const flow = ['廃棄物の収集', 'データ分析・整備', 'API / レポート販売'];
   flow.forEach((f, i) => {
-    const x = 0.4 + i * 2.3;
-    card(s, x, 4.3, 2.16, 1.1, i % 2 === 0 ? LTGRN : 'E8F5E9', LGREY);
-    numCircle(s, i + 1, x + 0.84, 4.34, GREEN);
-    txt(s, f, x + 0.06, 4.86, 2.04, 0.44,
-      { fontSize: 10, color: DTXT, align: 'center', lineSpacingMultiple: 1.2 });
-    if (i < 3) txt(s, '▶', x + 2.16, 4.68, 0.14, 0.36, { fontSize: 12, color: GREEN, align: 'center' });
+    const x = 0.4 + i * 3.1;
+    card(s, x, 4.3, 2.9, 1.1, i % 2 === 0 ? LTGRN : 'E8F5E9', LGREY);
+    numCircle(s, i + 1, x + 1.21, 4.34, GREEN);
+    txt(s, f, x + 0.1, 4.86, 2.7, 0.44,
+      { fontSize: 11, bold: true, color: DTXT, align: 'center' });
+    if (i < 2) txt(s, '▶', x + 2.9, 4.68, 0.2, 0.36, { fontSize: 13, color: GREEN, align: 'center' });
   });
 }
 
@@ -546,7 +533,7 @@ function hrule(s, x, y, w, col) {
     { n: 1, period: '〜6ヶ月\n（7〜12月）', title: 'データ整備・PoC',
       col: CORAL, bg: WHITE,
       actions: [
-        '廃棄物収集データの品目別・施設別集計整備',
+        '廃棄物データ提案資料・サンプルレポート作成',
         'センサー3〜5台搭載・精度検証（社内）',
         '調査会社1〜2社に無償サンプル提供',
         '自治体1市にPoC提案・接触開始',
@@ -688,7 +675,7 @@ function hrule(s, x, y, w, col) {
 
   const actions = [
     { cat: '廃棄物データ整備', col: GREEN, items: [
-      '廃棄物収集データの品目別・施設別クレンジング（7月）',
+      '廃棄物データ提案資料・サンプルレポート作成（7月）',
       '営業用サンプルレポート1本作成（8月）',
       '調査会社・ヘッジファンドへのアプローチリスト作成（7月）',
     ]},
