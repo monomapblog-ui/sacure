@@ -312,26 +312,32 @@ function accentBar(s, x, y, h, col) {
   slab(s, '走行センサーデータ', 5.15, 1.52, 4.45, 0.32, TEAL);
 
   const sensorSteps = [
-    { n: 1, label: '配送トラック走行',   sub: '搭載カメラで撮影・記録' },
-    { n: 2, label: 'エッジAI処理',       sub: '個人情報を車内でマスキング' },
-    { n: 3, label: 'クラウドへ送信',     sub: '処理済みデータのみ転送' },
-    { n: 4, label: '行政ダッシュボード', sub: '地図上で可視化・アラート通知' },
+    { n: 1, label: '配送トラック走行',          sub: '搭載カメラで撮影・記録' },
+    { n: 2, label: 'エッジAI処理（車載端末内）', sub: '顔・ナンバーを非可逆処理・生映像は即時破棄' },
+    { n: 3, label: 'クラウドへ送信',             sub: '匿名化済みデータのみ転送' },
+    { n: 4, label: '行政ダッシュボード',          sub: '地図上で可視化・アラート通知' },
   ];
   sensorSteps.forEach((st, i) => {
-    const y = 1.96 + i * 0.82;
+    const y = 1.96 + i * 0.76;
     numCircle(s, st.n, 5.28, y, TEAL);
     if (i < 3) {
-      s.addShape(pres.ShapeType.line, { x: 5.46, y: y + 0.52, w: 0, h: 0.26,
+      s.addShape(pres.ShapeType.line, { x: 5.46, y: y + 0.52, w: 0, h: 0.20,
         line: { color: LGREY, width: 1.2 } });
     }
     txt(s, st.label, 5.9, y + 0.04, 3.55, 0.34,
       { fontSize: 12, bold: true, color: DTXT });
-    txt(s, st.sub, 5.9, y + 0.4, 3.55, 0.26,
+    txt(s, st.sub, 5.9, y + 0.40, 3.55, 0.26,
       { fontSize: 10.5, color: MTXT });
-    if (i < 3) hrule(s, 5.28, y + 0.76, 4.12);
+    if (i < 3) hrule(s, 5.28, y + 0.72, 4.12);
   });
 
-  s.addNotes('2事業のデータフロー。左：廃棄物量データ（3ステップ）、右：走行センサーデータ（4ステップ）。どちらも既存オペレーションから収集。');
+  // Failsafe note strip at bottom of right card
+  card(s, 5.17, 5.04, 4.41, 0.28, LTTL);
+  txt(s, '生映像は車載端末内で即時破棄（非可逆処理）。クラウドへは匿名化済みデータのみ転送します。',
+    5.26, 5.05, 4.2, 0.26,
+    { fontSize: 8.5, color: TEAL });
+
+  s.addNotes('2事業のデータフロー。左：廃棄物量データ（3ステップ）、右：走行センサーデータ（4ステップ）。どちらも既存オペレーションから収集。生映像は車載端末内で即時破棄（非可逆処理）。');
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -340,7 +346,7 @@ function accentBar(s, x, y, h, col) {
 {
   const s = pres.addSlide();
   card(s, 0, 0, 10, 5.625, WHITE);
-  pgTitle(s, 'トラックが走るだけで3分野のデータが集まる', 4);
+  pgTitle(s, 'まず「路面」に絞り、都市景観・交通は段階的に拡張', 4);
 
   // Left: truck schematic
   card(s, 0.4, 0.85, 3.0, 4.55, OFFWH, LGREY);
@@ -369,26 +375,33 @@ function accentBar(s, x, y, h, col) {
       { fontSize: 9, bold: true, color: WHITE, align: 'center', valign: 'middle' });
   });
 
-  // Right: 3 data categories
+  // Right: 3 data categories with phased framing
   const cats = [
-    { kanji: '路', col: CORAL, name: '道路インフラ',
-      kw: '路面陥没・ひび割れ・落下物・補修優先度マップ' },
-    { kanji: '緑', col: GREEN, name: '都市景観・緑地',
-      kw: '街路樹の状態・看板視認性・メンテナンス要否' },
-    { kanji: '交', col: TEAL, name: '交通・モビリティ',
-      kw: '渋滞区間・路上駐車・交通施策の効果測定' },
+    { kanji: '路', circleCol: CORAL, nameCol: CORAL, kvCol: MTXT,
+      badge: 'PoC先行対象', badgeCol: CORAL,
+      name: '道路インフラ',
+      kw: '路面陥没・ひび割れ・落下物・補修優先度マップ。まず路面データに集中してPoC効果を実証します。' },
+    { kanji: '緑', circleCol: '888888', nameCol: MUTED, kvCol: MUTED,
+      badge: 'Phase 2以降', badgeCol: '888888',
+      name: '都市景観・緑地',
+      kw: '街路樹の状態・看板視認性・メンテナンス要否（路面PoCの成果を踏まえて拡張）' },
+    { kanji: '交', circleCol: '888888', nameCol: MUTED, kvCol: MUTED,
+      badge: 'Phase 2以降', badgeCol: '888888',
+      name: '交通・モビリティ',
+      kw: '渋滞区間・路上駐車・交通施策の効果測定（路面PoCの成果を踏まえて拡張）' },
   ];
   cats.forEach((cat, i) => {
     const ry = 0.98 + i * 1.48;
     if (i > 0) hrule(s, 4.14, ry - 0.1, 5.5);
-    kanjiCircle(s, cat.kanji, 4.14, ry, cat.col, 0.62);
-    txt(s, cat.name, 4.9, ry + 0.04, 4.72, 0.42,
-      { fontSize: 17, bold: true, color: cat.col });
-    txt(s, cat.kw, 4.9, ry + 0.52, 4.72, 0.6,
-      { fontSize: 12.5, color: MTXT });
+    kanjiCircle(s, cat.kanji, 4.14, ry, cat.circleCol, 0.62);
+    txt(s, cat.name, 4.9, ry + 0.04, 2.2, 0.42,
+      { fontSize: 17, bold: true, color: cat.nameCol });
+    slab(s, cat.badge, 7.22, ry + 0.06, 1.5, 0.30, cat.badgeCol);
+    txt(s, cat.kw, 4.9, ry + 0.52, 4.72, 0.72,
+      { fontSize: 11.5, color: cat.kvCol, lineSpacingMultiple: 1.3 });
   });
 
-  s.addNotes('走行センサーデータの3分野：路（道路インフラ）・緑（都市景観）・交（交通モビリティ）。既存トラックの日常走行から自動収集。');
+  s.addNotes('3分野のデータ収集はPoC段階から段階的に拡張。路（道路インフラ）をPoC先行対象に絞り、緑（都市景観）・交（交通モビリティ）はPhase 2以降に展開。実証の実現可能性を重視したフェーズ設計。');
 }
 
 // ═══════════════════════════════════════════════════════════
