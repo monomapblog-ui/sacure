@@ -35,7 +35,7 @@ function txt(s, text, x, y, w, h, opts) {
   txt(s, '料金比較表　3点セット（冷蔵庫80L・洗濯機4.2kg・電子レンジ）', 0.22, 0, 9.6, 0.68,
     { fontSize: 16, bold: true, color: WHITE, valign: 'middle' });
 
-  txt(s, '※競合価格は公開情報をもとにした概算。正確な金額は各社サイトでご確認ください。',
+  txt(s, '※てぶらでどっとこむは6点セット（冷蔵庫90L・洗濯機4.5kg・電子レンジ固定＋選択3点）月5,500円。3点のみプランは要確認。かして！どっとこむは公式実績値。',
     0.4, 5.32, 9.2, 0.20,
     { fontSize: 8, color: MUTED, italic: true });
 
@@ -86,7 +86,7 @@ function txt(s, text, x, y, w, h, opts) {
   // 競合3列
   const competitorCols = [
     { label: 'かして！\nどっとこむ', fill: OFFWH, txtCol: DTXT },
-    { label: 'てぶらで\nどっとこむ', fill: OFFWH, txtCol: DTXT },
+    { label: 'てぶらで\nどっとこむ※', fill: OFFWH, txtCol: DTXT },
     { label: '新品購入\n（参考）', fill: OFFWH, txtCol: DTXT },
   ];
   competitorCols.forEach((col, ci) => {
@@ -106,7 +106,7 @@ function txt(s, text, x, y, w, h, opts) {
         { v: '1,980 円', sub: '（2年契約）', bold: true, col: CORAL },
         { v: '2,980 円', sub: '（2年契約）', bold: true, col: DKCRL },
         { v: '2,875 円', sub: '（新品・2年／4年1,604円）', bold: false, col: DTXT },
-        { v: '要確認', sub: '（公式HP参照）', bold: false, col: MUTED },
+        { v: '5,500 円', sub: '（6点セット）※3点は要確認', bold: false, col: DTXT },
         { v: '—', sub: '（一括購入）', bold: false, col: MUTED },
       ],
     },
@@ -116,7 +116,7 @@ function txt(s, text, x, y, w, h, opts) {
         { v: '47,520 円', sub: '', bold: true, col: GREEN },
         { v: '71,520 円', sub: '', bold: true, col: GREEN },
         { v: '69,000 円', sub: '（新品・2年）※4年77,000円', bold: false, col: DTXT },
-        { v: '要確認', sub: '', bold: false, col: MUTED },
+        { v: '要確認', sub: '（6点セット基準）', bold: false, col: MUTED },
         { v: '55,000〜80,000 円', sub: '（初期一括）', bold: false, col: DTXT },
       ],
     },
