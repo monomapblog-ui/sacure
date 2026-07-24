@@ -833,7 +833,7 @@ function hrule(s, x, y, w, col) {
 
   const actions = [
     { cat: '営業準備', col: GREEN, items: [
-      'ターゲット生協リスト作成（50〜80校：大学名・担当部署・TEL）',
+      '対象36大学の洗い出しと訪問日程の仮決め（7月末までに完了）',
       '提案資料の作成（料金比較表・整備証明・配送SLA一覧）',
       'レベニューシェア条件の設計（成約2,000円/件）',
     ]},
@@ -853,9 +853,9 @@ function hrule(s, x, y, w, col) {
     ]},
   ];
 
-  // 4 cards in 2×2 grid (compressed to make room for visit schedule)
-  const CH = 1.62;  // card height
-  const CG = 0.10;  // row gap
+  // 4 cards in 2×2 grid (compressed to make room for 4-month visit schedule)
+  const CH = 1.55;  // card height
+  const CG = 0.08;  // row gap
   actions.forEach((ac, i) => {
     const x = i < 2 ? 0.4 : 5.15;
     const y = i < 2 ? 0.80 + i * (CH + CG) : 0.80 + (i - 2) * (CH + CG);
@@ -863,50 +863,54 @@ function hrule(s, x, y, w, col) {
     card(s, x, y, 4.55, 0.28, ac.col);
     slab(s, ac.cat, x, y, 4.55, 0.28, ac.col);
     ac.items.forEach((item, j) => {
-      const iy = y + 0.36 + j * 0.42;
+      const iy = y + 0.34 + j * 0.38;
       card(s, x + 0.15, iy, 0.26, 0.26, ac.col);
       txt(s, '✓', x + 0.15, iy, 0.26, 0.26,
         { fontSize: 10, bold: true, color: WHITE, align: 'center', valign: 'middle' });
-      txt(s, item, x + 0.50, iy - 0.02, 3.94, 0.36,
+      txt(s, item, x + 0.50, iy - 0.02, 3.94, 0.34,
         { fontSize: 10.5, color: DTXT, lineSpacingMultiple: 1.2 });
     });
   });
 
-  // ── 大学訪問スケジュール ────────────────────────────
-  const tY = 4.22;
-  card(s, 0.40, tY, 9.20, 0.26, TEAL);
-  txt(s, '大学訪問スケジュール', 0.55, tY, 5.0, 0.26,
-    { fontSize: 11, bold: true, color: WHITE, valign: 'middle' });
-  txt(s, '※アポ確定次第随時更新', 5.6, tY, 3.9, 0.26,
+  // ── 大学訪問スケジュール（対象36校・7〜10月） ────────
+  const tY = 4.06;
+  card(s, 0.40, tY, 9.20, 0.24, TEAL);
+  txt(s, '大学訪問スケジュール（対象36校 / 9・10月入学留学生ターゲット）', 0.55, tY, 6.5, 0.24,
+    { fontSize: 10.5, bold: true, color: WHITE, valign: 'middle' });
+  txt(s, '※7月末までに全日程仮決め', 7.1, tY, 2.5, 0.24,
     { fontSize: 9, color: WHITE, valign: 'middle', align: 'right' });
 
   // Table header row
-  const hY = tY + 0.26;
-  card(s, 0.40, hY, 9.20, 0.22, LGREY);
-  txt(s, '日付', 0.52, hY, 1.4, 0.22, { fontSize: 9.5, bold: true, color: DTXT, valign: 'middle' });
-  txt(s, '訪問大学', 2.02, hY, 5.4, 0.22, { fontSize: 9.5, bold: true, color: DTXT, valign: 'middle' });
-  txt(s, 'ステータス', 7.42, hY, 2.0, 0.22, { fontSize: 9.5, bold: true, color: DTXT, valign: 'middle', align: 'center' });
+  const hY = tY + 0.24;
+  card(s, 0.40, hY, 9.20, 0.20, LGREY);
+  txt(s, '時期', 0.52, hY, 1.3, 0.20, { fontSize: 9, bold: true, color: DTXT, valign: 'middle' });
+  txt(s, '訪問予定大学', 1.92, hY, 5.4, 0.20, { fontSize: 9, bold: true, color: DTXT, valign: 'middle' });
+  txt(s, '目標', 7.38, hY, 0.7, 0.20, { fontSize: 9, bold: true, color: DTXT, valign: 'middle', align: 'center' });
+  txt(s, '状況', 8.14, hY, 1.4, 0.20, { fontSize: 9, bold: true, color: DTXT, valign: 'middle', align: 'center' });
 
-  // Data rows
+  // Data rows: 7〜10月 month-by-month
   const visits = [
-    { date: '7/27（月）', unis: '大東文化大学・東洋大学・立教大学', status: '確定', statCol: GREEN },
-    { date: '調整中', unis: '—', status: 'アポ取得中', statCol: AMBER },
-    { date: '調整中', unis: '—', status: 'アポ取得中', statCol: AMBER },
+    { period: '7月後半', unis: '大東文化大・東洋大・立教大（7/27確定）＋追加校調整中', target: '〜5校',  status: '一部確定', statCol: GREEN },
+    { period: '8月',    unis: '調整中',                                               target: '〜12校', status: 'アポ取得中', statCol: AMBER },
+    { period: '9月',    unis: '調整中（9月入学前にアプローチ）',                       target: '〜12校', status: '未定',       statCol: MUTED },
+    { period: '10月',   unis: '調整中（10月入学前にアプローチ）',                      target: '〜7校',  status: '未定',       statCol: MUTED },
   ];
   visits.forEach((v, i) => {
-    const ry = hY + 0.22 + i * 0.22;
-    card(s, 0.40, ry, 9.20, 0.22, i % 2 === 0 ? WHITE : OFFWH);
-    txt(s, v.date, 0.52, ry, 1.4, 0.22,
-      { fontSize: 9.5, color: DTXT, valign: 'middle', bold: v.status === '確定' });
-    txt(s, v.unis, 2.02, ry, 5.3, 0.22,
+    const ry = hY + 0.20 + i * 0.20;
+    card(s, 0.40, ry, 9.20, 0.20, i % 2 === 0 ? WHITE : OFFWH);
+    txt(s, v.period, 0.52, ry, 1.3, 0.20,
+      { fontSize: 9.5, color: DTXT, valign: 'middle', bold: i === 0 });
+    txt(s, v.unis, 1.92, ry, 5.38, 0.20,
       { fontSize: 9.5, color: DTXT, valign: 'middle' });
-    card(s, 7.42, ry, 1.90, 0.22, v.statCol);
-    txt(s, v.status, 7.42, ry, 1.90, 0.22,
-      { fontSize: 9.5, bold: true, color: WHITE, align: 'center', valign: 'middle' });
+    txt(s, v.target, 7.38, ry, 0.7, 0.20,
+      { fontSize: 9, bold: true, color: DTXT, valign: 'middle', align: 'center' });
+    card(s, 8.14, ry, 1.42, 0.20, v.statCol);
+    txt(s, v.status, 8.14, ry, 1.42, 0.20,
+      { fontSize: 8.5, bold: true, color: WHITE, align: 'center', valign: 'middle' });
   });
 
-  card(s, 0.4, 5.38, 9.2, 0.22, CORAL);
-  txt(s, '7月末時点でのチェック：リスト作成完了・棚卸し完了・提案資料初稿完成', 0.4, 5.38, 9.2, 0.22,
+  card(s, 0.4, 5.32, 9.2, 0.22, CORAL);
+  txt(s, '7月末チェック：対象36大学リスト完成・訪問日程仮決め完了・提案資料初稿完成', 0.4, 5.32, 9.2, 0.22,
     { fontSize: 10.5, bold: true, color: WHITE, align: 'center', valign: 'middle' });
 }
 
