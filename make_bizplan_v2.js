@@ -425,7 +425,66 @@ function hrule(s, x, y, w, col) {
 }
 
 // ══════════════════════════════════════════════════════════
-// SLIDE 9: 生協営業フロー（4フェーズ）
+// SLIDE 9 (追加): 営業仮戦略候補
+// ══════════════════════════════════════════════════════════
+{
+  const s = pres.addSlide();
+  card(s, 0, 0, 10, 5.625, WHITE);
+  pgTitle(s, '営業仮戦略候補（追加検討）');
+
+  // Sub-header
+  card(s, 0.4, 0.76, 9.2, 0.36, OFFWH, LGREY);
+  txt(s, '以下は現在検討中の追加チャンネル案です。優先度・実現性を確認しながら順次着手する想定です。',
+    0.55, 0.76, 8.9, 0.36,
+    { fontSize: 10, color: MTXT, valign: 'middle' });
+
+  const extras = [
+    { n: 4, title: 'リスト化＋紙DM郵送',
+      body: '新入生・在学留学生のリストを整備し、案内状を郵送。大学から入手可能な情報を活用',
+      timing: '1〜3月重点' },
+    { n: 5, title: 'SNS広告（Instagram・LINE）',
+      body: '学生層へターゲティング広告。入学シーズンに集中出稿してリーチを確保',
+      timing: '2〜4月重点' },
+    { n: 6, title: '大学イベントでのビラ配り',
+      body: '入学式・新歓・オープンキャンパスで直接配布。QRコードで申込につなげる',
+      timing: '3〜4月・9月' },
+    { n: 7, title: '留学生情報サイト掲載',
+      body: 'JASSO・留学生センター等の情報サイトへの掲載。在日留学生への認知獲得',
+      timing: '随時' },
+    { n: 8, title: '不動産仲介・管理会社提携',
+      body: '新入生の入居時に紹介。KB 2,000円/件で動機づけ。既存訪問先250社と重複可',
+      timing: '1〜3月重点' },
+    { n: 9, title: '国際交流協会・市区役所',
+      body: '外国人支援窓口・国際交流協会経由で留学生に案内。公的信頼性も付加できる',
+      timing: '随時' },
+  ];
+
+  extras.forEach((ex, i) => {
+    const col = i % 2;
+    const row = Math.floor(i / 2);
+    const x = 0.4 + col * 4.92;
+    const y = 1.22 + row * 1.44;
+    card(s, x, y, 4.68, 1.30, OFFWH, LGREY);
+    card(s, x, y, 0.06, 1.30, CORAL);
+    numCircle(s, ex.n, x + 0.12, y + 0.40, CORAL);
+    // Row 1: badges
+    slab(s, '仮戦略', x + 0.72, y + 0.06, 0.72, 0.24, MUTED);
+    card(s, x + 1.50, y + 0.06, 1.0, 0.24, LGREY);
+    txt(s, ex.timing, x + 1.50, y + 0.06, 1.0, 0.24,
+      { fontSize: 8.5, color: DTXT, align: 'center', valign: 'middle' });
+    // Row 2: title (full width, allows wrap)
+    txt(s, ex.title, x + 0.72, y + 0.34, 3.84, 0.36,
+      { fontSize: 11.5, bold: true, color: DTXT });
+    // Row 3: body
+    txt(s, ex.body, x + 0.72, y + 0.74, 3.84, 0.50,
+      { fontSize: 9.5, color: MTXT, lineSpacingMultiple: 1.3 });
+  });
+
+  s.addNotes('追加営業仮戦略候補6件。リスト化紙DM・SNS広告・大学イベントビラ・留学生サイト掲載・不動産仲介提携・国際交流協会経由。優先度と実現性を検討しながら順次実施。');
+}
+
+// ══════════════════════════════════════════════════════════
+// SLIDE 10 (旧9): 生協営業フロー（4フェーズ）
 // ══════════════════════════════════════════════════════════
 {
   const s = pres.addSlide();
