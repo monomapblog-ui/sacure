@@ -103,11 +103,11 @@ function txt(s, text, x, y, w, h, opts) {
     {
       label: '月額費用',
       cells: [
-        { v: '1,880 円', sub: '（2年契約）', bold: true, col: CORAL },
-        { v: '2,480 円', sub: '（2年契約）', bold: true, col: DKCRL },
-        { v: '2,875 円', sub: '（新品・2年／4年1,604円）', bold: false, col: DTXT },
-        { v: '5,500 円', sub: '（6点セット）※3点は要確認', bold: false, col: DTXT },
-        { v: '—', sub: '（一括購入）', bold: false, col: MUTED },
+        { v: '1,880 円', sub: '2年契約', bold: true, col: CORAL },
+        { v: '2,480 円', sub: '2年契約', bold: true, col: DKCRL },
+        { v: '2,875 円', sub: '新品2年 ／ 4年1,604円', bold: false, col: DTXT },
+        { v: '5,500 円', sub: '6点セット ／ 3点要確認', bold: false, col: DTXT },
+        { v: '—', sub: '一括購入', bold: false, col: MUTED },
       ],
     },
     {
@@ -115,9 +115,9 @@ function txt(s, text, x, y, w, h, opts) {
       cells: [
         { v: '45,120 円', sub: '', bold: true, col: GREEN },
         { v: '59,520 円', sub: '', bold: true, col: GREEN },
-        { v: '69,000 円', sub: '（新品・2年）※4年77,000円', bold: false, col: DTXT },
-        { v: '要確認', sub: '（6点セット基準）', bold: false, col: MUTED },
-        { v: '55,000〜80,000 円', sub: '（初期一括）', bold: false, col: DTXT },
+        { v: '69,000 円', sub: '新品 ※4年77,000円', bold: false, col: DTXT },
+        { v: '要確認', sub: '6点セット基準', bold: false, col: MUTED },
+        { v: '5.5〜8万円', sub: '初期一括', bold: false, col: DTXT },
       ],
     },
     {
@@ -127,7 +127,7 @@ function txt(s, text, x, y, w, h, opts) {
         { v: '0 円', sub: '', bold: true, col: GREEN },
         { v: '0 円', sub: '', bold: false, col: DTXT },
         { v: '0 円', sub: '', bold: false, col: DTXT },
-        { v: '55,000〜80,000 円', sub: '', bold: false, col: AMBER },
+        { v: '5.5〜8万円', sub: '', bold: false, col: AMBER },
       ],
     },
     {
@@ -197,14 +197,13 @@ function txt(s, text, x, y, w, h, opts) {
     row.cells.forEach((cell, ci) => {
       const cx = cellXs[ci];
       const cw = cellWs[ci];
-      const isSacure = ci < 2;
-      const fSize = isSacure ? 12 : 10.5;
+      const fSize = 11;
 
       if (cell.sub) {
         txt(s, cell.v, cx, y + 0.04, cw, 0.34,
           { fontSize: fSize, bold: cell.bold, color: cell.col, align: 'center', valign: 'middle' });
         txt(s, cell.sub, cx, y + 0.36, cw, 0.18,
-          { fontSize: 7.5, color: MUTED, align: 'center', valign: 'middle' });
+          { fontSize: 8, color: MUTED, align: 'center', valign: 'middle' });
       } else {
         txt(s, cell.v, cx, y, cw, RH,
           { fontSize: fSize, bold: cell.bold, color: cell.col, align: 'center', valign: 'middle' });
