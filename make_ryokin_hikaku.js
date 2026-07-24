@@ -3,15 +3,17 @@ const pres = new pptx();
 pres.layout = 'LAYOUT_16x9'; // 10" × 5.625"
 
 const CORAL = 'DD7E6B';
+const DKCRL = 'C05F4C';  // ダークコーラル（新品列ヘッダー）
 const GREEN = '156818';
-const LTGRN = 'D9EAD3';
 const WHITE = 'FFFFFF';
 const OFFWH = 'F3F3F3';
 const DTXT  = '333333';
-const MTXT  = '595959';
 const MUTED = '999999';
 const LGREY = 'CCCCCC';
-const LTCOR = 'FAE8E4';  // 薄コーラル（サキュレ列背景）
+const LTCOR = 'FAE8E4';  // 薄コーラル（中古列背景偶数）
+const LTCR2 = 'F5DDD8';  // 薄コーラル（中古列背景奇数）
+const LTDK  = 'F0D0CA';  // 薄ダークコーラル（新品列背景偶数）
+const LTDK2 = 'E8C4BC';  // 薄ダークコーラル（新品列背景奇数）
 const AMBER = 'E65100';
 
 function card(s, x, y, w, h, fill, lineColor) {
@@ -33,42 +35,86 @@ function txt(s, text, x, y, w, h, opts) {
   txt(s, '料金比較表　3点セット（冷蔵庫・洗濯機・電子レンジ）', 0.22, 0, 9.6, 0.68,
     { fontSize: 16, bold: true, color: WHITE, valign: 'middle' });
 
-  // ─── 凡例（右上） ───
   txt(s, '※競合価格は公開情報をもとにした概算。正確な金額は各社サイトでご確認ください。',
-    0.4, 5.30, 9.2, 0.22,
+    0.4, 5.32, 9.2, 0.20,
     { fontSize: 8, color: MUTED, italic: true });
 
-  // ─── Table setup ───
-  const tX = 0.38;       // table left edge
-  const tY = 0.76;       // table top
-  const RH = 0.60;       // row height (data rows)
-  const CHH = 0.54;      // column header height
-  const LW = 2.10;       // label column width
-  const DW = 1.86;       // data column width (×4)
-  // total: 2.10 + 4×1.86 = 9.54"... adjust
-  // with tX=0.38: right edge = 0.38+2.10+4×1.86 = 0.38+2.10+7.44 = 9.92 ✓
+  // ─── Table layout ───
+  // Columns: 比較項目(LW) | サキュレ中古(SW) | サキュレ新品(SW) | かして!(DW) | てぶらで(DW) | 新品購入(DW)
+  const tX  = 0.36;
+  const tY  = 0.76;
+  const RH  = 0.57;   // data row height
+  const CHH = 0.52;   // column header height
+  const LW  = 1.72;   // label column
+  const SW  = 1.36;   // サキュレ sub-columns (×2)
+  const DW  = 1.52;   // competitor columns (×3)
+  // total: 0.36 + 1.72 + 2×1.36 + 3×1.52 = 0.36+1.72+2.72+4.56 = 9.36 ✓
 
-  const cols = [
-    { label: 'サキュレ\n（当社）', fill: CORAL, txtCol: WHITE, isSacure: true },
-    { label: 'かして！どっとこむ', fill: OFFWH, txtCol: DTXT, isSacure: false },
-    { label: 'てぶらで\nどっとこむ', fill: OFFWH, txtCol: DTXT, isSacure: false },
-    { label: '新品購入\n（参考）', fill: OFFWH, txtCol: DTXT, isSacure: false },
+  // ── Super-header "サキュレ（当社）" spanning 2 sub-cols ──
+  const sacSuperX = tX + LW;
+  const sacSuperW = SW * 2;
+  card(s, sacSuperX, tY, sacSuperW, 0.24, CORAL);
+  txt(s, '◀  サキュレ（当社）  ▶', sacSuperX, tY, sacSuperW, 0.24,
+    { fontSize: 10, bold: true, color: WHITE, align: 'center', valign: 'middle' });
+
+  // ── Column headers ──
+  const colHeaderY = tY + 0.24;
+  const colHeaderH = CHH - 0.24;
+
+  // 比較項目
+  card(s, tX, tY, LW, CHH, DTXT, LGREY);
+  txt(s, '比較項目', tX, tY, LW, CHH,
+    { fontSize: 11, bold: true, color: WHITE, align: 'center', valign: 'middle' });
+
+  // サキュレ 中古
+  card(s, sacSuperX, colHeaderY, SW, colHeaderH, CORAL, LGREY);
+  txt(s, [
+    { text: '中古（リユース）', options: { breakLine: true } },
+    { text: '月額 1,980円', options: { bold: true } },
+  ], sacSuperX, colHeaderY, SW, colHeaderH,
+    { fontSize: 10, color: WHITE, align: 'center', valign: 'middle', lineSpacingMultiple: 1.2 });
+
+  // サキュレ 新品
+  const sacNewX = sacSuperX + SW;
+  card(s, sacNewX, colHeaderY, SW, colHeaderH, DKCRL, LGREY);
+  txt(s, [
+    { text: '新品', options: { breakLine: true } },
+    { text: '月額 2,980円', options: { bold: true } },
+  ], sacNewX, colHeaderY, SW, colHeaderH,
+    { fontSize: 10, color: WHITE, align: 'center', valign: 'middle', lineSpacingMultiple: 1.2 });
+
+  // 競合3列
+  const competitorCols = [
+    { label: 'かして！\nどっとこむ', fill: OFFWH, txtCol: DTXT },
+    { label: 'てぶらで\nどっとこむ', fill: OFFWH, txtCol: DTXT },
+    { label: '新品購入\n（参考）', fill: OFFWH, txtCol: DTXT },
   ];
+  competitorCols.forEach((col, ci) => {
+    const x = tX + LW + SW * 2 + ci * DW;
+    card(s, x, tY, DW, CHH, col.fill, LGREY);
+    txt(s, col.label, x, tY, DW, CHH,
+      { fontSize: 10, bold: true, color: col.txtCol,
+        align: 'center', valign: 'middle', lineSpacingMultiple: 1.2 });
+  });
 
+  // ── Row data ──
+  // Each row: [label, sacure_chuko, sacure_shinpin, kashite, tebura, shinpin_purchase]
   const rows = [
     {
       label: '月額費用',
-      vals: [
-        { v: '2,083 円', sub: '（2年契約）', bold: true, col: CORAL },
+      cells: [
+        { v: '1,980 円', sub: '（2年契約）', bold: true, col: CORAL },
+        { v: '2,980 円', sub: '（2年契約）', bold: true, col: DKCRL },
         { v: '3,200〜4,500 円', sub: '（概算）', bold: false, col: DTXT },
         { v: '2,900〜4,200 円', sub: '（概算）', bold: false, col: DTXT },
-        { v: '— 円', sub: '（一括購入）', bold: false, col: MUTED },
+        { v: '—', sub: '（一括購入）', bold: false, col: MUTED },
       ],
     },
     {
       label: '2年間合計',
-      vals: [
-        { v: '50,000 円', sub: '', bold: true, col: GREEN },
+      cells: [
+        { v: '47,520 円', sub: '', bold: true, col: GREEN },
+        { v: '71,520 円', sub: '', bold: true, col: GREEN },
         { v: '76,800〜108,000 円', sub: '', bold: false, col: DTXT },
         { v: '69,600〜100,800 円', sub: '', bold: false, col: DTXT },
         { v: '55,000〜80,000 円', sub: '（初期一括）', bold: false, col: DTXT },
@@ -76,7 +122,8 @@ function txt(s, text, x, y, w, h, opts) {
     },
     {
       label: '初期費用',
-      vals: [
+      cells: [
+        { v: '0 円', sub: '', bold: true, col: GREEN },
         { v: '0 円', sub: '', bold: true, col: GREEN },
         { v: '0 円', sub: '', bold: false, col: DTXT },
         { v: '0 円', sub: '', bold: false, col: DTXT },
@@ -85,7 +132,8 @@ function txt(s, text, x, y, w, h, opts) {
     },
     {
       label: '配送・設置',
-      vals: [
+      cells: [
+        { v: '無料', sub: '', bold: true, col: GREEN },
         { v: '無料', sub: '', bold: true, col: GREEN },
         { v: '無料', sub: '', bold: false, col: DTXT },
         { v: '無料', sub: '', bold: false, col: DTXT },
@@ -94,7 +142,8 @@ function txt(s, text, x, y, w, h, opts) {
     },
     {
       label: '回収・返却',
-      vals: [
+      cells: [
+        { v: '無料', sub: '', bold: true, col: GREEN },
         { v: '無料', sub: '', bold: true, col: GREEN },
         { v: '無料', sub: '', bold: false, col: DTXT },
         { v: '無料', sub: '', bold: false, col: DTXT },
@@ -103,7 +152,8 @@ function txt(s, text, x, y, w, h, opts) {
     },
     {
       label: '生協提携',
-      vals: [
+      cells: [
+        { v: '新規受付中', sub: '（独占提携可）', bold: true, col: GREEN },
         { v: '新規受付中', sub: '（独占提携可）', bold: true, col: GREEN },
         { v: '大規模校中心', sub: '（競合多い）', bold: false, col: AMBER },
         { v: '大規模校中心', sub: '（競合多い）', bold: false, col: AMBER },
@@ -112,59 +162,65 @@ function txt(s, text, x, y, w, h, opts) {
     },
   ];
 
-  // ── Column headers ──
-  cols.forEach((col, ci) => {
-    const x = tX + LW + ci * DW;
-    card(s, x, tY, DW, CHH, col.fill, LGREY);
-    txt(s, col.label, x, tY, DW, CHH,
-      { fontSize: col.isSacure ? 12 : 10, bold: true, color: col.txtCol,
-        align: 'center', valign: 'middle', lineSpacingMultiple: 1.2 });
-  });
-  // label column header (empty)
-  card(s, tX, tY, LW, CHH, DTXT, LGREY);
-  txt(s, '比較項目', tX, tY, LW, CHH,
-    { fontSize: 11, bold: true, color: WHITE, align: 'center', valign: 'middle' });
-
-  // ── Data rows ──
   rows.forEach((row, ri) => {
     const y = tY + CHH + ri * RH;
-    const isEven = ri % 2 === 0;
+    const even = ri % 2 === 0;
 
     // Row label
-    card(s, tX, y, LW, RH, isEven ? OFFWH : WHITE, LGREY);
+    card(s, tX, y, LW, RH, even ? OFFWH : WHITE, LGREY);
     txt(s, row.label, tX, y, LW, RH,
-      { fontSize: 11.5, bold: true, color: DTXT, align: 'center', valign: 'middle' });
+      { fontSize: 11, bold: true, color: DTXT, align: 'center', valign: 'middle' });
 
-    // Data cells
-    row.vals.forEach((val, ci) => {
-      const x = tX + LW + ci * DW;
-      const isSacure = ci === 0;
-      const bgFill = isSacure ? (isEven ? LTCOR : 'F5DDD8') : (isEven ? OFFWH : WHITE);
-      card(s, x, y, DW, RH, bgFill, LGREY);
+    // サキュレ 中古
+    const bg0 = even ? LTCOR : LTCR2;
+    card(s, sacSuperX, y, SW, RH, bg0, LGREY);
+    // サキュレ 新品
+    const bg1 = even ? LTDK : LTDK2;
+    card(s, sacNewX, y, SW, RH, bg1, LGREY);
 
-      if (val.sub) {
-        // main value + sub note
-        txt(s, val.v, x, y + 0.04, DW, 0.36,
-          { fontSize: isSacure ? 13 : 11, bold: val.bold, color: val.col,
-            align: 'center', valign: 'middle' });
-        txt(s, val.sub, x, y + 0.37, DW, 0.20,
-          { fontSize: 8, color: MUTED, align: 'center', valign: 'middle' });
+    // 競合
+    competitorCols.forEach((_, ci) => {
+      const x = tX + LW + SW * 2 + ci * DW;
+      card(s, x, y, DW, RH, even ? OFFWH : WHITE, LGREY);
+    });
+
+    // Cell values
+    const cellXs = [
+      sacSuperX,
+      sacNewX,
+      tX + LW + SW * 2,
+      tX + LW + SW * 2 + DW,
+      tX + LW + SW * 2 + DW * 2,
+    ];
+    const cellWs = [SW, SW, DW, DW, DW];
+
+    row.cells.forEach((cell, ci) => {
+      const cx = cellXs[ci];
+      const cw = cellWs[ci];
+      const isSacure = ci < 2;
+      const fSize = isSacure ? 12 : 10.5;
+
+      if (cell.sub) {
+        txt(s, cell.v, cx, y + 0.04, cw, 0.34,
+          { fontSize: fSize, bold: cell.bold, color: cell.col, align: 'center', valign: 'middle' });
+        txt(s, cell.sub, cx, y + 0.36, cw, 0.18,
+          { fontSize: 7.5, color: MUTED, align: 'center', valign: 'middle' });
       } else {
-        txt(s, val.v, x, y, DW, RH,
-          { fontSize: isSacure ? 13 : 11, bold: val.bold, color: val.col,
-            align: 'center', valign: 'middle' });
+        txt(s, cell.v, cx, y, cw, RH,
+          { fontSize: fSize, bold: cell.bold, color: cell.col, align: 'center', valign: 'middle' });
       }
     });
   });
 
-  // ── 強調フッター（全幅） ──
-  const tableBottom = tY + CHH + rows.length * RH + 0.08;
-  card(s, tX, tableBottom, LW + DW * 4, 0.28, CORAL);
-  txt(s, '★ サキュレは業界最安値水準（月額2,083円）・初期費用ゼロ・生協独占提携可で、中小規模大学への先行参入に最適です。',
-    tX + 0.10, tableBottom, LW + DW * 4 - 0.20, 0.28,
-    { fontSize: 9.5, bold: true, color: WHITE, valign: 'middle' });
+  // ── フッターバナー ──
+  const tableBottom = tY + CHH + rows.length * RH + 0.06;
+  const tableW = LW + SW * 2 + DW * 3;
+  card(s, tX, tableBottom, tableW, 0.28, CORAL);
+  txt(s, '★ 中古なら月1,980円・初期費用ゼロ・配送無料。新品でも月2,980円で競合より大幅にリーズナブル。生協独占提携で中小規模大学への先行参入が可能です。',
+    tX + 0.10, tableBottom, tableW - 0.20, 0.28,
+    { fontSize: 9, bold: true, color: WHITE, valign: 'middle' });
 
-  s.addNotes('料金比較表。サキュレの3点セット月額2,083円（2年50,000円）は競合比較で最安値水準。初期費用ゼロ・配送回収無料・生協独占提携可能が差別化ポイント。競合価格は概算（公開情報ベース）。');
+  s.addNotes('料金比較表v2。サキュレは中古1,980円・新品2,980円の2プライス制。競合比で最安値水準。初期費用ゼロ・配送回収無料・生協独占提携可能が差別化ポイント。競合価格は概算（公開情報ベース）。');
 }
 
 const OUT = '/tmp/claude-0/-home-user-sacure/1db07409-6d1e-5d98-92a7-465fca194ddc/scratchpad/料金比較表_v1.pptx';
