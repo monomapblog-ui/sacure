@@ -68,20 +68,14 @@ function txt(s, text, x, y, w, h, opts) {
 
   // サキュレ 中古
   card(s, sacSuperX, colHeaderY, SW, colHeaderH, CORAL, LGREY);
-  txt(s, [
-    { text: '中古（リユース）', options: { breakLine: true } },
-    { text: '月額 1,880円', options: { bold: true } },
-  ], sacSuperX, colHeaderY, SW, colHeaderH,
-    { fontSize: 10, color: WHITE, align: 'center', valign: 'middle', lineSpacingMultiple: 1.2 });
+  txt(s, '中古（リユース）', sacSuperX, colHeaderY, SW, colHeaderH,
+    { fontSize: 10, bold: true, color: WHITE, align: 'center', valign: 'middle', margin: 0 });
 
   // サキュレ 新品
   const sacNewX = sacSuperX + SW;
   card(s, sacNewX, colHeaderY, SW, colHeaderH, DKCRL, LGREY);
-  txt(s, [
-    { text: '新品', options: { breakLine: true } },
-    { text: '月額 2,480円', options: { bold: true } },
-  ], sacNewX, colHeaderY, SW, colHeaderH,
-    { fontSize: 10, color: WHITE, align: 'center', valign: 'middle', lineSpacingMultiple: 1.2 });
+  txt(s, '新品', sacNewX, colHeaderY, SW, colHeaderH,
+    { fontSize: 10, bold: true, color: WHITE, align: 'center', valign: 'middle', margin: 0 });
 
   // 競合3列
   const competitorCols = [
