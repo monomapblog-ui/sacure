@@ -872,45 +872,50 @@ function hrule(s, x, y, w, col) {
     });
   });
 
-  // ── 大学訪問スケジュール（対象36校・7〜10月） ────────
+  // ── 大学訪問スケジュール（対象36校・8月末完了必須） ─
   const tY = 4.06;
   card(s, 0.40, tY, 9.20, 0.24, TEAL);
-  txt(s, '大学訪問スケジュール（対象36校 / 9・10月入学留学生ターゲット）', 0.55, tY, 6.5, 0.24,
+  txt(s, '大学訪問スケジュール（対象36校 ／ 9・10月入学留学生ターゲット）', 0.55, tY, 6.2, 0.24,
     { fontSize: 10.5, bold: true, color: WHITE, valign: 'middle' });
-  txt(s, '※7月末までに全日程仮決め', 7.1, tY, 2.5, 0.24,
-    { fontSize: 9, color: WHITE, valign: 'middle', align: 'right' });
+  txt(s, '⚠ 8月末までに訪問完了必須', 6.8, tY, 2.8, 0.24,
+    { fontSize: 9.5, bold: true, color: 'FFE066', valign: 'middle', align: 'right' });
 
   // Table header row
   const hY = tY + 0.24;
   card(s, 0.40, hY, 9.20, 0.20, LGREY);
-  txt(s, '時期', 0.52, hY, 1.3, 0.20, { fontSize: 9, bold: true, color: DTXT, valign: 'middle' });
-  txt(s, '訪問予定大学', 1.92, hY, 5.4, 0.20, { fontSize: 9, bold: true, color: DTXT, valign: 'middle' });
+  txt(s, '時期', 0.52, hY, 1.5, 0.20, { fontSize: 9, bold: true, color: DTXT, valign: 'middle' });
+  txt(s, '訪問予定大学（抜粋）', 2.10, hY, 5.2, 0.20, { fontSize: 9, bold: true, color: DTXT, valign: 'middle' });
   txt(s, '目標', 7.38, hY, 0.7, 0.20, { fontSize: 9, bold: true, color: DTXT, valign: 'middle', align: 'center' });
   txt(s, '状況', 8.14, hY, 1.4, 0.20, { fontSize: 9, bold: true, color: DTXT, valign: 'middle', align: 'center' });
 
-  // Data rows: 7〜10月 month-by-month
+  // 3 rows: 7月後半 / 8月前半 / 8月後半
   const visits = [
-    { period: '7月後半', unis: '大東文化大・東洋大・立教大（7/27確定）＋追加校調整中', target: '〜5校',  status: '一部確定', statCol: GREEN },
-    { period: '8月',    unis: '調整中',                                               target: '〜12校', status: 'アポ取得中', statCol: AMBER },
-    { period: '9月',    unis: '調整中（9月入学前にアプローチ）',                       target: '〜12校', status: '未定',       statCol: MUTED },
-    { period: '10月',   unis: '調整中（10月入学前にアプローチ）',                      target: '〜7校',  status: '未定',       statCol: MUTED },
+    { period: '7月後半',
+      unis: '大東文化大・東洋大・立教大（7/27確定）＋追加校調整中',
+      target: '〜5校', status: '一部確定', statCol: GREEN },
+    { period: '8月前半（1〜15日）',
+      unis: '調整中（早稲田・明治・法政・慶應・上智・東洋理科・都立大 ほか）',
+      target: '〜16校', status: 'アポ取得中', statCol: AMBER },
+    { period: '8月後半（16〜31日）',
+      unis: '調整中（帝京・桜美林・文教・駒澤・電通大・一橋・ICU ほか）',
+      target: '〜15校', status: '未定', statCol: MUTED },
   ];
   visits.forEach((v, i) => {
-    const ry = hY + 0.20 + i * 0.20;
-    card(s, 0.40, ry, 9.20, 0.20, i % 2 === 0 ? WHITE : OFFWH);
-    txt(s, v.period, 0.52, ry, 1.3, 0.20,
+    const ry = hY + 0.20 + i * 0.22;
+    card(s, 0.40, ry, 9.20, 0.22, i % 2 === 0 ? WHITE : OFFWH);
+    txt(s, v.period, 0.52, ry, 1.5, 0.22,
       { fontSize: 9.5, color: DTXT, valign: 'middle', bold: i === 0 });
-    txt(s, v.unis, 1.92, ry, 5.38, 0.20,
-      { fontSize: 9.5, color: DTXT, valign: 'middle' });
-    txt(s, v.target, 7.38, ry, 0.7, 0.20,
+    txt(s, v.unis, 2.10, ry, 5.18, 0.22,
+      { fontSize: 9, color: DTXT, valign: 'middle' });
+    txt(s, v.target, 7.38, ry, 0.7, 0.22,
       { fontSize: 9, bold: true, color: DTXT, valign: 'middle', align: 'center' });
-    card(s, 8.14, ry, 1.42, 0.20, v.statCol);
-    txt(s, v.status, 8.14, ry, 1.42, 0.20,
+    card(s, 8.14, ry, 1.42, 0.22, v.statCol);
+    txt(s, v.status, 8.14, ry, 1.42, 0.22,
       { fontSize: 8.5, bold: true, color: WHITE, align: 'center', valign: 'middle' });
   });
 
-  card(s, 0.4, 5.32, 9.2, 0.22, CORAL);
-  txt(s, '7月末チェック：対象36大学リスト完成・訪問日程仮決め完了・提案資料初稿完成', 0.4, 5.32, 9.2, 0.22,
+  card(s, 0.4, 5.36, 9.2, 0.22, CORAL);
+  txt(s, '8月末チェック：全36校への訪問完了・提案資料持参完了・生協提携商談5校以上着手', 0.4, 5.36, 9.2, 0.22,
     { fontSize: 10.5, bold: true, color: WHITE, align: 'center', valign: 'middle' });
 }
 
