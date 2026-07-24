@@ -70,7 +70,7 @@ function txt(s, text, x, y, w, h, opts) {
   card(s, sacSuperX, colHeaderY, SW, colHeaderH, CORAL, LGREY);
   txt(s, [
     { text: '中古（リユース）', options: { breakLine: true } },
-    { text: '月額 1,980円', options: { bold: true } },
+    { text: '月額 1,880円', options: { bold: true } },
   ], sacSuperX, colHeaderY, SW, colHeaderH,
     { fontSize: 10, color: WHITE, align: 'center', valign: 'middle', lineSpacingMultiple: 1.2 });
 
@@ -79,7 +79,7 @@ function txt(s, text, x, y, w, h, opts) {
   card(s, sacNewX, colHeaderY, SW, colHeaderH, DKCRL, LGREY);
   txt(s, [
     { text: '新品', options: { breakLine: true } },
-    { text: '月額 2,980円', options: { bold: true } },
+    { text: '月額 2,480円', options: { bold: true } },
   ], sacNewX, colHeaderY, SW, colHeaderH,
     { fontSize: 10, color: WHITE, align: 'center', valign: 'middle', lineSpacingMultiple: 1.2 });
 
@@ -103,8 +103,8 @@ function txt(s, text, x, y, w, h, opts) {
     {
       label: '月額費用',
       cells: [
-        { v: '1,980 円', sub: '（2年契約）', bold: true, col: CORAL },
-        { v: '2,980 円', sub: '（2年契約）', bold: true, col: DKCRL },
+        { v: '1,880 円', sub: '（2年契約）', bold: true, col: CORAL },
+        { v: '2,480 円', sub: '（2年契約）', bold: true, col: DKCRL },
         { v: '2,875 円', sub: '（新品・2年／4年1,604円）', bold: false, col: DTXT },
         { v: '5,500 円', sub: '（6点セット）※3点は要確認', bold: false, col: DTXT },
         { v: '—', sub: '（一括購入）', bold: false, col: MUTED },
@@ -113,8 +113,8 @@ function txt(s, text, x, y, w, h, opts) {
     {
       label: '2年間合計',
       cells: [
-        { v: '47,520 円', sub: '', bold: true, col: GREEN },
-        { v: '71,520 円', sub: '', bold: true, col: GREEN },
+        { v: '45,120 円', sub: '', bold: true, col: GREEN },
+        { v: '59,520 円', sub: '', bold: true, col: GREEN },
         { v: '69,000 円', sub: '（新品・2年）※4年77,000円', bold: false, col: DTXT },
         { v: '要確認', sub: '（6点セット基準）', bold: false, col: MUTED },
         { v: '55,000〜80,000 円', sub: '（初期一括）', bold: false, col: DTXT },
@@ -216,7 +216,7 @@ function txt(s, text, x, y, w, h, opts) {
   const tableBottom = tY + CHH + rows.length * RH + 0.06;
   const tableW = LW + SW * 2 + DW * 3;
   card(s, tX, tableBottom, tableW, 0.28, CORAL);
-  txt(s, '★ 中古（リユース）なら月1,980円・2年合計47,520円で競合比▲21,480円。初期費用ゼロ・配送回収無料。中小規模大学の生協とは独占提携が可能です。',
+  txt(s, '★ 中古（リユース）なら月1,880円・2年合計45,120円で競合比▲23,880円。初期費用ゼロ・配送回収無料。中小規模大学の生協とは独占提携が可能です。',
     tX + 0.10, tableBottom, tableW - 0.20, 0.28,
     { fontSize: 9, bold: true, color: WHITE, valign: 'middle' });
 
