@@ -175,9 +175,9 @@ function hrule(s, x, y, w, col) {
   const levels = [
     { label: '月次稼働台数', val: '400件', sub: '3点セット × 月2,083円 × 12ヶ月 ≒ 1,000万円', col: GREEN, w: 8.0 },
     { label: '大学生協 提携数', val: '13〜15校', sub: '1校あたり平均30件獲得（新入生300人×自宅外率30%×獲得率10%）', col: DKGRN, w: 7.0 },
-    { label: '商談数', val: '40〜50回', sub: '提携締結率30〜40% → 13校到達', col: AMBER, w: 6.0 },
-    { label: 'アポ獲得数', val: '80〜100件', sub: '商談化率50%', col: '9E4500', w: 5.0 },
-    { label: '初回アプローチ数', val: '1,500〜2,000件', sub: 'アポ化率5%', col: CORAL, w: 4.2 },
+    { label: '商談数', val: '35〜45回', sub: '提携締結率30〜40% → 13校到達', col: AMBER, w: 6.0 },
+    { label: 'アポ獲得数', val: '70〜90件', sub: '商談化率50%', col: '9E4500', w: 5.0 },
+    { label: '初回アプローチ数', val: '150〜200件', sub: 'アポ化率40〜50%', col: CORAL, w: 4.2 },
   ];
 
   levels.forEach((lv, i) => {
@@ -188,8 +188,8 @@ function hrule(s, x, y, w, col) {
       { fontSize: 9, color: WHITE, charSpacing: 0.3 });
     txt(s, lv.val, x + 0.15, y + 0.3, 2.5, 0.28,
       { fontSize: 14, bold: true, color: WHITE });
-    txt(s, lv.sub, x + 2.8, y + 0.14, lv.w - 3.0, 0.34,
-      { fontSize: 10, color: WHITE });
+    txt(s, lv.sub, x + 2.6, y + 0.14, lv.w - 2.7, 0.34,
+      { fontSize: 8.5, color: WHITE, margin: 0 });
   });
 }
 
@@ -559,8 +559,8 @@ function hrule(s, x, y, w, col) {
 
   const phases = [
     { n: 1, period: '10〜11月', title: 'アポ獲得',
-      actions: ['生協・大学事務へのTEL・メール', 'ターゲットリスト50〜80校', 'アポ目標：5〜8件/月'],
-      kpi: 'アポ80〜100件' },
+      actions: ['生協・大学事務へのTEL・メール', 'ターゲットリスト36〜41校', 'アポ目標：5〜8件/月'],
+      kpi: 'アポ70〜90件' },
     { n: 2, period: '11〜12月', title: '提案・交渉',
       actions: ['料金比較表・整備証明を提示', 'レベニューシェア設計を提案', '目標提携締結率：30〜40%'],
       kpi: '提携13〜15校' },
@@ -609,9 +609,9 @@ function hrule(s, x, y, w, col) {
     { label: 'KGI', val: '売上1,000万円/年', col: CORAL, w: 4.5 },
     { label: '稼働数', val: '400件（月次）', col: GREEN, w: 4.1 },
     { label: '提携校数', val: '13〜15校', col: DKGRN, w: 3.6 },
-    { label: '商談数', val: '40〜50回', col: AMBER, w: 3.1 },
-    { label: 'アポ数', val: '80〜100件', col: '9E4500', w: 2.6 },
-    { label: '接触数', val: '1,500〜2,000件', col: DTXT, w: 2.1 },
+    { label: '商談数', val: '35〜45回', col: AMBER, w: 3.1 },
+    { label: 'アポ数', val: '70〜90件', col: '9E4500', w: 2.6 },
+    { label: '接触数', val: '150〜200件', col: DTXT, w: 2.1 },
   ];
   funnel.forEach((f, i) => {
     const bx = 0.3 + (4.5 - f.w) / 2;
@@ -625,7 +625,7 @@ function hrule(s, x, y, w, col) {
 
   slab(s, '週次管理指標（行動量の担保）', 5.0, 0.86, 4.6, 0.32, CORAL);
   const weeks = [
-    { metric: 'アプローチ数（TEL・メール）', target: '30〜40件/週' },
+    { metric: 'アプローチ数（TEL・メール）', target: '5〜10件/週' },
     { metric: '提案面談数', target: '2〜3件/週' },
     { metric: '提携締結累計（12月末）', target: '5〜7校' },
     { metric: '予約件数（2月末）', target: '200件以上' },
