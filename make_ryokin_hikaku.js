@@ -32,7 +32,7 @@ function txt(s, text, x, y, w, h, opts) {
 
   // ─── Header ───
   card(s, 0, 0, 10, 0.68, CORAL);
-  txt(s, '料金比較表　3点セット（冷蔵庫・洗濯機・電子レンジ）', 0.22, 0, 9.6, 0.68,
+  txt(s, '料金比較表　3点セット（冷蔵庫80L・洗濯機4.2kg・電子レンジ）', 0.22, 0, 9.6, 0.68,
     { fontSize: 16, bold: true, color: WHITE, valign: 'middle' });
 
   txt(s, '※競合価格は公開情報をもとにした概算。正確な金額は各社サイトでご確認ください。',
@@ -105,8 +105,8 @@ function txt(s, text, x, y, w, h, opts) {
       cells: [
         { v: '1,980 円', sub: '（2年契約）', bold: true, col: CORAL },
         { v: '2,980 円', sub: '（2年契約）', bold: true, col: DKCRL },
-        { v: '3,200〜4,500 円', sub: '（概算）', bold: false, col: DTXT },
-        { v: '2,900〜4,200 円', sub: '（概算）', bold: false, col: DTXT },
+        { v: '2,875 円', sub: '（新品・2年／4年1,604円）', bold: false, col: DTXT },
+        { v: '要確認', sub: '（公式HP参照）', bold: false, col: MUTED },
         { v: '—', sub: '（一括購入）', bold: false, col: MUTED },
       ],
     },
@@ -115,8 +115,8 @@ function txt(s, text, x, y, w, h, opts) {
       cells: [
         { v: '47,520 円', sub: '', bold: true, col: GREEN },
         { v: '71,520 円', sub: '', bold: true, col: GREEN },
-        { v: '76,800〜108,000 円', sub: '', bold: false, col: DTXT },
-        { v: '69,600〜100,800 円', sub: '', bold: false, col: DTXT },
+        { v: '69,000 円', sub: '（新品・2年）※4年77,000円', bold: false, col: DTXT },
+        { v: '要確認', sub: '', bold: false, col: MUTED },
         { v: '55,000〜80,000 円', sub: '（初期一括）', bold: false, col: DTXT },
       ],
     },
@@ -216,7 +216,7 @@ function txt(s, text, x, y, w, h, opts) {
   const tableBottom = tY + CHH + rows.length * RH + 0.06;
   const tableW = LW + SW * 2 + DW * 3;
   card(s, tX, tableBottom, tableW, 0.28, CORAL);
-  txt(s, '★ 中古なら月1,980円・初期費用ゼロ・配送無料。新品でも月2,980円で競合より大幅にリーズナブル。生協独占提携で中小規模大学への先行参入が可能です。',
+  txt(s, '★ 中古（リユース）なら月1,980円・2年合計47,520円で競合比▲21,480円。初期費用ゼロ・配送回収無料。中小規模大学の生協とは独占提携が可能です。',
     tX + 0.10, tableBottom, tableW - 0.20, 0.28,
     { fontSize: 9, bold: true, color: WHITE, valign: 'middle' });
 
