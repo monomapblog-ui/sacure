@@ -7,11 +7,11 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 @page { size: A4; margin: 0; }
 body {
-  background: #7799bb;
+  background: #556688;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 24px;
+  padding: 20px;
   font-family: 'Segoe UI', Arial, 'Helvetica Neue', sans-serif;
 }
 .sheet {
@@ -19,254 +19,329 @@ body {
   height: 1123px;
   overflow: hidden;
   background: #fff;
-  box-shadow: 0 6px 32px rgba(0,0,0,0.35);
+  box-shadow: 0 6px 32px rgba(0,0,0,0.4);
   display: flex;
   flex-direction: column;
 }
 
-/* ── HEADER ─────────────────────────── */
-.header {
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   HERO BLOCK  (~52% of page)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.hero {
   background: #003D5C;
-  padding: 10px 28px;
+  flex: 0 0 582px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 22px 30px 0;
+}
+
+/* speed-line background rings */
+.hero::before {
+  content: '';
+  position: absolute;
+  right: -60px;
+  top: -60px;
+  width: 480px;
+  height: 480px;
+  border-radius: 50%;
+  border: 80px solid rgba(0,153,212,0.18);
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  right: -20px;
+  top: -20px;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  border: 50px solid rgba(0,153,212,0.12);
+  pointer-events: none;
+}
+
+/* header row */
+.hero-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-shrink: 0;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 2;
 }
-.logo { font-size: 26px; font-weight: 900; color: #fff; letter-spacing: 0.06em; }
+.logo { font-size: 22px; font-weight: 900; color: #fff; letter-spacing: 0.08em; }
 .logo span { color: #FFD700; }
-.logo-sub { font-size: 9px; color: #7DC8E8; font-weight: 600; margin-top: 2px; }
-.header-tag {
+.logo-tagline { font-size: 8.5px; color: #7DC8E8; margin-top: 2px; }
+.target-tag {
   background: #FFD700;
   color: #003D5C;
+  font-size: 9px;
   font-weight: 900;
-  font-size: 9.5px;
-  padding: 4px 12px;
+  padding: 5px 14px;
   border-radius: 3px;
   text-align: center;
-  line-height: 1.4;
+  line-height: 1.5;
 }
-.header-tag .big { font-size: 19px; line-height: 1.1; display: block; }
 
-/* ── HERO ────────────────────────────── */
-.hero {
-  background: #0099D4;
-  padding: 18px 28px 14px;
-  flex-shrink: 0;
+/* main hook */
+.hook-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+  position: relative;
+  z-index: 2;
 }
-.hero-eyebrow {
-  font-size: 9.5px;
+.hook-text { flex: 1; }
+.hook-eyebrow {
+  font-size: 11px;
   font-weight: 700;
+  color: #7DC8E8;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.65);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
-.hero-title {
-  font-size: 27px;
+.hook-main {
+  font-size: 52px;
   font-weight: 900;
   color: #fff;
-  line-height: 1.2;
-  margin-bottom: 5px;
-}
-.hero-title em { color: #FFD700; font-style: normal; }
-.hero-sub {
-  font-size: 11px;
-  color: rgba(255,255,255,0.85);
-  line-height: 1.6;
-  max-width: 490px;
-  margin-bottom: 14px;
-}
-.appliances {
-  display: flex;
-  gap: 10px;
-}
-.app-card {
-  flex: 1;
-  background: rgba(255,255,255,0.15);
-  border: 2px solid rgba(255,255,255,0.3);
-  border-radius: 10px;
-  padding: 10px 8px 10px;
-  text-align: center;
-}
-.app-icon { font-size: 26px; margin-bottom: 5px; display: block; }
-.app-name { font-size: 10.5px; font-weight: 800; color: #fff; }
-.app-spec { font-size: 8.5px; color: rgba(255,255,255,0.65); margin-top: 2px; }
-.app-card.highlight {
-  background: rgba(255,215,0,0.22);
-  border-color: #FFD700;
-}
-.app-card.highlight .app-name { color: #FFD700; }
-.app-card.highlight .app-spec { color: rgba(255,215,0,0.75); }
-
-/* ── BADGE STRIP ─────────────────────── */
-.badge-strip {
-  background: #003D5C;
-  padding: 6px 28px;
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  flex-shrink: 0;
-}
-.badge {
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.2);
-  color: #fff;
-  font-size: 9px;
-  font-weight: 700;
-  padding: 3px 10px;
-  border-radius: 20px;
-  white-space: nowrap;
-}
-.badge.amber { background: rgba(255,215,0,0.15); border-color: rgba(255,215,0,0.4); color: #FFD700; }
-
-/* ── PRICING ─────────────────────────── */
-.pricing-wrap {
-  padding: 13px 28px 12px;
-  background: #fff;
-  flex-shrink: 0;
-}
-.section-head {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
   margin-bottom: 10px;
 }
-.section-head::before {
-  content: '';
-  display: block;
-  width: 4px;
-  height: 16px;
-  background: #0099D4;
-  border-radius: 2px;
-  flex-shrink: 0;
+.hook-main em { color: #FFD700; font-style: normal; display: block; }
+.hook-sub {
+  font-size: 12px;
+  color: rgba(255,255,255,0.78);
+  line-height: 1.65;
+  max-width: 390px;
 }
-.section-head-text { font-size: 12px; font-weight: 900; color: #003D5C; }
-.plans { display: flex; gap: 10px; }
-.plan {
-  flex: 1;
-  border-radius: 10px;
-  padding: 12px 14px;
-  border: 2.5px solid;
-}
-.plan.used { border-color: #0099D4; background: #EFF9FF; }
-.plan.newp { border-color: #003D5C; background: #F4F8FC; }
-.plan-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-.plan-badge { font-size: 9px; font-weight: 700; padding: 3px 9px; border-radius: 3px; }
-.plan.used .plan-badge { background: #0099D4; color: #fff; }
-.plan.newp .plan-badge { background: #003D5C; color: #fff; }
-.plan-name { font-size: 12px; font-weight: 900; color: #003D5C; margin-bottom: 3px; }
-.plan-price-row { display: flex; align-items: baseline; gap: 2px; }
-.plan-price { font-size: 33px; font-weight: 900; line-height: 1; }
-.plan.used .plan-price { color: #0099D4; }
-.plan.newp .plan-price { color: #003D5C; }
-.plan-price-unit { font-size: 11px; font-weight: 700; color: #667; }
-.plan-total {
-  margin-top: 8px;
-  background: rgba(0,0,0,0.05);
-  border-radius: 5px;
-  padding: 5px 9px;
-  font-size: 9.5px;
-  font-weight: 700;
-  color: #333;
-}
-.plan-total em { color: #1a7a1a; font-style: normal; }
-.plan-note { font-size: 8.5px; color: #889; margin-top: 5px; line-height: 1.5; }
-.pricing-footnote { margin-top: 8px; font-size: 8px; color: #9aabb8; line-height: 1.6; }
 
-/* ── BENEFITS ────────────────────────── */
-.benefits-wrap {
-  background: #003D5C;
-  padding: 12px 28px;
+/* price balloon */
+.price-balloon {
   flex-shrink: 0;
-}
-.benefits-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-}
-.ben { display: flex; align-items: flex-start; gap: 8px; }
-.ben-icon {
-  width: 28px;
-  height: 28px;
-  background: #0099D4;
-  border-radius: 7px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  flex-shrink: 0;
-}
-.ben-title { font-size: 9.5px; font-weight: 800; color: #FFD700; line-height: 1.3; }
-.ben-sub { font-size: 8px; color: rgba(255,255,255,0.65); margin-top: 2px; line-height: 1.4; }
-
-/* ── FLOW ────────────────────────────── */
-.flow-wrap {
-  background: #EBF7FC;
-  padding: 12px 28px;
-  border-top: 3px solid #0099D4;
-  flex-shrink: 0;
-}
-.flow-inner { display: flex; align-items: flex-start; gap: 0; }
-.flow-step {
-  flex: 1;
+  width: 148px;
+  height: 148px;
+  background: #FFD700;
+  border-radius: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+  margin-bottom: 8px;
+}
+.balloon-from { font-size: 10px; font-weight: 900; color: #003D5C; line-height: 1; }
+.balloon-price { font-size: 44px; font-weight: 900; color: #003D5C; line-height: 1; }
+.balloon-unit { font-size: 11px; font-weight: 900; color: #003D5C; line-height: 1.2; }
+.balloon-items { font-size: 8.5px; font-weight: 700; color: rgba(0,61,92,0.7); margin-top: 3px; }
+
+/* appliance icons row */
+.appliance-row {
+  display: flex;
+  gap: 0;
+  margin-top: 20px;
+  position: relative;
+  z-index: 2;
+  align-items: flex-end;
+}
+.app-item {
+  flex: 1;
+  background: rgba(0,153,212,0.28);
+  border: 1.5px solid rgba(255,255,255,0.18);
+  border-bottom: none;
+  border-radius: 12px 12px 0 0;
+  padding: 12px 6px 14px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.app-item + .app-item { margin-left: 6px; }
+.app-item.set {
+  background: rgba(255,215,0,0.22);
+  border-color: rgba(255,215,0,0.5);
+}
+.app-emoji { font-size: 32px; margin-bottom: 6px; }
+.app-label { font-size: 10.5px; font-weight: 800; color: #fff; }
+.app-spec { font-size: 8px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+.app-item.set .app-label { color: #FFD700; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   BADGE STRIP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.badges {
+  background: #0099D4;
+  padding: 7px 24px;
+  display: flex;
+  gap: 0;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+}
+.bdg {
+  font-size: 9px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  padding: 0 14px;
+  border-right: 1px solid rgba(255,255,255,0.3);
+}
+.bdg:first-child { padding-left: 0; }
+.bdg:last-child { border-right: none; }
+.bdg.gold { color: #FFD700; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   INFO BLOCK (lower half)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.info-block {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 0;
+  overflow: hidden;
+}
+
+/* Pricing panel */
+.panel-pricing {
+  grid-column: 1;
+  grid-row: 1;
+  padding: 13px 16px 12px 24px;
+  border-right: 1px solid #e0eaf0;
+  border-bottom: 1px solid #e0eaf0;
+}
+.panel-title {
+  font-size: 9px;
+  font-weight: 900;
+  color: #0099D4;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.plan-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.plan-tag {
+  font-size: 8px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.plan-tag.eco { background: #0099D4; color: #fff; }
+.plan-tag.new { background: #003D5C; color: #fff; }
+.plan-price-big { font-size: 26px; font-weight: 900; }
+.plan-price-big.eco { color: #0099D4; }
+.plan-price-big.new { color: #003D5C; }
+.plan-price-unit { font-size: 9px; font-weight: 700; color: #888; }
+.plan-saving { font-size: 8px; color: #1a7a1a; font-weight: 700; margin-left: auto; }
+.plan-note { font-size: 7.5px; color: #999; line-height: 1.5; margin-bottom: 4px; }
+.pricing-fn { font-size: 7px; color: #bbb; line-height: 1.55; margin-top: 4px; }
+
+/* Benefits panel */
+.panel-benefits {
+  grid-column: 2;
+  grid-row: 1;
+  padding: 13px 24px 12px 16px;
+  border-bottom: 1px solid #e0eaf0;
+  background: #f8fbfd;
+}
+.ben-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+.ben {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+.ben-ic {
+  width: 24px;
+  height: 24px;
+  background: #0099D4;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.ben-t { font-size: 9px; font-weight: 800; color: #003D5C; line-height: 1.3; }
+.ben-s { font-size: 7.5px; color: #778; line-height: 1.4; margin-top: 1px; }
+
+/* Flow panel */
+.panel-flow {
+  grid-column: 1 / 3;
+  grid-row: 2;
+  padding: 11px 24px;
+  background: #EBF7FC;
+  border-top: 2px solid #0099D4;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+.flow-step {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   position: relative;
 }
 .flow-step:not(:last-child)::after {
   content: '→';
   position: absolute;
-  right: -10px;
-  top: 14px;
-  font-size: 18px;
+  right: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
   color: #0099D4;
   font-weight: 900;
 }
 .flow-num {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   background: #0099D4;
   color: #fff;
   border-radius: 50%;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 900;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 6px;
-}
-.flow-icon { font-size: 22px; margin-bottom: 5px; }
-.flow-title { font-size: 10.5px; font-weight: 900; color: #003D5C; margin-bottom: 3px; line-height: 1.3; }
-.flow-note { font-size: 8px; color: #4a7090; line-height: 1.5; padding: 0 4px; }
-
-/* ── FOOTER ──────────────────────────── */
-.footer {
-  background: #003D5C;
-  padding: 12px 28px 10px;
-  margin-top: auto;
-  border-top: 4px solid #FFD700;
   flex-shrink: 0;
 }
-.footer-contacts {
+.flow-icon { font-size: 20px; flex-shrink: 0; }
+.flow-t { font-size: 9.5px; font-weight: 900; color: #003D5C; line-height: 1.3; }
+.flow-s { font-size: 7.5px; color: #4a7090; line-height: 1.45; margin-top: 2px; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   FOOTER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.footer {
+  background: #003D5C;
+  padding: 10px 24px 9px;
+  border-top: 3px solid #FFD700;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 8px;
+  gap: 20px;
 }
-.contact-col { display: flex; flex-direction: column; gap: 2px; }
-.ct-label { font-size: 8px; font-weight: 700; color: #7DC8E8; letter-spacing: 0.07em; text-transform: uppercase; }
-.ct-val { font-size: 14px; font-weight: 900; color: #fff; }
-.ct-val.sm { font-size: 11px; }
-.ct-sub { font-size: 7.5px; color: #5aadc8; }
-.qr-placeholder {
-  margin-left: auto;
-  width: 62px;
-  height: 62px;
+.ct { display: flex; flex-direction: column; gap: 1px; }
+.ct-l { font-size: 7.5px; font-weight: 700; color: #7DC8E8; text-transform: uppercase; letter-spacing: 0.06em; }
+.ct-v { font-size: 15px; font-weight: 900; color: #fff; line-height: 1.1; }
+.ct-v.sm { font-size: 11px; }
+.ct-s { font-size: 7px; color: #5aadc8; }
+.sep { width: 1px; height: 36px; background: rgba(255,255,255,0.18); flex-shrink: 0; }
+.ft-right { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+.qr {
+  width: 52px;
+  height: 52px;
   background: #fff;
-  border-radius: 6px;
+  border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -274,18 +349,9 @@ body {
   color: #9ab;
   text-align: center;
   line-height: 1.4;
-  flex-shrink: 0;
 }
-.footer-bottom {
-  border-top: 1px solid rgba(255,255,255,0.12);
-  padding-top: 7px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.footer-area { font-size: 8.5px; color: #7DC8E8; }
-.footer-area strong { color: #FFD700; }
-.footer-company { font-size: 8px; color: #5aadc8; text-align: right; }
+.ft-area { font-size: 8px; color: #7DC8E8; text-align: right; line-height: 1.6; }
+.ft-area strong { color: #FFD700; }
 
 @media print {
   body { background: #fff; padding: 0; }
@@ -296,206 +362,189 @@ body {
 <body>
 <div class="sheet">
 
-  <!-- HEADER -->
-  <div class="header">
-    <div>
-      <div class="logo">Sa<span>cure</span></div>
-      <div class="logo-sub">Home Appliance Rental for International Students</div>
-    </div>
-    <div class="header-tag">
-      3-Item Set from<br>
-      <span class="big">¥1,880</span>
-      /month
-    </div>
-  </div>
-
-  <!-- HERO -->
+  <!-- ═══════════ HERO ═══════════ -->
   <div class="hero">
-    <div class="hero-eyebrow">Move-In Ready &nbsp;·&nbsp; Zero Deposit &nbsp;·&nbsp; Eco Circular</div>
-    <div class="hero-title">
-      Everything you need<br>
-      <em>from Day 1 in Japan.</em>
+    <div class="hero-header">
+      <div>
+        <div class="logo">Sa<span>cure</span></div>
+        <div class="logo-tagline">Home Appliance Rental · 家電レンタル</div>
+      </div>
+      <div class="target-tag">For International Students<br>留学生・外国人向け</div>
     </div>
-    <div class="hero-sub">
-      Fridge, washing machine &amp; microwave — delivered, installed, and collected for free.<br>
-      No deposit. No Japanese credit card. Student ID is all you need.
+
+    <div class="hook-row">
+      <div class="hook-text">
+        <div class="hook-eyebrow">Move-in ready · No deposit · Eco circular</div>
+        <div class="hook-main">
+          Ready<br>
+          <em>Day&nbsp;1.</em>
+        </div>
+        <div class="hook-sub">
+          Fridge, washer &amp; microwave delivered &amp; installed.<br>
+          No deposit. No Japanese credit card needed.<br>
+          Picked up for free when you leave.
+        </div>
+      </div>
+      <div class="price-balloon">
+        <div class="balloon-from">from</div>
+        <div class="balloon-price">¥1,880</div>
+        <div class="balloon-unit">/ month</div>
+        <div class="balloon-items">3-item set · tax incl.</div>
+      </div>
     </div>
-    <div class="appliances">
-      <div class="app-card">
-        <span class="app-icon">🧊</span>
-        <div class="app-name">Refrigerator</div>
+
+    <div class="appliance-row">
+      <div class="app-item">
+        <div class="app-emoji">🧊</div>
+        <div class="app-label">Refrigerator</div>
         <div class="app-spec">100–150 L</div>
       </div>
-      <div class="app-card">
-        <span class="app-icon">🫧</span>
-        <div class="app-name">Washing Machine</div>
+      <div class="app-item">
+        <div class="app-emoji">🫧</div>
+        <div class="app-label">Washer</div>
         <div class="app-spec">4.5 kg</div>
       </div>
-      <div class="app-card">
-        <span class="app-icon">📡</span>
-        <div class="app-name">Microwave</div>
+      <div class="app-item">
+        <div class="app-emoji">📡</div>
+        <div class="app-label">Microwave</div>
         <div class="app-spec">Standard</div>
       </div>
-      <div class="app-card highlight">
-        <span class="app-icon">📦</span>
-        <div class="app-name">3-Item Set</div>
-        <div class="app-spec">Best Value</div>
+      <div class="app-item set">
+        <div class="app-emoji">📦</div>
+        <div class="app-label">3-Item Set</div>
+        <div class="app-spec">Best value</div>
       </div>
     </div>
   </div>
 
-  <!-- BADGE STRIP -->
-  <div class="badge-strip">
-    <span class="badge amber">¥0 Deposit</span>
-    <span class="badge">Free Delivery &amp; Setup</span>
-    <span class="badge">Free Pickup at Move-Out</span>
-    <span class="badge">No Japanese Credit Card</span>
-    <span class="badge">English Support via LINE</span>
+  <!-- ═══════════ BADGES ═══════════ -->
+  <div class="badges">
+    <span class="bdg gold">¥0 Deposit</span>
+    <span class="bdg">Free Delivery &amp; Setup</span>
+    <span class="bdg">Free Pickup at Move-Out</span>
+    <span class="bdg">No Credit Card</span>
+    <span class="bdg">English LINE Support</span>
   </div>
 
-  <!-- PRICING -->
-  <div class="pricing-wrap">
-    <div class="section-head">
-      <div class="section-head-text">Monthly Pricing — 3-Item Set (Tax incl. · Min. 3 months)</div>
-    </div>
-    <div class="plans">
-      <div class="plan used">
-        <div class="plan-top">
-          <div class="plan-badge">♻️ Refurbished</div>
-        </div>
-        <div class="plan-name">Eco Plan</div>
-        <div class="plan-price-row">
-          <div class="plan-price">¥1,880</div>
-          <div class="plan-price-unit">&thinsp;/ month</div>
-        </div>
-        <div class="plan-total">2-year total <em>¥45,120</em> — save up to 62% vs buying new</div>
-        <div class="plan-note">Fully inspected &amp; PSE-certified. Same performance as new, at a fraction of the price.</div>
-      </div>
-      <div class="plan newp">
-        <div class="plan-top">
-          <div class="plan-badge">✨ Brand New</div>
-        </div>
-        <div class="plan-name">New Plan</div>
-        <div class="plan-price-row">
-          <div class="plan-price">¥2,480</div>
-          <div class="plan-price-unit">&thinsp;/ month</div>
-        </div>
-        <div class="plan-total">2-year total <em>¥59,520</em> — save up to 50% vs buying new</div>
-        <div class="plan-note">Factory-new appliances from leading brands. Warranty fully included for peace of mind.</div>
-      </div>
-    </div>
-    <div class="pricing-footnote">
-      ※ Delivery, installation, repairs &amp; final collection are all included — no hidden fees. Individual items also available (Fridge ¥1,500~/mo · Washer ¥2,000~/mo · Microwave ¥800~/mo).
-    </div>
-  </div>
+  <!-- ═══════════ INFO GRID ═══════════ -->
+  <div class="info-block">
 
-  <!-- BENEFITS -->
-  <div class="benefits-wrap">
-    <div class="section-head" style="margin-bottom:10px;">
-      <div class="section-head-text" style="color:#FFD700;">Why Students Choose Sacure</div>
-    </div>
-    <div class="benefits-grid">
-      <div class="ben">
-        <div class="ben-icon">💴</div>
-        <div>
-          <div class="ben-title">¥0 Initial Cost</div>
-          <div class="ben-sub">No deposit, no setup fee.</div>
-        </div>
+    <!-- Pricing -->
+    <div class="panel-pricing">
+      <div class="panel-title">Monthly Pricing — 3-Item Set (min. 3 months)</div>
+      <div class="plan-row">
+        <span class="plan-tag eco">♻ Refurbished</span>
+        <span class="plan-price-big eco">¥1,880</span>
+        <span class="plan-price-unit">/mo</span>
+        <span class="plan-saving">save 62%</span>
       </div>
-      <div class="ben">
-        <div class="ben-icon">🚚</div>
-        <div>
-          <div class="ben-title">Free Delivery &amp; Setup</div>
-          <div class="ben-sub">We carry it in &amp; install it.</div>
-        </div>
+      <div class="plan-note">PSE-certified · inspected · same performance as new</div>
+      <div class="plan-row">
+        <span class="plan-tag new">✨ Brand New</span>
+        <span class="plan-price-big new">¥2,480</span>
+        <span class="plan-price-unit">/mo</span>
+        <span class="plan-saving">save 50%</span>
       </div>
-      <div class="ben">
-        <div class="ben-icon">🏠</div>
-        <div>
-          <div class="ben-title">Free Pickup at Move-Out</div>
-          <div class="ben-sub">No disposal hassle, ever.</div>
-        </div>
-      </div>
-      <div class="ben">
-        <div class="ben-icon">💳</div>
-        <div>
-          <div class="ben-title">No Japanese Credit Card</div>
-          <div class="ben-sub">Student ID only. No guarantor.</div>
-        </div>
-      </div>
-      <div class="ben">
-        <div class="ben-icon">🌐</div>
-        <div>
-          <div class="ben-title">English &amp; Chinese Support</div>
-          <div class="ben-sub">LINE · WeChat · Email OK.</div>
-        </div>
-      </div>
-      <div class="ben">
-        <div class="ben-icon">🔧</div>
-        <div>
-          <div class="ben-title">Free Repairs &amp; Swap</div>
-          <div class="ben-sub">Breaks? We fix or replace free.</div>
-        </div>
+      <div class="plan-note">Leading brands · full warranty included</div>
+      <div class="pricing-fn">
+        All delivery, install, repairs &amp; pickup included. Singles: Fridge ¥1,500~/mo · Washer ¥2,000~/mo · Microwave ¥800~/mo
       </div>
     </div>
-  </div>
 
-  <!-- FLOW -->
-  <div class="flow-wrap">
-    <div class="section-head" style="margin-bottom:12px;">
-      <div class="section-head-text">How to Get Your Appliances — 4 Easy Steps</div>
+    <!-- Benefits -->
+    <div class="panel-benefits">
+      <div class="panel-title">Why Students Choose Sacure</div>
+      <div class="ben-grid">
+        <div class="ben">
+          <div class="ben-ic">💴</div>
+          <div><div class="ben-t">¥0 Initial Cost</div><div class="ben-s">No deposit or setup fee</div></div>
+        </div>
+        <div class="ben">
+          <div class="ben-ic">🚚</div>
+          <div><div class="ben-t">Free Delivery</div><div class="ben-s">We install everything</div></div>
+        </div>
+        <div class="ben">
+          <div class="ben-ic">💳</div>
+          <div><div class="ben-t">No Credit Card</div><div class="ben-s">Student ID only</div></div>
+        </div>
+        <div class="ben">
+          <div class="ben-ic">🔧</div>
+          <div><div class="ben-t">Free Repairs</div><div class="ben-s">Swap if it breaks</div></div>
+        </div>
+        <div class="ben">
+          <div class="ben-ic">🏠</div>
+          <div><div class="ben-t">Free Pickup</div><div class="ben-s">We collect at move-out</div></div>
+        </div>
+        <div class="ben">
+          <div class="ben-ic">🌐</div>
+          <div><div class="ben-t">English Support</div><div class="ben-s">LINE · WeChat · Email</div></div>
+        </div>
+      </div>
     </div>
-    <div class="flow-inner">
+
+    <!-- Flow -->
+    <div class="panel-flow">
       <div class="flow-step">
         <div class="flow-num">1</div>
         <div class="flow-icon">🏫</div>
-        <div class="flow-title">Ask Your University / Co-op</div>
-        <div class="flow-note">Contact your international office or co-op — they'll introduce us.</div>
+        <div>
+          <div class="flow-t">Ask your co-op / int'l office</div>
+          <div class="flow-s">They'll introduce Sacure to you</div>
+        </div>
       </div>
       <div class="flow-step">
         <div class="flow-num">2</div>
         <div class="flow-icon">📱</div>
-        <div class="flow-title">Apply via LINE in Minutes</div>
-        <div class="flow-note">English OK. Student ID only — no guarantor, no Japanese bank needed.</div>
+        <div>
+          <div class="flow-t">Apply via LINE</div>
+          <div class="flow-s">Student ID only · English OK</div>
+        </div>
       </div>
       <div class="flow-step">
         <div class="flow-num">3</div>
         <div class="flow-icon">📦</div>
-        <div class="flow-title">Delivered on Move-In Day</div>
-        <div class="flow-note">We deliver &amp; set up everything. Next-day delivery available.</div>
+        <div>
+          <div class="flow-t">Delivered move-in day</div>
+          <div class="flow-s">Free next-day delivery &amp; setup</div>
+        </div>
       </div>
       <div class="flow-step">
         <div class="flow-num">4</div>
         <div class="flow-icon">🔄</div>
-        <div class="flow-title">Free Pickup When You Leave</div>
-        <div class="flow-note">Graduate or move out — we collect everything at no cost.</div>
+        <div>
+          <div class="flow-t">Free pickup at move-out</div>
+          <div class="flow-s">Graduate &amp; go — we handle it</div>
+        </div>
       </div>
     </div>
+
   </div>
 
-  <!-- FOOTER -->
+  <!-- ═══════════ FOOTER ═══════════ -->
   <div class="footer">
-    <div class="footer-contacts">
-      <div class="contact-col">
-        <div class="ct-label">LINE / WeChat</div>
-        <div class="ct-val">@sacure</div>
-        <div class="ct-sub">English &amp; Chinese support · 24h LINE</div>
-      </div>
-      <div class="contact-col">
-        <div class="ct-label">TEL</div>
-        <div class="ct-val">080-5961-9393</div>
-        <div class="ct-sub">Mon – Sat &nbsp;9:00 – 18:00</div>
-      </div>
-      <div class="contact-col">
-        <div class="ct-label">EMAIL</div>
-        <div class="ct-val sm">murata@surijie.co.jp</div>
-        <div class="ct-sub">Reply within 24h</div>
-      </div>
-      <div class="qr-placeholder">QR Code<br>Apply<br>Online</div>
+    <div class="ct">
+      <div class="ct-l">LINE / WeChat</div>
+      <div class="ct-v">@sacure</div>
+      <div class="ct-s">English &amp; Chinese · 24h</div>
     </div>
-    <div class="footer-bottom">
-      <div class="footer-area">Service area: <strong>Tokyo 23 Wards &amp; Kanagawa</strong> — Delivery, Setup &amp; Pickup always free</div>
-      <div class="footer-company">株式会社サキュレ / Sacure Co., Ltd.<br>Nakaikegami 1-24-7, Ota-ku, Tokyo</div>
+    <div class="sep"></div>
+    <div class="ct">
+      <div class="ct-l">TEL</div>
+      <div class="ct-v">080-5961-9393</div>
+      <div class="ct-s">Mon–Sat 9:00–18:00</div>
+    </div>
+    <div class="sep"></div>
+    <div class="ct">
+      <div class="ct-l">EMAIL</div>
+      <div class="ct-v sm">murata@surijie.co.jp</div>
+      <div class="ct-s">Reply within 24h</div>
+    </div>
+    <div class="ft-right">
+      <div class="ft-area">
+        Service area: <strong>Tokyo 23 Wards · Kanagawa</strong><br>
+        株式会社サキュレ / Nakaikegami 1-24-7, Ota-ku, Tokyo
+      </div>
+      <div class="qr">QR<br>Apply<br>Online</div>
     </div>
   </div>
 

@@ -7,11 +7,11 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 @page { size: A4; margin: 0; }
 body {
-  background: #7799bb;
+  background: #556688;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 24px;
+  padding: 20px;
   font-family: 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei', 'Segoe UI', Arial, sans-serif;
 }
 .sheet {
@@ -19,252 +19,285 @@ body {
   height: 1123px;
   overflow: hidden;
   background: #fff;
-  box-shadow: 0 6px 32px rgba(0,0,0,0.35);
+  box-shadow: 0 6px 32px rgba(0,0,0,0.4);
   display: flex;
   flex-direction: column;
 }
 
-/* ── HEADER ─────────────────────────── */
-.header {
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   HERO BLOCK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.hero {
   background: #003D5C;
-  padding: 10px 28px;
+  flex: 0 0 582px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 22px 30px 0;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  right: -60px;
+  top: -60px;
+  width: 480px;
+  height: 480px;
+  border-radius: 50%;
+  border: 80px solid rgba(0,153,212,0.18);
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  right: -20px;
+  top: -20px;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  border: 50px solid rgba(0,153,212,0.12);
+  pointer-events: none;
+}
+.hero-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-shrink: 0;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 2;
 }
-.logo { font-size: 26px; font-weight: 900; color: #fff; letter-spacing: 0.06em; }
+.logo { font-size: 22px; font-weight: 900; color: #fff; letter-spacing: 0.08em; }
 .logo span { color: #FFD700; }
-.logo-sub { font-size: 9px; color: #7DC8E8; font-weight: 600; margin-top: 2px; }
-.header-tag {
+.logo-tagline { font-size: 8.5px; color: #7DC8E8; margin-top: 2px; }
+.target-tag {
   background: #FFD700;
   color: #003D5C;
+  font-size: 9px;
   font-weight: 900;
-  font-size: 9.5px;
-  padding: 4px 12px;
+  padding: 5px 14px;
   border-radius: 3px;
   text-align: center;
-  line-height: 1.4;
+  line-height: 1.5;
 }
-.header-tag .big { font-size: 19px; line-height: 1.1; display: block; }
-
-/* ── HERO ────────────────────────────── */
-.hero {
-  background: #0099D4;
-  padding: 18px 28px 14px;
-  flex-shrink: 0;
+.hook-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+  position: relative;
+  z-index: 2;
 }
-.hero-eyebrow {
-  font-size: 9.5px;
+.hook-text { flex: 1; }
+.hook-eyebrow {
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  color: rgba(255,255,255,0.65);
-  margin-bottom: 6px;
+  color: #7DC8E8;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
 }
-.hero-title {
-  font-size: 27px;
+.hook-main {
+  font-size: 52px;
   font-weight: 900;
   color: #fff;
-  line-height: 1.25;
-  margin-bottom: 5px;
-}
-.hero-title em { color: #FFD700; font-style: normal; }
-.hero-sub {
-  font-size: 11px;
-  color: rgba(255,255,255,0.85);
-  line-height: 1.6;
-  max-width: 500px;
-  margin-bottom: 14px;
-}
-.appliances { display: flex; gap: 10px; }
-.app-card {
-  flex: 1;
-  background: rgba(255,255,255,0.15);
-  border: 2px solid rgba(255,255,255,0.3);
-  border-radius: 10px;
-  padding: 10px 8px;
-  text-align: center;
-}
-.app-icon { font-size: 26px; margin-bottom: 5px; display: block; }
-.app-name { font-size: 10.5px; font-weight: 800; color: #fff; }
-.app-spec { font-size: 8.5px; color: rgba(255,255,255,0.65); margin-top: 2px; }
-.app-card.highlight { background: rgba(255,215,0,0.22); border-color: #FFD700; }
-.app-card.highlight .app-name { color: #FFD700; }
-.app-card.highlight .app-spec { color: rgba(255,215,0,0.75); }
-
-/* ── BADGE STRIP ─────────────────────── */
-.badge-strip {
-  background: #003D5C;
-  padding: 6px 28px;
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  flex-shrink: 0;
-}
-.badge {
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.2);
-  color: #fff;
-  font-size: 9px;
-  font-weight: 700;
-  padding: 3px 10px;
-  border-radius: 20px;
-  white-space: nowrap;
-}
-.badge.amber { background: rgba(255,215,0,0.15); border-color: rgba(255,215,0,0.4); color: #FFD700; }
-
-/* ── PRICING ─────────────────────────── */
-.pricing-wrap {
-  padding: 13px 28px 12px;
-  background: #fff;
-  flex-shrink: 0;
-}
-.section-head {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
   margin-bottom: 10px;
 }
-.section-head::before {
-  content: '';
-  display: block;
-  width: 4px;
-  height: 16px;
-  background: #0099D4;
-  border-radius: 2px;
+.hook-main em { color: #FFD700; font-style: normal; display: block; }
+.hook-sub {
+  font-size: 12px;
+  color: rgba(255,255,255,0.78);
+  line-height: 1.65;
+  max-width: 390px;
+}
+.price-balloon {
   flex-shrink: 0;
-}
-.section-head-text { font-size: 12px; font-weight: 900; color: #003D5C; }
-.plans { display: flex; gap: 10px; }
-.plan { flex: 1; border-radius: 10px; padding: 12px 14px; border: 2.5px solid; }
-.plan.used { border-color: #0099D4; background: #EFF9FF; }
-.plan.newp { border-color: #003D5C; background: #F4F8FC; }
-.plan-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-.plan-badge { font-size: 9px; font-weight: 700; padding: 3px 9px; border-radius: 3px; }
-.plan.used .plan-badge { background: #0099D4; color: #fff; }
-.plan.newp .plan-badge { background: #003D5C; color: #fff; }
-.plan-name { font-size: 12px; font-weight: 900; color: #003D5C; margin-bottom: 3px; }
-.plan-price-row { display: flex; align-items: baseline; gap: 2px; }
-.plan-price { font-size: 33px; font-weight: 900; line-height: 1; }
-.plan.used .plan-price { color: #0099D4; }
-.plan.newp .plan-price { color: #003D5C; }
-.plan-price-unit { font-size: 11px; font-weight: 700; color: #667; }
-.plan-total {
-  margin-top: 8px;
-  background: rgba(0,0,0,0.05);
-  border-radius: 5px;
-  padding: 5px 9px;
-  font-size: 9.5px;
-  font-weight: 700;
-  color: #333;
-}
-.plan-total em { color: #1a7a1a; font-style: normal; }
-.plan-note { font-size: 8.5px; color: #889; margin-top: 5px; line-height: 1.5; }
-.pricing-footnote { margin-top: 8px; font-size: 8px; color: #9aabb8; line-height: 1.6; }
-
-/* ── BENEFITS ────────────────────────── */
-.benefits-wrap {
-  background: #003D5C;
-  padding: 12px 28px;
-  flex-shrink: 0;
-}
-.benefits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.ben { display: flex; align-items: flex-start; gap: 8px; }
-.ben-icon {
-  width: 28px;
-  height: 28px;
-  background: #0099D4;
-  border-radius: 7px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  flex-shrink: 0;
-}
-.ben-title { font-size: 9.5px; font-weight: 800; color: #FFD700; line-height: 1.3; }
-.ben-sub { font-size: 8px; color: rgba(255,255,255,0.65); margin-top: 2px; line-height: 1.4; }
-
-/* ── FLOW ────────────────────────────── */
-.flow-wrap {
-  background: #EBF7FC;
-  padding: 12px 28px;
-  border-top: 3px solid #0099D4;
-  flex-shrink: 0;
-}
-.flow-inner { display: flex; align-items: flex-start; gap: 0; }
-.flow-step {
-  flex: 1;
+  width: 148px;
+  height: 148px;
+  background: #FFD700;
+  border-radius: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
+  z-index: 2;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+  margin-bottom: 8px;
+}
+.balloon-from { font-size: 10px; font-weight: 900; color: #003D5C; }
+.balloon-price { font-size: 44px; font-weight: 900; color: #003D5C; line-height: 1; }
+.balloon-unit { font-size: 11px; font-weight: 900; color: #003D5C; line-height: 1.2; }
+.balloon-items { font-size: 8.5px; font-weight: 700; color: rgba(0,61,92,0.7); margin-top: 3px; }
+.appliance-row {
+  display: flex;
+  gap: 0;
+  margin-top: 20px;
+  position: relative;
+  z-index: 2;
+  align-items: flex-end;
+}
+.app-item {
+  flex: 1;
+  background: rgba(0,153,212,0.28);
+  border: 1.5px solid rgba(255,255,255,0.18);
+  border-bottom: none;
+  border-radius: 12px 12px 0 0;
+  padding: 12px 6px 14px;
+  text-align: center;
+}
+.app-item + .app-item { margin-left: 6px; }
+.app-item.set { background: rgba(255,215,0,0.22); border-color: rgba(255,215,0,0.5); }
+.app-emoji { font-size: 32px; margin-bottom: 6px; }
+.app-label { font-size: 10.5px; font-weight: 800; color: #fff; }
+.app-spec { font-size: 8px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+.app-item.set .app-label { color: #FFD700; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   BADGE STRIP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.badges {
+  background: #0099D4;
+  padding: 7px 24px;
+  display: flex;
+  gap: 0;
+  align-items: center;
+  flex-shrink: 0;
+}
+.bdg {
+  font-size: 9px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  padding: 0 14px;
+  border-right: 1px solid rgba(255,255,255,0.3);
+}
+.bdg:first-child { padding-left: 0; }
+.bdg:last-child { border-right: none; }
+.bdg.gold { color: #FFD700; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   INFO GRID
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.info-block {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  overflow: hidden;
+}
+.panel-pricing {
+  grid-column: 1;
+  grid-row: 1;
+  padding: 13px 16px 12px 24px;
+  border-right: 1px solid #e0eaf0;
+  border-bottom: 1px solid #e0eaf0;
+}
+.panel-title {
+  font-size: 9px;
+  font-weight: 900;
+  color: #0099D4;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+.plan-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.plan-tag { font-size: 8px; font-weight: 700; padding: 2px 7px; border-radius: 3px; flex-shrink: 0; }
+.plan-tag.eco { background: #0099D4; color: #fff; }
+.plan-tag.new { background: #003D5C; color: #fff; }
+.plan-price-big { font-size: 26px; font-weight: 900; }
+.plan-price-big.eco { color: #0099D4; }
+.plan-price-big.new { color: #003D5C; }
+.plan-price-unit { font-size: 9px; font-weight: 700; color: #888; }
+.plan-saving { font-size: 8px; color: #1a7a1a; font-weight: 700; margin-left: auto; }
+.plan-note { font-size: 7.5px; color: #999; line-height: 1.5; margin-bottom: 4px; }
+.pricing-fn { font-size: 7px; color: #bbb; line-height: 1.55; margin-top: 4px; }
+.panel-benefits {
+  grid-column: 2;
+  grid-row: 1;
+  padding: 13px 24px 12px 16px;
+  border-bottom: 1px solid #e0eaf0;
+  background: #f8fbfd;
+}
+.ben-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+.ben { display: flex; align-items: flex-start; gap: 6px; }
+.ben-ic {
+  width: 24px; height: 24px;
+  background: #0099D4;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; flex-shrink: 0;
+}
+.ben-t { font-size: 9px; font-weight: 800; color: #003D5C; line-height: 1.3; }
+.ben-s { font-size: 7.5px; color: #778; line-height: 1.4; margin-top: 1px; }
+.panel-flow {
+  grid-column: 1 / 3;
+  grid-row: 2;
+  padding: 11px 24px;
+  background: #EBF7FC;
+  border-top: 2px solid #0099D4;
+  display: flex;
+  align-items: stretch;
+}
+.flow-step {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   position: relative;
 }
 .flow-step:not(:last-child)::after {
   content: '→';
   position: absolute;
-  right: -10px;
-  top: 14px;
-  font-size: 18px;
+  right: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
   color: #0099D4;
   font-weight: 900;
 }
 .flow-num {
-  width: 32px;
-  height: 32px;
-  background: #0099D4;
-  color: #fff;
+  width: 28px; height: 28px;
+  background: #0099D4; color: #fff;
   border-radius: 50%;
-  font-size: 15px;
-  font-weight: 900;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 6px;
+  font-size: 13px; font-weight: 900;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
 }
-.flow-icon { font-size: 22px; margin-bottom: 5px; }
-.flow-title { font-size: 10.5px; font-weight: 900; color: #003D5C; margin-bottom: 3px; line-height: 1.3; }
-.flow-note { font-size: 8px; color: #4a7090; line-height: 1.5; padding: 0 4px; }
+.flow-icon { font-size: 20px; flex-shrink: 0; }
+.flow-t { font-size: 9.5px; font-weight: 900; color: #003D5C; line-height: 1.3; }
+.flow-s { font-size: 7.5px; color: #4a7090; line-height: 1.45; margin-top: 2px; }
 
-/* ── FOOTER ──────────────────────────── */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   FOOTER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 .footer {
   background: #003D5C;
-  padding: 12px 28px 10px;
-  margin-top: auto;
-  border-top: 4px solid #FFD700;
+  padding: 10px 24px 9px;
+  border-top: 3px solid #FFD700;
   flex-shrink: 0;
-}
-.footer-contacts { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; }
-.contact-col { display: flex; flex-direction: column; gap: 2px; }
-.ct-label { font-size: 8px; font-weight: 700; color: #7DC8E8; letter-spacing: 0.06em; }
-.ct-val { font-size: 14px; font-weight: 900; color: #fff; }
-.ct-val.sm { font-size: 11px; }
-.ct-sub { font-size: 7.5px; color: #5aadc8; }
-.qr-placeholder {
-  margin-left: auto;
-  width: 62px;
-  height: 62px;
-  background: #fff;
-  border-radius: 6px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 7px;
-  color: #9ab;
-  text-align: center;
-  line-height: 1.4;
-  flex-shrink: 0;
+  gap: 20px;
 }
-.footer-bottom {
-  border-top: 1px solid rgba(255,255,255,0.12);
-  padding-top: 7px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.ct { display: flex; flex-direction: column; gap: 1px; }
+.ct-l { font-size: 7.5px; font-weight: 700; color: #7DC8E8; letter-spacing: 0.06em; }
+.ct-v { font-size: 15px; font-weight: 900; color: #fff; line-height: 1.1; }
+.ct-v.sm { font-size: 11px; }
+.ct-s { font-size: 7px; color: #5aadc8; }
+.sep { width: 1px; height: 36px; background: rgba(255,255,255,0.18); flex-shrink: 0; }
+.ft-right { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+.qr {
+  width: 52px; height: 52px;
+  background: #fff; border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 7px; color: #9ab; text-align: center; line-height: 1.4;
 }
-.footer-area { font-size: 8.5px; color: #7DC8E8; }
-.footer-area strong { color: #FFD700; }
-.footer-company { font-size: 8px; color: #5aadc8; text-align: right; }
+.ft-area { font-size: 8px; color: #7DC8E8; text-align: right; line-height: 1.6; }
+.ft-area strong { color: #FFD700; }
 
 @media print {
   body { background: #fff; padding: 0; }
@@ -275,206 +308,186 @@ body {
 <body>
 <div class="sheet">
 
-  <!-- HEADER -->
-  <div class="header">
-    <div>
-      <div class="logo">Sa<span>cure</span></div>
-      <div class="logo-sub">留学生家电租赁服务 | 搬家当天即可使用</div>
-    </div>
-    <div class="header-tag">
-      三件套起租<br>
-      <span class="big">¥1,880</span>
-      /月
-    </div>
-  </div>
-
-  <!-- HERO -->
+  <!-- ═══════════ HERO ═══════════ -->
   <div class="hero">
-    <div class="hero-eyebrow">开箱即用 &nbsp;·&nbsp; 零押金 &nbsp;·&nbsp; 环保循环</div>
-    <div class="hero-title">
-      来日本的第一天，<br>
-      <em>家电全部准备好，等您入住。</em>
+    <div class="hero-header">
+      <div>
+        <div class="logo">Sa<span>cure</span></div>
+        <div class="logo-tagline">家电租赁服务 · 留学生专属</div>
+      </div>
+      <div class="target-tag">留学生・外国人专属<br>For International Students</div>
     </div>
-    <div class="hero-sub">
-      冰箱、洗衣机、微波炉——免费配送安装，搬出时免费上门回收。<br>
-      无押金，无需日本信用卡，学生证即可申请。
+
+    <div class="hook-row">
+      <div class="hook-text">
+        <div class="hook-eyebrow">开箱即用 · 零押金 · 环保循环</div>
+        <div class="hook-main">
+          入住当天，<br>
+          <em>家电齐全。</em>
+        </div>
+        <div class="hook-sub">
+          冰箱、洗衣机、微波炉——免费配送安装。<br>
+          无押金，无需日本信用卡，学生证即可申请。<br>
+          搬出时免费上门回收，省心省力。
+        </div>
+      </div>
+      <div class="price-balloon">
+        <div class="balloon-from">最低</div>
+        <div class="balloon-price">¥1,880</div>
+        <div class="balloon-unit">/ 月</div>
+        <div class="balloon-items">三件套 · 含税</div>
+      </div>
     </div>
-    <div class="appliances">
-      <div class="app-card">
-        <span class="app-icon">🧊</span>
-        <div class="app-name">冰箱</div>
+
+    <div class="appliance-row">
+      <div class="app-item">
+        <div class="app-emoji">🧊</div>
+        <div class="app-label">冰箱</div>
         <div class="app-spec">100–150 L</div>
       </div>
-      <div class="app-card">
-        <span class="app-icon">🫧</span>
-        <div class="app-name">洗衣机</div>
+      <div class="app-item">
+        <div class="app-emoji">🫧</div>
+        <div class="app-label">洗衣机</div>
         <div class="app-spec">4.5 kg</div>
       </div>
-      <div class="app-card">
-        <span class="app-icon">📡</span>
-        <div class="app-name">微波炉</div>
+      <div class="app-item">
+        <div class="app-emoji">📡</div>
+        <div class="app-label">微波炉</div>
         <div class="app-spec">标准款</div>
       </div>
-      <div class="app-card highlight">
-        <span class="app-icon">📦</span>
-        <div class="app-name">三件套</div>
+      <div class="app-item set">
+        <div class="app-emoji">📦</div>
+        <div class="app-label">三件套</div>
         <div class="app-spec">最优惠</div>
       </div>
     </div>
   </div>
 
-  <!-- BADGE STRIP -->
-  <div class="badge-strip">
-    <span class="badge amber">零押金</span>
-    <span class="badge">免费配送安装</span>
-    <span class="badge">搬出时免费回收</span>
-    <span class="badge">无需日本信用卡</span>
-    <span class="badge">微信・中文客服</span>
+  <!-- ═══════════ BADGES ═══════════ -->
+  <div class="badges">
+    <span class="bdg gold">零押金</span>
+    <span class="bdg">免费配送安装</span>
+    <span class="bdg">搬出时免费回收</span>
+    <span class="bdg">无需信用卡</span>
+    <span class="bdg">微信中文客服</span>
   </div>
 
-  <!-- PRICING -->
-  <div class="pricing-wrap">
-    <div class="section-head">
-      <div class="section-head-text">月租价格——三件套（含税 · 最短租期3个月）</div>
-    </div>
-    <div class="plans">
-      <div class="plan used">
-        <div class="plan-top">
-          <div class="plan-badge">♻️ 二手翻新</div>
-        </div>
-        <div class="plan-name">节能方案</div>
-        <div class="plan-price-row">
-          <div class="plan-price">¥1,880</div>
-          <div class="plan-price-unit">&thinsp;/ 月</div>
-        </div>
-        <div class="plan-total">租满2年合计 <em>¥45,120</em>——比全新购买省约62%</div>
-        <div class="plan-note">经专业检测清洁，符合PSE安全认证。功能与新品无异，价格更实惠。</div>
-      </div>
-      <div class="plan newp">
-        <div class="plan-top">
-          <div class="plan-badge">✨ 全新品</div>
-        </div>
-        <div class="plan-name">全新方案</div>
-        <div class="plan-price-row">
-          <div class="plan-price">¥2,480</div>
-          <div class="plan-price-unit">&thinsp;/ 月</div>
-        </div>
-        <div class="plan-total">租满2年合计 <em>¥59,520</em>——比全新购买省约50%</div>
-        <div class="plan-note">知名品牌全新家电，含保修。品质有保障，全程放心使用。</div>
-      </div>
-    </div>
-    <div class="pricing-footnote">
-      ※ 配送、安装、维修及搬出回收均含在月租内，无任何隐藏费用。单品亦可租赁（冰箱¥1,500~/月 · 洗衣机¥2,000~/月 · 微波炉¥800~/月）。
-    </div>
-  </div>
+  <!-- ═══════════ INFO GRID ═══════════ -->
+  <div class="info-block">
 
-  <!-- BENEFITS -->
-  <div class="benefits-wrap">
-    <div class="section-head" style="margin-bottom:10px;">
-      <div class="section-head-text" style="color:#FFD700;">为什么选择 Sacure</div>
-    </div>
-    <div class="benefits-grid">
-      <div class="ben">
-        <div class="ben-icon">💴</div>
-        <div>
-          <div class="ben-title">零初始费用</div>
-          <div class="ben-sub">无押金，无开通费。</div>
-        </div>
+    <div class="panel-pricing">
+      <div class="panel-title">月租价格——三件套（含税 · 最短3个月）</div>
+      <div class="plan-row">
+        <span class="plan-tag eco">♻ 二手翻新</span>
+        <span class="plan-price-big eco">¥1,880</span>
+        <span class="plan-price-unit">/月</span>
+        <span class="plan-saving">省约62%</span>
       </div>
-      <div class="ben">
-        <div class="ben-icon">🚚</div>
-        <div>
-          <div class="ben-title">免费配送安装</div>
-          <div class="ben-sub">搬运安装一并完成。</div>
-        </div>
+      <div class="plan-note">PSE认证 · 专业检测清洁 · 功能与新品无异</div>
+      <div class="plan-row">
+        <span class="plan-tag new">✨ 全新品</span>
+        <span class="plan-price-big new">¥2,480</span>
+        <span class="plan-price-unit">/月</span>
+        <span class="plan-saving">省约50%</span>
       </div>
-      <div class="ben">
-        <div class="ben-icon">🏠</div>
-        <div>
-          <div class="ben-title">搬出时免费回收</div>
-          <div class="ben-sub">我们上门回收，无需自行处置。</div>
-        </div>
-      </div>
-      <div class="ben">
-        <div class="ben-icon">💳</div>
-        <div>
-          <div class="ben-title">无需日本信用卡</div>
-          <div class="ben-sub">在校证明书即可，无需担保人。</div>
-        </div>
-      </div>
-      <div class="ben">
-        <div class="ben-icon">🌐</div>
-        <div>
-          <div class="ben-title">微信・中文全程支持</div>
-          <div class="ben-sub">微信、LINE均可，24小时受理。</div>
-        </div>
-      </div>
-      <div class="ben">
-        <div class="ben-icon">🔧</div>
-        <div>
-          <div class="ben-title">免费维修或更换</div>
-          <div class="ben-sub">发生故障免费上门处理。</div>
-        </div>
+      <div class="plan-note">知名品牌全新家电 · 含保修 · 品质有保障</div>
+      <div class="pricing-fn">
+        配送、安装、维修、回收全部含在月租内，无隐藏费用。单品：冰箱¥1,500~/月 · 洗衣机¥2,000~/月 · 微波炉¥800~/月
       </div>
     </div>
-  </div>
 
-  <!-- FLOW -->
-  <div class="flow-wrap">
-    <div class="section-head" style="margin-bottom:12px;">
-      <div class="section-head-text">申请流程——4步即可完成</div>
+    <div class="panel-benefits">
+      <div class="panel-title">为什么选择 Sacure</div>
+      <div class="ben-grid">
+        <div class="ben">
+          <div class="ben-ic">💴</div>
+          <div><div class="ben-t">零初始费用</div><div class="ben-s">无押金，无开通费</div></div>
+        </div>
+        <div class="ben">
+          <div class="ben-ic">🚚</div>
+          <div><div class="ben-t">免费配送安装</div><div class="ben-s">搬运安装一并完成</div></div>
+        </div>
+        <div class="ben">
+          <div class="ben-ic">💳</div>
+          <div><div class="ben-t">无需信用卡</div><div class="ben-s">在校证明书即可</div></div>
+        </div>
+        <div class="ben">
+          <div class="ben-ic">🔧</div>
+          <div><div class="ben-t">免费维修更换</div><div class="ben-s">故障免费上门处理</div></div>
+        </div>
+        <div class="ben">
+          <div class="ben-ic">🏠</div>
+          <div><div class="ben-t">搬出免费回收</div><div class="ben-s">无需自行处置</div></div>
+        </div>
+        <div class="ben">
+          <div class="ben-ic">🌐</div>
+          <div><div class="ben-t">微信中文支持</div><div class="ben-s">24小时LINE受理</div></div>
+        </div>
+      </div>
     </div>
-    <div class="flow-inner">
+
+    <div class="panel-flow">
       <div class="flow-step">
         <div class="flow-num">1</div>
         <div class="flow-icon">🏫</div>
-        <div class="flow-title">向学校或生协咨询</div>
-        <div class="flow-note">联系国际学生处或生协，由他们为您介绍。</div>
+        <div>
+          <div class="flow-t">向生协或留学生窗口咨询</div>
+          <div class="flow-s">由学校介绍给您</div>
+        </div>
       </div>
       <div class="flow-step">
         <div class="flow-num">2</div>
         <div class="flow-icon">📱</div>
-        <div class="flow-title">微信申请，几分钟完成</div>
-        <div class="flow-note">只需学生证，无需担保人或日本银行账户。中文支持。</div>
+        <div>
+          <div class="flow-t">微信申请，几分钟完成</div>
+          <div class="flow-s">学生证即可，中文支持</div>
+        </div>
       </div>
       <div class="flow-step">
         <div class="flow-num">3</div>
         <div class="flow-icon">📦</div>
-        <div class="flow-title">入住当天送达</div>
-        <div class="flow-note">我们负责配送安装，可次日送达，入住即用。</div>
+        <div>
+          <div class="flow-t">入住当天送达安装</div>
+          <div class="flow-s">可次日达，开箱即用</div>
+        </div>
       </div>
       <div class="flow-step">
         <div class="flow-num">4</div>
         <div class="flow-icon">🔄</div>
-        <div class="flow-title">离校时免费上门回收</div>
-        <div class="flow-note">毕业或搬家时，我们免费回收所有家电。</div>
+        <div>
+          <div class="flow-t">离校时免费上门回收</div>
+          <div class="flow-s">毕业搬家，我们全权处理</div>
+        </div>
       </div>
     </div>
+
   </div>
 
-  <!-- FOOTER -->
+  <!-- ═══════════ FOOTER ═══════════ -->
   <div class="footer">
-    <div class="footer-contacts">
-      <div class="contact-col">
-        <div class="ct-label">微信 / WeChat</div>
-        <div class="ct-val">@sacure</div>
-        <div class="ct-sub">中文客服 · 24小时LINE受理</div>
-      </div>
-      <div class="contact-col">
-        <div class="ct-label">电话 / TEL</div>
-        <div class="ct-val">080-5961-9393</div>
-        <div class="ct-sub">周一至周六 9:00–18:00</div>
-      </div>
-      <div class="contact-col">
-        <div class="ct-label">邮件 / EMAIL</div>
-        <div class="ct-val sm">murata@surijie.co.jp</div>
-        <div class="ct-sub">24小时内回复</div>
-      </div>
-      <div class="qr-placeholder">二维码<br>在线<br>申请</div>
+    <div class="ct">
+      <div class="ct-l">微信 / WeChat</div>
+      <div class="ct-v">@sacure</div>
+      <div class="ct-s">中文 · 24小时LINE受理</div>
     </div>
-    <div class="footer-bottom">
-      <div class="footer-area">免费服务区域：<strong>东京23区・神奈川县全域</strong>——配送・安装・回收全程免费</div>
-      <div class="footer-company">株式会社サキュレ / Sacure Co., Ltd.<br>东京都大田区仲池上1-24-7</div>
+    <div class="sep"></div>
+    <div class="ct">
+      <div class="ct-l">电话 / TEL</div>
+      <div class="ct-v">080-5961-9393</div>
+      <div class="ct-s">周一至周六 9:00–18:00</div>
+    </div>
+    <div class="sep"></div>
+    <div class="ct">
+      <div class="ct-l">邮件 / EMAIL</div>
+      <div class="ct-v sm">murata@surijie.co.jp</div>
+      <div class="ct-s">24小时内回复</div>
+    </div>
+    <div class="ft-right">
+      <div class="ft-area">
+        服务区域：<strong>东京23区・神奈川县</strong><br>
+        株式会社サキュレ / 东京都大田区仲池上1-24-7
+      </div>
+      <div class="qr">二维码<br>在线<br>申请</div>
     </div>
   </div>
 
