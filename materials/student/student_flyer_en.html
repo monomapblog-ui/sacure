@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SACURE – Home Appliance Rental for International Students</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #8899aa;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 24px;
+  font-family: 'Segoe UI', Arial, 'Helvetica Neue', sans-serif;
+}
+.sheet {
+  width: 794px;
+  min-height: 1123px;
+  background: #fff;
+  box-shadow: 0 6px 32px rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* HEADER */
+.header {
+  background: #003D5C;
+  padding: 18px 28px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  border-bottom: 4px solid #0099D4;
+}
+.logo { font-size: 26px; font-weight: 900; color: #fff; letter-spacing: 0.04em; }
+.logo span { color: #FFD700; }
+.header-badge {
+  background: #FFD700;
+  color: #003D5C;
+  font-weight: 900;
+  font-size: 11px;
+  padding: 6px 14px;
+  border-radius: 4px;
+  text-align: center;
+  line-height: 1.4;
+}
+.header-badge .price { font-size: 22px; line-height: 1; display: block; }
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, #0099D4 0%, #006FA3 100%);
+  padding: 22px 28px 20px;
+  color: #fff;
+}
+.hero-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #A8DFF5;
+  margin-bottom: 6px;
+}
+.hero-title {
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+.hero-title em { color: #FFD700; font-style: normal; }
+.hero-sub {
+  font-size: 11px;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+.hero-items {
+  display: flex;
+  gap: 10px;
+}
+.hero-item {
+  flex: 1;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 8px;
+  padding: 10px 8px;
+  text-align: center;
+}
+.hero-item .icon { font-size: 26px; margin-bottom: 4px; }
+.hero-item .name { font-size: 10px; font-weight: 700; color: #fff; }
+.hero-item .spec { font-size: 9px; color: rgba(255,255,255,0.7); margin-top: 2px; }
+
+/* PRICING */
+.pricing-section {
+  padding: 18px 28px 16px;
+  background: #fff;
+  border-bottom: 2px solid #E8F4FB;
+}
+.section-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #0099D4;
+  margin-bottom: 10px;
+}
+.plans {
+  display: flex;
+  gap: 12px;
+}
+.plan {
+  flex: 1;
+  border-radius: 8px;
+  padding: 14px 16px;
+  border: 2px solid;
+}
+.plan.used {
+  border-color: #0099D4;
+  background: #F0F9FF;
+}
+.plan.new-plan {
+  border-color: #003D5C;
+  background: #F5F8FB;
+}
+.plan-tag {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.plan.used .plan-tag { color: #0099D4; }
+.plan.new-plan .plan-tag { color: #003D5C; }
+.plan-name { font-size: 13px; font-weight: 900; color: #003D5C; margin-bottom: 8px; }
+.plan-price {
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+.plan.used .plan-price { color: #0099D4; }
+.plan.new-plan .plan-price { color: #003D5C; }
+.plan-unit { font-size: 12px; font-weight: 700; color: #667; }
+.plan-note { font-size: 9px; color: #889; margin-top: 6px; line-height: 1.5; }
+.plan-total {
+  margin-top: 8px;
+  background: rgba(0,0,0,0.05);
+  border-radius: 4px;
+  padding: 5px 8px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #334;
+}
+.plan-total em { color: #0a7a0a; font-style: normal; }
+.pricing-note {
+  margin-top: 10px;
+  font-size: 9px;
+  color: #889;
+  line-height: 1.6;
+}
+
+/* BENEFITS */
+.benefits-section {
+  padding: 16px 28px;
+  background: #F9FBFD;
+  border-bottom: 2px solid #E8F4FB;
+}
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.benefit-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: #fff;
+  border-radius: 6px;
+  padding: 10px 10px;
+  border: 1px solid #DDE8F0;
+}
+.benefit-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.benefit-text .bt-title { font-size: 10px; font-weight: 800; color: #003D5C; line-height: 1.3; }
+.benefit-text .bt-sub { font-size: 8.5px; color: #667; margin-top: 2px; line-height: 1.4; }
+
+/* HOW IT WORKS */
+.how-section {
+  padding: 16px 28px;
+  background: #fff;
+  border-bottom: 2px solid #E8F4FB;
+}
+.steps-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+}
+.step-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+.step-item:not(:last-child)::after {
+  content: '→';
+  position: absolute;
+  right: -8px;
+  top: 14px;
+  font-size: 18px;
+  color: #0099D4;
+  font-weight: 900;
+}
+.step-num {
+  width: 32px;
+  height: 32px;
+  background: #0099D4;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 15px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+.step-icon { font-size: 24px; margin-bottom: 6px; }
+.step-title { font-size: 11px; font-weight: 900; color: #003D5C; line-height: 1.3; margin-bottom: 4px; }
+.step-desc { font-size: 9px; color: #557; line-height: 1.5; padding: 0 6px; }
+.step-chip {
+  display: inline-block;
+  background: #E0F4FF;
+  color: #0077AA;
+  border-radius: 10px;
+  font-size: 8px;
+  font-weight: 700;
+  padding: 2px 7px;
+  margin-top: 4px;
+}
+.step-chip.green { background: #E0F5E0; color: #1a7a1a; }
+
+/* FAQ */
+.faq-section {
+  padding: 16px 28px;
+  background: #F9FBFD;
+  border-bottom: 2px solid #E8F4FB;
+}
+.faq-list { display: flex; flex-direction: column; gap: 8px; }
+.faq-item {
+  background: #fff;
+  border-radius: 6px;
+  padding: 10px 14px;
+  border-left: 3px solid #0099D4;
+}
+.faq-q {
+  font-size: 10.5px;
+  font-weight: 800;
+  color: #003D5C;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.faq-q .q-badge {
+  background: #0099D4;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 900;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.faq-a {
+  font-size: 9.5px;
+  color: #445;
+  line-height: 1.6;
+  padding-left: 22px;
+}
+.faq-a em { color: #0a7a0a; font-weight: 700; font-style: normal; }
+
+/* CONTACT / FOOTER */
+.footer {
+  background: #003D5C;
+  padding: 16px 28px;
+  margin-top: auto;
+}
+.footer-inner { display: flex; gap: 16px; align-items: center; }
+.contact-blocks { display: flex; gap: 12px; flex: 1; }
+.contact-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.contact-type { font-size: 9px; font-weight: 700; color: #8BCFE8; letter-spacing: 0.08em; }
+.contact-val { font-size: 13px; font-weight: 800; color: #fff; }
+.contact-sub { font-size: 9px; color: #6BAFC8; }
+.qr-box {
+  width: 72px;
+  height: 72px;
+  background: #fff;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 8px;
+  color: #889;
+  text-align: center;
+  line-height: 1.4;
+}
+.footer-area {
+  border-top: 1px solid rgba(255,255,255,0.12);
+  margin-top: 12px;
+  padding-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.area-text { font-size: 9px; color: #8BCFE8; }
+.area-text strong { color: #FFD700; }
+.company-text { font-size: 9px; color: #6BAFC8; text-align: right; }
+
+@media print {
+  body { background: #fff; padding: 0; }
+  .sheet { box-shadow: none; width: 100%; min-height: 100vh; }
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div>
+      <div class="logo">Sa<span>cure</span></div>
+      <div style="font-size:10px;color:#8BCFE8;margin-top:3px;font-weight:600;">Home Appliance Rental for International Students</div>
+    </div>
+    <div class="header-badge">
+      3-Item Set<br>
+      <span class="price">¥1,880</span>
+      /month (used) ~
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-tag">Move-In Ready · Zero Hassle · Eco-Friendly</div>
+    <div class="hero-title">
+      Start your life in Japan with<br>
+      <em>everything you need from Day 1</em>
+    </div>
+    <div class="hero-sub">
+      Refrigerator, washing machine &amp; microwave — delivered, set up,<br>
+      and collected for free. No deposit. No Japanese credit card needed.
+    </div>
+    <div class="hero-items">
+      <div class="hero-item">
+        <div class="icon">🧊</div>
+        <div class="name">Refrigerator</div>
+        <div class="spec">100–150L</div>
+      </div>
+      <div class="hero-item">
+        <div class="icon">🫧</div>
+        <div class="name">Washing Machine</div>
+        <div class="spec">4.5 kg</div>
+      </div>
+      <div class="hero-item">
+        <div class="icon">📡</div>
+        <div class="name">Microwave</div>
+        <div class="spec">Included</div>
+      </div>
+      <div class="hero-item" style="background:rgba(255,215,0,0.2);border-color:rgba(255,215,0,0.5);">
+        <div class="icon">📦</div>
+        <div class="name" style="color:#FFD700;">3-Item Set</div>
+        <div class="spec" style="color:rgba(255,215,0,0.9);">Best Value</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRICING -->
+  <div class="pricing-section">
+    <div class="section-label">💴 Monthly Pricing (Tax included · Min. 3 months)</div>
+    <div class="plans">
+      <div class="plan used">
+        <div class="plan-tag">♻️ Refurbished (Used)</div>
+        <div class="plan-name">Eco Plan</div>
+        <div class="plan-price">¥1,880</div>
+        <div class="plan-unit">/ month · 3-item set</div>
+        <div class="plan-total">2-year total: <em>¥45,120</em> — save up to 62% vs buying new</div>
+        <div class="plan-note">Fully inspected &amp; cleaned. PSE certified.<br>Same function as new — at half the price.</div>
+      </div>
+      <div class="plan new-plan">
+        <div class="plan-tag">✨ Brand New</div>
+        <div class="plan-name">New Plan</div>
+        <div class="plan-price">¥2,480</div>
+        <div class="plan-unit">/ month · 3-item set</div>
+        <div class="plan-total">2-year total: <em>¥59,520</em> — save up to 50% vs buying new</div>
+        <div class="plan-note">Factory-new appliances from leading brands.<br>Warranty included for peace of mind.</div>
+      </div>
+    </div>
+    <div class="pricing-note">
+      ※ Delivery, setup, repairs &amp; final collection are all included. No hidden fees. Individual items also available (Fridge ¥1,500~/mo · Washing Machine ¥2,000~/mo · Microwave ¥800~/mo).
+    </div>
+  </div>
+
+  <!-- BENEFITS -->
+  <div class="benefits-section">
+    <div class="section-label">✅ Why Students Choose Sacure</div>
+    <div class="benefits-grid">
+      <div class="benefit-item">
+        <div class="benefit-icon" style="background:#E0F5E0;">💴</div>
+        <div class="benefit-text">
+          <div class="bt-title">¥0 Initial Cost</div>
+          <div class="bt-sub">No deposit, no setup fee. Pay monthly only.</div>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon" style="background:#E0F4FF;">🚚</div>
+        <div class="benefit-text">
+          <div class="bt-title">Free Delivery &amp; Setup</div>
+          <div class="bt-sub">Next-day delivery. We carry it in &amp; install it.</div>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon" style="background:#FFF5E0;">🏠</div>
+        <div class="benefit-text">
+          <div class="bt-title">Free Pickup at Move-Out</div>
+          <div class="bt-sub">No disposal fees. We collect everything for free.</div>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon" style="background:#F0E8FF;">💳</div>
+        <div class="benefit-text">
+          <div class="bt-title">No Japanese Credit Card</div>
+          <div class="bt-sub">Student ID is all you need to apply.</div>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon" style="background:#E0F4FF;">🌐</div>
+        <div class="benefit-text">
+          <div class="bt-title">English Support</div>
+          <div class="bt-sub">Apply in English. LINE &amp; WeChat support.</div>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon" style="background:#E0F5E0;">🔧</div>
+        <div class="benefit-text">
+          <div class="bt-title">Free Repairs &amp; Swap</div>
+          <div class="bt-sub">If it breaks, we fix or replace it free of charge.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="how-section">
+    <div class="section-label">📋 How to Get Your Appliances</div>
+    <div class="steps-row">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-icon">🏫</div>
+        <div class="step-title">Ask Your University</div>
+        <div class="step-desc">Contact your co-op or international student office. They'll connect you with us.</div>
+        <span class="step-chip">University / Co-op</span>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-icon">📱</div>
+        <div class="step-title">Apply in Minutes</div>
+        <div class="step-desc">Apply via LINE or Web. Student ID only — no guarantor, no Japanese bank account.</div>
+        <span class="step-chip">LINE · Web · English OK</span>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-icon">📦</div>
+        <div class="step-title">Delivered on Move-In Day</div>
+        <div class="step-desc">We deliver &amp; set up everything. Next-day delivery available.</div>
+        <span class="step-chip green">Free · Next-Day Available</span>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-icon">🔄</div>
+        <div class="step-title">Free Pickup When You Leave</div>
+        <div class="step-desc">When you graduate or move out, we collect everything — no cost, no paperwork.</div>
+        <span class="step-chip green">Zero Disposal Cost</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq-section">
+    <div class="section-label">❓ Frequently Asked Questions</div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">
+          <span class="q-badge">Q</span>
+          Do I need a Japanese credit card or guarantor?
+        </div>
+        <div class="faq-a">
+          <em>No.</em> A student ID (在学証明書) is all you need. We accept payments via convenience store or bank transfer. No Japanese credit card, no guarantor, no Japanese bank account required.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">
+          <span class="q-badge">Q</span>
+          What if an appliance breaks down?
+        </div>
+        <div class="faq-a">
+          Contact us via LINE anytime (24h). We'll <em>repair or replace it for free</em> — usually within 1–2 days. Repair costs are fully covered in your monthly fee.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">
+          <span class="q-badge">Q</span>
+          Can I use it outside Tokyo / Kanagawa?
+        </div>
+        <div class="faq-a">
+          Free delivery &amp; pickup covers <em>Tokyo 23 wards and Kanagawa Prefecture.</em> Students in adjacent areas — please contact us and we'll check availability.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-inner">
+      <div class="contact-blocks">
+        <div class="contact-block">
+          <div class="contact-type">LINE / WeChat</div>
+          <div class="contact-val">@sacure</div>
+          <div class="contact-sub">English &amp; Chinese support</div>
+        </div>
+        <div class="contact-block">
+          <div class="contact-type">TEL</div>
+          <div class="contact-val">080-5961-9393</div>
+          <div class="contact-sub">Mon–Sat 9:00–18:00</div>
+        </div>
+        <div class="contact-block">
+          <div class="contact-type">EMAIL</div>
+          <div class="contact-val" style="font-size:11px;">murata@surijie.co.jp</div>
+          <div class="contact-sub">Reply within 24h</div>
+        </div>
+      </div>
+      <div class="qr-box">
+        QR Code<br>Apply<br>Online
+      </div>
+    </div>
+    <div class="footer-area">
+      <div class="area-text">✅ Free service area: <strong>Tokyo 23 Wards &amp; Kanagawa Prefecture</strong> — Delivery, Setup &amp; Pickup always free</div>
+      <div class="company-text">株式会社サキュレ / Sacure Co., Ltd.<br>Ota-ku, Tokyo</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

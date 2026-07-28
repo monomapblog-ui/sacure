@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<title>SACURE – 留学生家电租赁服务</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #8899aa;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 24px;
+  font-family: 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei', 'Segoe UI', Arial, sans-serif;
+}
+.sheet {
+  width: 794px;
+  min-height: 1123px;
+  background: #fff;
+  box-shadow: 0 6px 32px rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* HEADER */
+.header {
+  background: #003D5C;
+  padding: 18px 28px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  border-bottom: 4px solid #0099D4;
+}
+.logo { font-size: 26px; font-weight: 900; color: #fff; letter-spacing: 0.04em; }
+.logo span { color: #FFD700; }
+.header-sub { font-size: 10px; color: #8BCFE8; margin-top: 3px; font-weight: 600; }
+.header-badge {
+  background: #FFD700;
+  color: #003D5C;
+  font-weight: 900;
+  font-size: 11px;
+  padding: 6px 14px;
+  border-radius: 4px;
+  text-align: center;
+  line-height: 1.4;
+}
+.header-badge .price { font-size: 22px; line-height: 1; display: block; }
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, #0099D4 0%, #006FA3 100%);
+  padding: 22px 28px 20px;
+  color: #fff;
+}
+.hero-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #A8DFF5;
+  margin-bottom: 6px;
+}
+.hero-title {
+  font-size: 21px;
+  font-weight: 900;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+.hero-title em { color: #FFD700; font-style: normal; }
+.hero-sub {
+  font-size: 11px;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+.hero-items {
+  display: flex;
+  gap: 10px;
+}
+.hero-item {
+  flex: 1;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 8px;
+  padding: 10px 8px;
+  text-align: center;
+}
+.hero-item .icon { font-size: 26px; margin-bottom: 4px; }
+.hero-item .name { font-size: 10px; font-weight: 700; color: #fff; }
+.hero-item .spec { font-size: 9px; color: rgba(255,255,255,0.7); margin-top: 2px; }
+
+/* PRICING */
+.pricing-section {
+  padding: 18px 28px 16px;
+  background: #fff;
+  border-bottom: 2px solid #E8F4FB;
+}
+.section-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #0099D4;
+  margin-bottom: 10px;
+}
+.plans {
+  display: flex;
+  gap: 12px;
+}
+.plan {
+  flex: 1;
+  border-radius: 8px;
+  padding: 14px 16px;
+  border: 2px solid;
+}
+.plan.used {
+  border-color: #0099D4;
+  background: #F0F9FF;
+}
+.plan.new-plan {
+  border-color: #003D5C;
+  background: #F5F8FB;
+}
+.plan-tag {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+.plan.used .plan-tag { color: #0099D4; }
+.plan.new-plan .plan-tag { color: #003D5C; }
+.plan-name { font-size: 13px; font-weight: 900; color: #003D5C; margin-bottom: 8px; }
+.plan-price {
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+.plan.used .plan-price { color: #0099D4; }
+.plan.new-plan .plan-price { color: #003D5C; }
+.plan-unit { font-size: 12px; font-weight: 700; color: #667; }
+.plan-note { font-size: 9px; color: #889; margin-top: 6px; line-height: 1.5; }
+.plan-total {
+  margin-top: 8px;
+  background: rgba(0,0,0,0.05);
+  border-radius: 4px;
+  padding: 5px 8px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #334;
+}
+.plan-total em { color: #0a7a0a; font-style: normal; }
+.pricing-note {
+  margin-top: 10px;
+  font-size: 9px;
+  color: #889;
+  line-height: 1.6;
+}
+
+/* BENEFITS */
+.benefits-section {
+  padding: 16px 28px;
+  background: #F9FBFD;
+  border-bottom: 2px solid #E8F4FB;
+}
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.benefit-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: #fff;
+  border-radius: 6px;
+  padding: 10px 10px;
+  border: 1px solid #DDE8F0;
+}
+.benefit-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.benefit-text .bt-title { font-size: 10px; font-weight: 800; color: #003D5C; line-height: 1.3; }
+.benefit-text .bt-sub { font-size: 8.5px; color: #667; margin-top: 2px; line-height: 1.4; }
+
+/* HOW IT WORKS */
+.how-section {
+  padding: 16px 28px;
+  background: #fff;
+  border-bottom: 2px solid #E8F4FB;
+}
+.steps-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+}
+.step-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+.step-item:not(:last-child)::after {
+  content: '→';
+  position: absolute;
+  right: -8px;
+  top: 14px;
+  font-size: 18px;
+  color: #0099D4;
+  font-weight: 900;
+}
+.step-num {
+  width: 32px;
+  height: 32px;
+  background: #0099D4;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 15px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+.step-icon { font-size: 24px; margin-bottom: 6px; }
+.step-title { font-size: 11px; font-weight: 900; color: #003D5C; line-height: 1.3; margin-bottom: 4px; }
+.step-desc { font-size: 9px; color: #557; line-height: 1.5; padding: 0 6px; }
+.step-chip {
+  display: inline-block;
+  background: #E0F4FF;
+  color: #0077AA;
+  border-radius: 10px;
+  font-size: 8px;
+  font-weight: 700;
+  padding: 2px 7px;
+  margin-top: 4px;
+}
+.step-chip.green { background: #E0F5E0; color: #1a7a1a; }
+
+/* FAQ */
+.faq-section {
+  padding: 16px 28px;
+  background: #F9FBFD;
+  border-bottom: 2px solid #E8F4FB;
+}
+.faq-list { display: flex; flex-direction: column; gap: 8px; }
+.faq-item {
+  background: #fff;
+  border-radius: 6px;
+  padding: 10px 14px;
+  border-left: 3px solid #0099D4;
+}
+.faq-q {
+  font-size: 10.5px;
+  font-weight: 800;
+  color: #003D5C;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.faq-q .q-badge {
+  background: #0099D4;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 900;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.faq-a {
+  font-size: 9.5px;
+  color: #445;
+  line-height: 1.6;
+  padding-left: 22px;
+}
+.faq-a em { color: #0a7a0a; font-weight: 700; font-style: normal; }
+
+/* CONTACT / FOOTER */
+.footer {
+  background: #003D5C;
+  padding: 16px 28px;
+  margin-top: auto;
+}
+.footer-inner { display: flex; gap: 16px; align-items: center; }
+.contact-blocks { display: flex; gap: 12px; flex: 1; }
+.contact-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.contact-type { font-size: 9px; font-weight: 700; color: #8BCFE8; letter-spacing: 0.06em; }
+.contact-val { font-size: 13px; font-weight: 800; color: #fff; }
+.contact-sub { font-size: 9px; color: #6BAFC8; }
+.qr-box {
+  width: 72px;
+  height: 72px;
+  background: #fff;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 8px;
+  color: #889;
+  text-align: center;
+  line-height: 1.4;
+}
+.footer-area {
+  border-top: 1px solid rgba(255,255,255,0.12);
+  margin-top: 12px;
+  padding-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.area-text { font-size: 9px; color: #8BCFE8; }
+.area-text strong { color: #FFD700; }
+.company-text { font-size: 9px; color: #6BAFC8; text-align: right; }
+
+@media print {
+  body { background: #fff; padding: 0; }
+  .sheet { box-shadow: none; width: 100%; min-height: 100vh; }
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div>
+      <div class="logo">Sa<span>cure</span></div>
+      <div class="header-sub">留学生家电租赁服务 | 搬家当天即可使用</div>
+    </div>
+    <div class="header-badge">
+      三件套<br>
+      <span class="price">¥1,880</span>
+      /月起（二手翻新）
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-tag">开箱即用 · 零押金 · 环保循环</div>
+    <div class="hero-title">
+      来日本的第一天，<br>
+      <em>家电全部准备好，等您入住</em>
+    </div>
+    <div class="hero-sub">
+      冰箱、洗衣机、微波炉——免费配送安装，搬出时免费回收。<br>
+      无押金，无需日本信用卡，学生证即可申请。
+    </div>
+    <div class="hero-items">
+      <div class="hero-item">
+        <div class="icon">🧊</div>
+        <div class="name">冰箱</div>
+        <div class="spec">100–150L</div>
+      </div>
+      <div class="hero-item">
+        <div class="icon">🫧</div>
+        <div class="name">洗衣机</div>
+        <div class="spec">4.5 kg</div>
+      </div>
+      <div class="hero-item">
+        <div class="icon">📡</div>
+        <div class="name">微波炉</div>
+        <div class="spec">标准款</div>
+      </div>
+      <div class="hero-item" style="background:rgba(255,215,0,0.2);border-color:rgba(255,215,0,0.5);">
+        <div class="icon">📦</div>
+        <div class="name" style="color:#FFD700;">三件套</div>
+        <div class="spec" style="color:rgba(255,215,0,0.9);">最优惠</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRICING -->
+  <div class="pricing-section">
+    <div class="section-label">月租价格（含税 · 最短租期3个月）</div>
+    <div class="plans">
+      <div class="plan used">
+        <div class="plan-tag">♻️ 二手翻新（环保型）</div>
+        <div class="plan-name">节能方案</div>
+        <div class="plan-price">¥1,880</div>
+        <div class="plan-unit">/ 月 · 三件套</div>
+        <div class="plan-total">租满2年合计：<em>¥45,120</em>——比全新购买省约62%</div>
+        <div class="plan-note">经专业检测清洁，符合PSE安全认证。<br>功能与新品无异，价格低至一半。</div>
+      </div>
+      <div class="plan new-plan">
+        <div class="plan-tag">✨ 全新品</div>
+        <div class="plan-name">全新方案</div>
+        <div class="plan-price">¥2,480</div>
+        <div class="plan-unit">/ 月 · 三件套</div>
+        <div class="plan-total">租满2年合计：<em>¥59,520</em>——比全新购买省约50%</div>
+        <div class="plan-note">知名品牌全新家电，含质保。<br>全程无忧，品质有保障。</div>
+      </div>
+    </div>
+    <div class="pricing-note">
+      ※ 配送、安装、维修及搬出回收均含在月租内，无任何隐藏费用。单品亦可租赁（冰箱¥1,500~/月 · 洗衣机¥2,000~/月 · 微波炉¥800~/月）。
+    </div>
+  </div>
+
+  <!-- BENEFITS -->
+  <div class="benefits-section">
+    <div class="section-label">为什么选择 Sacure</div>
+    <div class="benefits-grid">
+      <div class="benefit-item">
+        <div class="benefit-icon" style="background:#E0F5E0;">💴</div>
+        <div class="benefit-text">
+          <div class="bt-title">零初始费用</div>
+          <div class="bt-sub">无押金，无开通费。仅需每月支付租金。</div>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon" style="background:#E0F4FF;">🚚</div>
+        <div class="benefit-text">
+          <div class="bt-title">免费配送安装</div>
+          <div class="bt-sub">可次日送达，搬运安装一并完成。</div>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon" style="background:#FFF5E0;">🏠</div>
+        <div class="benefit-text">
+          <div class="bt-title">搬出时免费回收</div>
+          <div class="bt-sub">无需自行处置，我们上门免费回收。</div>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon" style="background:#F0E8FF;">💳</div>
+        <div class="benefit-text">
+          <div class="bt-title">无需日本信用卡</div>
+          <div class="bt-sub">只需在校证明书即可申请，无需担保人。</div>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon" style="background:#E0F4FF;">🌐</div>
+        <div class="benefit-text">
+          <div class="bt-title">中文客服支持</div>
+          <div class="bt-sub">支持微信、LINE咨询，中文全程沟通。</div>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon" style="background:#E0F5E0;">🔧</div>
+        <div class="benefit-text">
+          <div class="bt-title">免费维修或更换</div>
+          <div class="bt-sub">发生故障，免费上门维修或换新。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="how-section">
+    <div class="section-label">申请流程</div>
+    <div class="steps-row">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-icon">🏫</div>
+        <div class="step-title">向学校或生协咨询</div>
+        <div class="step-desc">联系学校国际学生处或生活协同组合，由他们为您介绍。</div>
+        <span class="step-chip">生协 / 留学生窗口</span>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-icon">📱</div>
+        <div class="step-title">在线申请，几分钟完成</div>
+        <div class="step-desc">通过微信或网页申请，只需学生证，无需担保人或日本银行账户。</div>
+        <span class="step-chip">微信 · 网页 · 中文支持</span>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-icon">📦</div>
+        <div class="step-title">入住当天送达</div>
+        <div class="step-desc">我们负责配送安装，可次日送达，入住即刻可用。</div>
+        <span class="step-chip green">免费 · 可次日达</span>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-icon">🔄</div>
+        <div class="step-title">离校时免费上门回收</div>
+        <div class="step-desc">毕业或搬家时，我们免费上门回收所有家电，无需任何手续。</div>
+        <span class="step-chip green">零处置费用</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq-section">
+    <div class="section-label">常见问题</div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">
+          <span class="q-badge">Q</span>
+          需要日本信用卡或担保人吗？
+        </div>
+        <div class="faq-a">
+          <em>不需要。</em>只需提供在校证明书（在学証明書）即可申请。支持便利店缴费或银行转账，无需日本信用卡、担保人或日本银行账户。
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">
+          <span class="q-badge">Q</span>
+          家电出现故障怎么办？
+        </div>
+        <div class="faq-a">
+          可随时通过微信或LINE联系我们。我们将<em>免费上门维修或更换</em>，通常在1～2个工作日内处理完毕。维修费用已包含在月租内。
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">
+          <span class="q-badge">Q</span>
+          服务覆盖哪些地区？
+        </div>
+        <div class="faq-a">
+          免费配送与回收覆盖<em>东京23区及神奈川县全域</em>。周边地区的同学也欢迎联系我们，我们将确认是否可以提供服务。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-inner">
+      <div class="contact-blocks">
+        <div class="contact-block">
+          <div class="contact-type">微信 / WeChat</div>
+          <div class="contact-val">@sacure</div>
+          <div class="contact-sub">中文客服，随时咨询</div>
+        </div>
+        <div class="contact-block">
+          <div class="contact-type">电话 / TEL</div>
+          <div class="contact-val">080-5961-9393</div>
+          <div class="contact-sub">周一至周六 9:00–18:00</div>
+        </div>
+        <div class="contact-block">
+          <div class="contact-type">邮件 / EMAIL</div>
+          <div class="contact-val" style="font-size:11px;">murata@surijie.co.jp</div>
+          <div class="contact-sub">24小时内回复</div>
+        </div>
+      </div>
+      <div class="qr-box">
+        二维码<br>在线<br>申请
+      </div>
+    </div>
+    <div class="footer-area">
+      <div class="area-text">免费服务区域：<strong>东京23区・神奈川县全域</strong>——配送・安装・回收全程免费</div>
+      <div class="company-text">株式会社サキュレ / Sacure Co., Ltd.<br>东京都大田区</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
