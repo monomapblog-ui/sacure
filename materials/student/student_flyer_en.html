@@ -7,7 +7,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 @page { size: A4; margin: 0; }
 body {
-  background: #556688;
+  background: #3a4a5c;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -19,167 +19,185 @@ body {
   height: 1123px;
   overflow: hidden;
   background: #fff;
-  box-shadow: 0 6px 32px rgba(0,0,0,0.4);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5);
   display: flex;
   flex-direction: column;
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   HERO BLOCK  (~52% of page)
+   HERO  (~55% of page)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 .hero {
-  background: #003D5C;
-  flex: 0 0 582px;
+  background: #001E30;
+  flex: 0 0 618px;
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  padding: 22px 30px 0;
 }
 
-/* speed-line background rings */
+/* top-right triangle accent */
 .hero::before {
   content: '';
   position: absolute;
-  right: -60px;
-  top: -60px;
-  width: 480px;
-  height: 480px;
-  border-radius: 50%;
-  border: 80px solid rgba(0,153,212,0.18);
+  top: 0; right: 0;
+  border-style: solid;
+  border-width: 0 220px 300px 0;
+  border-color: transparent rgba(0,153,212,0.10) transparent transparent;
   pointer-events: none;
 }
+/* bottom-left glow */
 .hero::after {
   content: '';
   position: absolute;
-  right: -20px;
-  top: -20px;
-  width: 320px;
-  height: 320px;
-  border-radius: 50%;
-  border: 50px solid rgba(0,153,212,0.12);
+  bottom: 80px; left: -40px;
+  width: 340px; height: 220px;
+  background: radial-gradient(ellipse, rgba(0,153,212,0.18) 0%, transparent 70%);
   pointer-events: none;
 }
 
-/* header row */
-.hero-header {
+/* ── logo row ── */
+.hero-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
+  padding: 22px 32px 0;
   position: relative;
   z-index: 2;
+  flex-shrink: 0;
 }
-.logo { font-size: 22px; font-weight: 900; color: #fff; letter-spacing: 0.08em; }
-.logo span { color: #FFD700; }
-.logo-tagline { font-size: 8.5px; color: #7DC8E8; margin-top: 2px; }
-.target-tag {
-  background: #FFD700;
-  color: #003D5C;
-  font-size: 9px;
-  font-weight: 900;
-  padding: 5px 14px;
-  border-radius: 3px;
-  text-align: center;
-  line-height: 1.5;
-}
-
-/* main hook */
-.hook-row {
-  display: flex;
-  align-items: flex-end;
-  gap: 20px;
-  position: relative;
-  z-index: 2;
-}
-.hook-text { flex: 1; }
-.hook-eyebrow {
-  font-size: 11px;
-  font-weight: 700;
-  color: #7DC8E8;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-.hook-main {
-  font-size: 52px;
+.logo {
+  font-size: 20px;
   font-weight: 900;
   color: #fff;
-  line-height: 1.05;
-  letter-spacing: -0.01em;
-  margin-bottom: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
-.hook-main em { color: #FFD700; font-style: normal; display: block; }
-.hook-sub {
-  font-size: 12px;
-  color: rgba(255,255,255,0.78);
-  line-height: 1.65;
-  max-width: 390px;
-}
-
-/* price balloon */
-.price-balloon {
-  flex-shrink: 0;
-  width: 148px;
-  height: 148px;
+.logo em { color: #FFD700; font-style: normal; }
+.logo-sub { font-size: 8px; color: #5bafd0; letter-spacing: 0.06em; margin-top: 2px; }
+.target-tag {
   background: #FFD700;
-  border-radius: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  color: #001E30;
+  font-size: 9px;
+  font-weight: 900;
+  padding: 5px 16px;
+  border-radius: 3px;
   text-align: center;
-  position: relative;
-  z-index: 2;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.3);
-  margin-bottom: 8px;
+  line-height: 1.55;
 }
-.balloon-from { font-size: 10px; font-weight: 900; color: #003D5C; line-height: 1; }
-.balloon-price { font-size: 44px; font-weight: 900; color: #003D5C; line-height: 1; }
-.balloon-unit { font-size: 11px; font-weight: 900; color: #003D5C; line-height: 1.2; }
-.balloon-items { font-size: 8.5px; font-weight: 700; color: rgba(0,61,92,0.7); margin-top: 3px; }
 
-/* appliance icons row */
-.appliance-row {
+/* ── main content ── */
+.hero-body {
+  flex: 1;
   display: flex;
-  gap: 0;
-  margin-top: 20px;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 36px 10px;
   position: relative;
   z-index: 2;
-  align-items: flex-end;
 }
-.app-item {
+
+.eyebrow {
+  font-size: 14px;
+  font-weight: 700;
+  color: #5BBFDF;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+
+/* THE big number — this is the poster anchor */
+.price-block {
+  display: flex;
+  align-items: baseline;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.yen-mark {
+  font-size: 64px;
+  font-weight: 900;
+  color: #FFD700;
+  margin-right: 2px;
+  align-self: flex-start;
+  padding-top: 14px;
+}
+.price-num {
+  font-size: 168px;
+  font-weight: 900;
+  color: #FFD700;
+  letter-spacing: -6px;
+  line-height: 0.88;
+}
+.price-mo {
+  font-size: 30px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.80);
+  align-self: flex-end;
+  padding-bottom: 18px;
+  padding-left: 10px;
+}
+
+.price-caption {
+  font-size: 16px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 16px;
+  letter-spacing: 0.02em;
+}
+.price-caption strong { color: #fff; }
+
+/* promise pills */
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.pill {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: 30px;
+  border: 1.5px solid;
+}
+.pill-gold  { color: #FFD700; border-color: rgba(255,215,0,0.55); background: rgba(255,215,0,0.09); }
+.pill-blue  { color: #7DC8E8; border-color: rgba(125,200,232,0.45); background: rgba(0,153,212,0.08); }
+
+/* ── appliance strip (bottom of hero) ── */
+.app-strip {
+  display: flex;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+}
+.app-card {
   flex: 1;
-  background: rgba(0,153,212,0.28);
-  border: 1.5px solid rgba(255,255,255,0.18);
-  border-bottom: none;
-  border-radius: 12px 12px 0 0;
-  padding: 12px 6px 14px;
+  padding: 11px 6px 13px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 3px;
+  background: rgba(255,255,255,0.05);
+  border-top: 1px solid rgba(255,255,255,0.09);
+  border-right: 1px solid rgba(255,255,255,0.06);
 }
-.app-item + .app-item { margin-left: 6px; }
-.app-item.set {
-  background: rgba(255,215,0,0.22);
-  border-color: rgba(255,215,0,0.5);
+.app-card:last-child { border-right: none; }
+.app-card.hl {
+  background: rgba(255,215,0,0.11);
+  border-top-color: #FFD700;
 }
-.app-emoji { font-size: 32px; margin-bottom: 6px; }
-.app-label { font-size: 10.5px; font-weight: 800; color: #fff; }
-.app-spec { font-size: 8px; color: rgba(255,255,255,0.6); margin-top: 2px; }
-.app-item.set .app-label { color: #FFD700; }
+.app-icon { font-size: 36px; }
+.app-name { font-size: 11px; font-weight: 800; color: #fff; }
+.app-spec { font-size: 8.5px; color: rgba(255,255,255,0.45); }
+.app-card.hl .app-name { color: #FFD700; }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    BADGE STRIP
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 .badges {
   background: #0099D4;
-  padding: 7px 24px;
+  padding: 6px 24px;
   display: flex;
-  gap: 0;
   align-items: center;
-  flex-wrap: nowrap;
   flex-shrink: 0;
 }
 .bdg {
@@ -187,35 +205,32 @@ body {
   font-weight: 700;
   color: #fff;
   white-space: nowrap;
-  padding: 0 14px;
+  padding: 0 12px;
   border-right: 1px solid rgba(255,255,255,0.3);
 }
 .bdg:first-child { padding-left: 0; }
-.bdg:last-child { border-right: none; }
+.bdg:last-child  { border-right: none; }
 .bdg.gold { color: #FFD700; }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   INFO BLOCK (lower half)
+   INFO BLOCK (lower section)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 .info-block {
   flex: 1;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto;
-  gap: 0;
+  grid-template-rows: auto 1fr;
   overflow: hidden;
 }
 
-/* Pricing panel */
 .panel-pricing {
-  grid-column: 1;
-  grid-row: 1;
-  padding: 13px 16px 12px 24px;
-  border-right: 1px solid #e0eaf0;
-  border-bottom: 1px solid #e0eaf0;
+  grid-column: 1; grid-row: 1;
+  padding: 12px 16px 11px 22px;
+  border-right: 1px solid #ddeaf0;
+  border-bottom: 1px solid #ddeaf0;
 }
 .panel-title {
-  font-size: 9px;
+  font-size: 8.5px;
   font-weight: 900;
   color: #0099D4;
   letter-spacing: 0.08em;
@@ -225,8 +240,8 @@ body {
 .plan-row {
   display: flex;
   align-items: baseline;
-  gap: 10px;
-  margin-bottom: 6px;
+  gap: 8px;
+  margin-bottom: 5px;
 }
 .plan-tag {
   font-size: 8px;
@@ -236,94 +251,77 @@ body {
   flex-shrink: 0;
 }
 .plan-tag.eco { background: #0099D4; color: #fff; }
-.plan-tag.new { background: #003D5C; color: #fff; }
-.plan-price-big { font-size: 26px; font-weight: 900; }
-.plan-price-big.eco { color: #0099D4; }
-.plan-price-big.new { color: #003D5C; }
-.plan-price-unit { font-size: 9px; font-weight: 700; color: #888; }
-.plan-saving { font-size: 8px; color: #1a7a1a; font-weight: 700; margin-left: auto; }
-.plan-note { font-size: 7.5px; color: #999; line-height: 1.5; margin-bottom: 4px; }
+.plan-tag.new { background: #001E30; color: #fff; }
+.plan-price { font-size: 26px; font-weight: 900; }
+.plan-price.eco { color: #0099D4; }
+.plan-price.new { color: #001E30; }
+.plan-unit  { font-size: 9px; font-weight: 700; color: #999; }
+.plan-save  { font-size: 8px; color: #1a7a1a; font-weight: 700; margin-left: auto; }
+.plan-note  { font-size: 7.5px; color: #aaa; line-height: 1.5; margin-bottom: 4px; }
 .pricing-fn { font-size: 7px; color: #bbb; line-height: 1.55; margin-top: 4px; }
 
-/* Benefits panel */
 .panel-benefits {
-  grid-column: 2;
-  grid-row: 1;
-  padding: 13px 24px 12px 16px;
-  border-bottom: 1px solid #e0eaf0;
-  background: #f8fbfd;
+  grid-column: 2; grid-row: 1;
+  padding: 12px 22px 11px 16px;
+  border-bottom: 1px solid #ddeaf0;
+  background: #f7fbfd;
 }
 .ben-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
-.ben {
-  display: flex;
-  align-items: flex-start;
-  gap: 6px;
-}
+.ben { display: flex; align-items: flex-start; gap: 6px; }
 .ben-ic {
-  width: 24px;
-  height: 24px;
+  width: 24px; height: 24px;
   background: #0099D4;
   border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   font-size: 12px;
   flex-shrink: 0;
 }
-.ben-t { font-size: 9px; font-weight: 800; color: #003D5C; line-height: 1.3; }
+.ben-t { font-size: 9px; font-weight: 800; color: #001E30; line-height: 1.3; }
 .ben-s { font-size: 7.5px; color: #778; line-height: 1.4; margin-top: 1px; }
 
-/* Flow panel */
 .panel-flow {
-  grid-column: 1 / 3;
-  grid-row: 2;
-  padding: 11px 24px;
+  grid-column: 1 / 3; grid-row: 2;
+  padding: 10px 22px;
   background: #EBF7FC;
   border-top: 2px solid #0099D4;
   display: flex;
-  align-items: stretch;
-  gap: 0;
+  align-items: center;
 }
 .flow-step {
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
   position: relative;
 }
 .flow-step:not(:last-child)::after {
   content: '→';
   position: absolute;
-  right: -8px;
-  top: 50%;
+  right: -7px; top: 50%;
   transform: translateY(-50%);
-  font-size: 16px;
+  font-size: 15px;
   color: #0099D4;
   font-weight: 900;
 }
 .flow-num {
-  width: 28px;
-  height: 28px;
+  width: 26px; height: 26px;
   background: #0099D4;
   color: #fff;
   border-radius: 50%;
-  font-size: 13px;
-  font-weight: 900;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-size: 12px; font-weight: 900;
+  display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
-.flow-icon { font-size: 20px; flex-shrink: 0; }
-.flow-t { font-size: 9.5px; font-weight: 900; color: #003D5C; line-height: 1.3; }
-.flow-s { font-size: 7.5px; color: #4a7090; line-height: 1.45; margin-top: 2px; }
+.flow-icon { font-size: 18px; flex-shrink: 0; }
+.flow-t { font-size: 9px; font-weight: 900; color: #001E30; line-height: 1.3; }
+.flow-s { font-size: 7.5px; color: #4a7090; line-height: 1.4; margin-top: 1px; }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    FOOTER
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 .footer {
-  background: #003D5C;
-  padding: 10px 24px 9px;
+  background: #001E30;
+  padding: 9px 24px 8px;
   border-top: 3px solid #FFD700;
   flex-shrink: 0;
   display: flex;
@@ -331,26 +329,19 @@ body {
   gap: 20px;
 }
 .ct { display: flex; flex-direction: column; gap: 1px; }
-.ct-l { font-size: 7.5px; font-weight: 700; color: #7DC8E8; text-transform: uppercase; letter-spacing: 0.06em; }
-.ct-v { font-size: 15px; font-weight: 900; color: #fff; line-height: 1.1; }
+.ct-l { font-size: 7px; font-weight: 700; color: #7DC8E8; text-transform: uppercase; letter-spacing: 0.07em; }
+.ct-v { font-size: 14px; font-weight: 900; color: #fff; line-height: 1.1; }
 .ct-v.sm { font-size: 11px; }
 .ct-s { font-size: 7px; color: #5aadc8; }
-.sep { width: 1px; height: 36px; background: rgba(255,255,255,0.18); flex-shrink: 0; }
+.sep { width: 1px; height: 34px; background: rgba(255,255,255,0.16); flex-shrink: 0; }
 .ft-right { margin-left: auto; display: flex; align-items: center; gap: 14px; }
 .qr {
-  width: 52px;
-  height: 52px;
-  background: #fff;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 7px;
-  color: #9ab;
-  text-align: center;
-  line-height: 1.4;
+  width: 50px; height: 50px;
+  background: #fff; border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 7px; color: #9ab; text-align: center; line-height: 1.4;
 }
-.ft-area { font-size: 8px; color: #7DC8E8; text-align: right; line-height: 1.6; }
+.ft-area { font-size: 7.5px; color: #7DC8E8; text-align: right; line-height: 1.65; }
 .ft-area strong { color: #FFD700; }
 
 @media print {
@@ -362,96 +353,92 @@ body {
 <body>
 <div class="sheet">
 
-  <!-- ═══════════ HERO ═══════════ -->
+  <!-- ═══ HERO ═══ -->
   <div class="hero">
-    <div class="hero-header">
+
+    <div class="hero-top">
       <div>
-        <div class="logo">Sa<span>cure</span></div>
-        <div class="logo-tagline">Home Appliance Rental · 家電レンタル</div>
+        <div class="logo">Sa<em>cure</em></div>
+        <div class="logo-sub">Home Appliance Rental · 家電レンタル</div>
       </div>
       <div class="target-tag">For International Students<br>留学生・外国人向け</div>
     </div>
 
-    <div class="hook-row">
-      <div class="hook-text">
-        <div class="hook-eyebrow">Move-in ready · No deposit · Eco circular</div>
-        <div class="hook-main">
-          Ready<br>
-          <em>Day&nbsp;1.</em>
-        </div>
-        <div class="hook-sub">
-          Fridge, washer &amp; microwave delivered &amp; installed.<br>
-          No deposit. No Japanese credit card needed.<br>
-          Picked up for free when you leave.
-        </div>
+    <div class="hero-body">
+      <div class="eyebrow">Move-in ready on Day 1.</div>
+      <div class="price-block">
+        <span class="yen-mark">¥</span>
+        <span class="price-num">1,880</span>
+        <span class="price-mo">/mo</span>
       </div>
-      <div class="price-balloon">
-        <div class="balloon-from">from</div>
-        <div class="balloon-price">¥1,880</div>
-        <div class="balloon-unit">/ month</div>
-        <div class="balloon-items">3-item set · tax incl.</div>
+      <div class="price-caption"><strong>Fridge + Washer + Microwave</strong> &nbsp;·&nbsp; 3-item set &nbsp;·&nbsp; tax incl.</div>
+      <div class="pills">
+        <span class="pill pill-gold">¥0 Deposit</span>
+        <span class="pill pill-blue">Free Delivery &amp; Setup</span>
+        <span class="pill pill-blue">No Credit Card</span>
+        <span class="pill pill-blue">Free Pickup at Move-Out</span>
+        <span class="pill pill-blue">English&nbsp;/&nbsp;Chinese Support</span>
       </div>
     </div>
 
-    <div class="appliance-row">
-      <div class="app-item">
-        <div class="app-emoji">🧊</div>
-        <div class="app-label">Refrigerator</div>
+    <div class="app-strip">
+      <div class="app-card">
+        <div class="app-icon">🧊</div>
+        <div class="app-name">Refrigerator</div>
         <div class="app-spec">100–150 L</div>
       </div>
-      <div class="app-item">
-        <div class="app-emoji">🫧</div>
-        <div class="app-label">Washer</div>
+      <div class="app-card">
+        <div class="app-icon">🫧</div>
+        <div class="app-name">Washer</div>
         <div class="app-spec">4.5 kg</div>
       </div>
-      <div class="app-item">
-        <div class="app-emoji">📡</div>
-        <div class="app-label">Microwave</div>
+      <div class="app-card">
+        <div class="app-icon">📡</div>
+        <div class="app-name">Microwave</div>
         <div class="app-spec">Standard</div>
       </div>
-      <div class="app-item set">
-        <div class="app-emoji">📦</div>
-        <div class="app-label">3-Item Set</div>
+      <div class="app-card hl">
+        <div class="app-icon">📦</div>
+        <div class="app-name">3-Item Set</div>
         <div class="app-spec">Best value</div>
       </div>
     </div>
   </div>
 
-  <!-- ═══════════ BADGES ═══════════ -->
+  <!-- ═══ BADGES ═══ -->
   <div class="badges">
     <span class="bdg gold">¥0 Deposit</span>
     <span class="bdg">Free Delivery &amp; Setup</span>
     <span class="bdg">Free Pickup at Move-Out</span>
-    <span class="bdg">No Credit Card</span>
+    <span class="bdg">No Credit Card Required</span>
     <span class="bdg">English LINE Support</span>
   </div>
 
-  <!-- ═══════════ INFO GRID ═══════════ -->
+  <!-- ═══ INFO GRID ═══ -->
   <div class="info-block">
 
-    <!-- Pricing -->
     <div class="panel-pricing">
       <div class="panel-title">Monthly Pricing — 3-Item Set (min. 3 months)</div>
       <div class="plan-row">
         <span class="plan-tag eco">♻ Refurbished</span>
-        <span class="plan-price-big eco">¥1,880</span>
-        <span class="plan-price-unit">/mo</span>
-        <span class="plan-saving">save 62%</span>
+        <span class="plan-price eco">¥1,880</span>
+        <span class="plan-unit">/mo</span>
+        <span class="plan-save">save 62%</span>
       </div>
       <div class="plan-note">PSE-certified · inspected · same performance as new</div>
       <div class="plan-row">
         <span class="plan-tag new">✨ Brand New</span>
-        <span class="plan-price-big new">¥2,480</span>
-        <span class="plan-price-unit">/mo</span>
-        <span class="plan-saving">save 50%</span>
+        <span class="plan-price new">¥2,480</span>
+        <span class="plan-unit">/mo</span>
+        <span class="plan-save">save 50%</span>
       </div>
       <div class="plan-note">Leading brands · full warranty included</div>
       <div class="pricing-fn">
-        All delivery, install, repairs &amp; pickup included. Singles: Fridge ¥1,500~/mo · Washer ¥2,000~/mo · Microwave ¥800~/mo
+        All delivery, install, repairs &amp; pickup included.<br>
+        Singles: Fridge ¥1,500~/mo · Washer ¥2,000~/mo · Microwave ¥800~/mo
       </div>
     </div>
 
-    <!-- Benefits -->
     <div class="panel-benefits">
       <div class="panel-title">Why Students Choose Sacure</div>
       <div class="ben-grid">
@@ -477,12 +464,11 @@ body {
         </div>
         <div class="ben">
           <div class="ben-ic">🌐</div>
-          <div><div class="ben-t">English Support</div><div class="ben-s">LINE · WeChat · Email</div></div>
+          <div><div class="ben-t">Multilingual Support</div><div class="ben-s">LINE · WeChat · Email</div></div>
         </div>
       </div>
     </div>
 
-    <!-- Flow -->
     <div class="panel-flow">
       <div class="flow-step">
         <div class="flow-num">1</div>
@@ -520,7 +506,7 @@ body {
 
   </div>
 
-  <!-- ═══════════ FOOTER ═══════════ -->
+  <!-- ═══ FOOTER ═══ -->
   <div class="footer">
     <div class="ct">
       <div class="ct-l">LINE / WeChat</div>
