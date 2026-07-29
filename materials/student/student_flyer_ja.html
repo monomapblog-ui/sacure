@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>SACURE – 学生向け家電レンタルサービス</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+@page { size: A4; margin: 0; }
+body {
+  background: #3a4a5c;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Yu Gothic', 'Meiryo', sans-serif;
+}
+.sheet {
+  width: 794px;
+  height: 1123px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   HERO  (ページの約55%)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.hero {
+  background: #001E30;
+  flex: 0 0 618px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  border-style: solid;
+  border-width: 0 220px 300px 0;
+  border-color: transparent rgba(0,153,212,0.10) transparent transparent;
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 80px; left: -40px;
+  width: 340px; height: 220px;
+  background: radial-gradient(ellipse, rgba(0,153,212,0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ロゴ行 */
+.hero-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 32px 0;
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+}
+.logo {
+  font-size: 20px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.logo em { color: #FFD700; font-style: normal; }
+.logo-sub { font-size: 8px; color: #5bafd0; letter-spacing: 0.04em; margin-top: 2px; }
+.target-tag {
+  background: #FFD700;
+  color: #001E30;
+  font-size: 9.5px;
+  font-weight: 900;
+  padding: 6px 16px;
+  border-radius: 3px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* メインコンテンツ */
+.hero-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 36px 10px;
+  position: relative;
+  z-index: 2;
+}
+
+.eyebrow {
+  font-size: 16px;
+  font-weight: 700;
+  color: #5BBFDF;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+
+/* 価格 — これがポスターのメインビジュアル */
+.price-block {
+  display: flex;
+  align-items: baseline;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.yen-mark {
+  font-size: 64px;
+  font-weight: 900;
+  color: #FFD700;
+  margin-right: 2px;
+  align-self: flex-start;
+  padding-top: 14px;
+}
+.price-num {
+  font-size: 168px;
+  font-weight: 900;
+  color: #FFD700;
+  letter-spacing: -6px;
+  line-height: 0.88;
+}
+.price-mo {
+  font-size: 28px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.80);
+  align-self: flex-end;
+  padding-bottom: 18px;
+  padding-left: 10px;
+}
+
+.price-caption {
+  font-size: 16px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 16px;
+}
+.price-caption strong { color: #fff; }
+
+/* 特徴ピル */
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.pill {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: 30px;
+  border: 1.5px solid;
+}
+.pill-gold { color: #FFD700; border-color: rgba(255,215,0,0.55); background: rgba(255,215,0,0.09); }
+.pill-blue { color: #7DC8E8; border-color: rgba(125,200,232,0.45); background: rgba(0,153,212,0.08); }
+
+/* 家電アイコンストリップ */
+.app-strip {
+  display: flex;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+}
+.app-card {
+  flex: 1;
+  padding: 11px 6px 13px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  background: rgba(255,255,255,0.05);
+  border-top: 1px solid rgba(255,255,255,0.09);
+  border-right: 1px solid rgba(255,255,255,0.06);
+}
+.app-card:last-child { border-right: none; }
+.app-card.hl {
+  background: rgba(255,215,0,0.11);
+  border-top-color: #FFD700;
+}
+.app-icon { font-size: 36px; }
+.app-name { font-size: 11px; font-weight: 800; color: #fff; }
+.app-spec { font-size: 8.5px; color: rgba(255,255,255,0.45); }
+.app-card.hl .app-name { color: #FFD700; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   バッジストリップ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.badges {
+  background: #0099D4;
+  padding: 6px 24px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.bdg {
+  font-size: 9px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  padding: 0 12px;
+  border-right: 1px solid rgba(255,255,255,0.3);
+}
+.bdg:first-child { padding-left: 0; }
+.bdg:last-child  { border-right: none; }
+.bdg.gold { color: #FFD700; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   情報グリッド（下部）
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.info-block {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
+}
+
+.panel-pricing {
+  grid-column: 1; grid-row: 1;
+  padding: 12px 16px 11px 22px;
+  border-right: 1px solid #ddeaf0;
+  border-bottom: 1px solid #ddeaf0;
+}
+.panel-title {
+  font-size: 8.5px;
+  font-weight: 900;
+  color: #0099D4;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+.plan-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+.plan-tag {
+  font-size: 8px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.plan-tag.eco { background: #0099D4; color: #fff; }
+.plan-tag.new { background: #001E30; color: #fff; }
+.plan-price { font-size: 26px; font-weight: 900; }
+.plan-price.eco { color: #0099D4; }
+.plan-price.new { color: #001E30; }
+.plan-unit { font-size: 9px; font-weight: 700; color: #999; }
+.plan-save { font-size: 8px; color: #1a7a1a; font-weight: 700; margin-left: auto; }
+.plan-note { font-size: 7.5px; color: #aaa; line-height: 1.5; margin-bottom: 4px; }
+.pricing-fn { font-size: 7px; color: #bbb; line-height: 1.6; margin-top: 4px; }
+
+.panel-benefits {
+  grid-column: 2; grid-row: 1;
+  padding: 12px 22px 11px 16px;
+  border-bottom: 1px solid #ddeaf0;
+  background: #f7fbfd;
+}
+.ben-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+.ben { display: flex; align-items: flex-start; gap: 6px; }
+.ben-ic {
+  width: 24px; height: 24px;
+  background: #0099D4;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.ben-t { font-size: 9px; font-weight: 800; color: #001E30; line-height: 1.3; }
+.ben-s { font-size: 7.5px; color: #778; line-height: 1.4; margin-top: 1px; }
+
+.panel-flow {
+  grid-column: 1 / 3; grid-row: 2;
+  padding: 10px 22px;
+  background: #EBF7FC;
+  border-top: 2px solid #0099D4;
+  display: flex;
+  align-items: center;
+}
+.flow-step {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  position: relative;
+}
+.flow-step:not(:last-child)::after {
+  content: '→';
+  position: absolute;
+  right: -7px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 15px;
+  color: #0099D4;
+  font-weight: 900;
+}
+.flow-num {
+  width: 26px; height: 26px;
+  background: #0099D4;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 12px; font-weight: 900;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.flow-icon { font-size: 18px; flex-shrink: 0; }
+.flow-t { font-size: 9px; font-weight: 900; color: #001E30; line-height: 1.3; }
+.flow-s { font-size: 7.5px; color: #4a7090; line-height: 1.4; margin-top: 1px; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   フッター
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.footer {
+  background: #001E30;
+  padding: 9px 24px 8px;
+  border-top: 3px solid #FFD700;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.ct { display: flex; flex-direction: column; gap: 1px; }
+.ct-l { font-size: 7px; font-weight: 700; color: #7DC8E8; letter-spacing: 0.06em; }
+.ct-v { font-size: 14px; font-weight: 900; color: #fff; line-height: 1.1; }
+.ct-v.sm { font-size: 11px; }
+.ct-s { font-size: 7px; color: #5aadc8; }
+.sep { width: 1px; height: 34px; background: rgba(255,255,255,0.16); flex-shrink: 0; }
+.ft-right { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+.qr {
+  width: 50px; height: 50px;
+  background: #fff; border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 7px; color: #9ab; text-align: center; line-height: 1.4;
+}
+.ft-area { font-size: 7.5px; color: #7DC8E8; text-align: right; line-height: 1.65; }
+.ft-area strong { color: #FFD700; }
+
+@media print {
+  body { background: #fff; padding: 0; }
+  .sheet { box-shadow: none; width: 210mm; height: 297mm; }
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <!-- ═══ HERO ═══ -->
+  <div class="hero">
+
+    <div class="hero-top">
+      <div>
+        <div class="logo">Sa<em>cure</em></div>
+        <div class="logo-sub">家電レンタルサービス · 株式会社サキュレ</div>
+      </div>
+      <div class="target-tag">学生・新生活応援プラン<br>入居当日からすぐ使える</div>
+    </div>
+
+    <div class="hero-body">
+      <div class="eyebrow">引越し当日から、全部そろう。</div>
+      <div class="price-block">
+        <span class="yen-mark">¥</span>
+        <span class="price-num">1,880</span>
+        <span class="price-mo">/月</span>
+      </div>
+      <div class="price-caption"><strong>冷蔵庫＋洗濯機＋電子レンジ</strong>　3点セット・税込</div>
+      <div class="pills">
+        <span class="pill pill-gold">敷金・礼金ゼロ円</span>
+        <span class="pill pill-blue">配送・設置無料</span>
+        <span class="pill pill-blue">クレジットカード不要</span>
+        <span class="pill pill-blue">退去時の回収も無料</span>
+        <span class="pill pill-blue">修理・交換も無料対応</span>
+      </div>
+    </div>
+
+    <div class="app-strip">
+      <div class="app-card">
+        <div class="app-icon">🧊</div>
+        <div class="app-name">冷蔵庫</div>
+        <div class="app-spec">100〜150 L</div>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">🫧</div>
+        <div class="app-name">洗濯機</div>
+        <div class="app-spec">4.5 kg</div>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">📡</div>
+        <div class="app-name">電子レンジ</div>
+        <div class="app-spec">標準タイプ</div>
+      </div>
+      <div class="app-card hl">
+        <div class="app-icon">📦</div>
+        <div class="app-name">3点セット</div>
+        <div class="app-spec">最もお得</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ BADGES ═══ -->
+  <div class="badges">
+    <span class="bdg gold">初期費用ゼロ円</span>
+    <span class="bdg">配送・設置無料</span>
+    <span class="bdg">退去時の回収無料</span>
+    <span class="bdg">クレジットカード不要</span>
+    <span class="bdg">LINEでかんたん申込</span>
+  </div>
+
+  <!-- ═══ INFO GRID ═══ -->
+  <div class="info-block">
+
+    <div class="panel-pricing">
+      <div class="panel-title">月額料金 — 3点セット（最低契約3ヶ月）</div>
+      <div class="plan-row">
+        <span class="plan-tag eco">♻ リファービッシュ品</span>
+        <span class="plan-price eco">¥1,880</span>
+        <span class="plan-unit">/月</span>
+        <span class="plan-save">62%お得</span>
+      </div>
+      <div class="plan-note">PSE取得済み・点検済み・新品と同等の性能</div>
+      <div class="plan-row">
+        <span class="plan-tag new">✨ 新品</span>
+        <span class="plan-price new">¥2,480</span>
+        <span class="plan-unit">/月</span>
+        <span class="plan-save">50%お得</span>
+      </div>
+      <div class="plan-note">有名メーカー品・メーカー保証付き</div>
+      <div class="pricing-fn">
+        配送・設置・修理・退去時回収、すべて料金に含まれます。<br>
+        単品：冷蔵庫 ¥1,500〜/月　洗濯機 ¥2,000〜/月　電子レンジ ¥800〜/月
+      </div>
+    </div>
+
+    <div class="panel-benefits">
+      <div class="panel-title">サキュレが選ばれる理由</div>
+      <div class="ben-grid">
+        <div class="ben">
+          <div class="ben-ic">💴</div>
+          <div><div class="ben-t">初期費用ゼロ</div><div class="ben-s">敷金・礼金・手数料なし</div></div>
+        </div>
+        <div class="ben">
+          <div class="ben-ic">🚚</div>
+          <div><div class="ben-t">配送・設置無料</div><div class="ben-s">搬入日に合わせてお届け</div></div>
+        </div>
+        <div class="ben">
+          <div class="ben-ic">💳</div>
+          <div><div class="ben-t">カード不要</div><div class="ben-s">学生証のみでOK</div></div>
+        </div>
+        <div class="ben">
+          <div class="ben-ic">🔧</div>
+          <div><div class="ben-t">修理・交換無料</div><div class="ben-s">故障しても即対応</div></div>
+        </div>
+        <div class="ben">
+          <div class="ben-ic">🏠</div>
+          <div><div class="ben-t">退去時回収無料</div><div class="ben-s">卒業・引越しもお任せ</div></div>
+        </div>
+        <div class="ben">
+          <div class="ben-ic">📱</div>
+          <div><div class="ben-t">LINEで完結</div><div class="ben-s">申込〜サポートまで</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-flow">
+      <div class="flow-step">
+        <div class="flow-num">1</div>
+        <div class="flow-icon">🏫</div>
+        <div>
+          <div class="flow-t">生協・国際交流窓口へ相談</div>
+          <div class="flow-s">担当者がご紹介します</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">2</div>
+        <div class="flow-icon">📱</div>
+        <div>
+          <div class="flow-t">LINEで申込</div>
+          <div class="flow-s">学生証のみ・5分で完了</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">3</div>
+        <div class="flow-icon">📦</div>
+        <div>
+          <div class="flow-t">入居日に配送・設置</div>
+          <div class="flow-s">翌日配送・設置まで無料</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">4</div>
+        <div class="flow-icon">🔄</div>
+        <div>
+          <div class="flow-t">退去時に無料回収</div>
+          <div class="flow-s">卒業後の処分も丸ごとお任せ</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <div class="footer">
+    <div class="ct">
+      <div class="ct-l">LINE</div>
+      <div class="ct-v">@sacure</div>
+      <div class="ct-s">平日・土曜 対応</div>
+    </div>
+    <div class="sep"></div>
+    <div class="ct">
+      <div class="ct-l">お電話</div>
+      <div class="ct-v">080-5961-9393</div>
+      <div class="ct-s">月〜土 9:00〜18:00</div>
+    </div>
+    <div class="sep"></div>
+    <div class="ct">
+      <div class="ct-l">メール</div>
+      <div class="ct-v sm">murata@surijie.co.jp</div>
+      <div class="ct-s">24時間以内に返信</div>
+    </div>
+    <div class="ft-right">
+      <div class="ft-area">
+        配送エリア：<strong>東京23区・神奈川県</strong>（配送・回収無料）<br>
+        株式会社サキュレ　東京都大田区中池上1-24-7
+      </div>
+      <div class="qr">QR<br>申込<br>こちら</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
